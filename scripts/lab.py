@@ -104,10 +104,11 @@ def terraform(*args, profile='local'):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Candidate Assessment local operations. Default deployment is local; aws-apply explicitly provisions paid AWS resources.')
+    parser = argparse.ArgumentParser(description='Candidate Assessment local operations. Deployment defaults to local; azure-apply and aws-apply explicitly provision paid cloud resources.')
     parser.add_argument('command', choices=['configure', 'validate', 'up', 'down', 'logs', 'status', 'migrate', 'seed', 'sample', 'test',
                                           'integration', 'recovery', 'verify', 'diagrams', 'backup', 'restore', 'deploy-init', 'deploy-validate',
-                                          'deploy-plan', 'deploy-apply', 'deploy-down', 'aws-init', 'aws-validate', 'aws-plan', 'aws-apply'])
+                                          'deploy-plan', 'deploy-apply', 'deploy-down', 'aws-init', 'aws-validate', 'aws-plan', 'aws-apply',
+                                          'azure-init', 'azure-validate', 'azure-plan', 'azure-apply'])
     parser.add_argument('--backup', type=Path, help='Existing private backup directory; required for restore')
     args = parser.parse_args()
     os.chdir(ROOT)
@@ -155,6 +156,10 @@ def main():
             terraform('init', '-backend=false', '-input=false', profile='aws')
             terraform('fmt', '-check', profile='aws')
             terraform('validate', profile='aws')
+            terraform('init', '-backend=false', '-input=false', profile='azure')
+            terraform('fmt', '-check', profile='azure')
+            terraform('validate', profile='azure')
+            terraform('test', profile='azure')
             run([sys.executable, 'tests/Integration/journey.py', 'integration'])
     elif args.command == 'diagrams':
         with heavy_lock():
@@ -167,6 +172,17 @@ def main():
             parser.error('restore requires --backup DIR')
         with heavy_lock():
             run([sys.executable, 'scripts/backup.py', 'restore', args.backup])
+    elif args.command == 'azure-init':
+        terraform('init', '-input=false', profile='azure')
+    elif args.command == 'azure-validate':
+        terraform('fmt', '-check', profile='azure')
+        terraform('validate', profile='azure')
+        terraform('test', profile='azure')
+    elif args.command == 'azure-plan':
+        LOCAL.mkdir(mode=0o700, exist_ok=True)
+        terraform('plan', '-input=false', '-out=../../.local/azure.tfplan', profile='azure')
+    elif args.command == 'azure-apply':
+        terraform('apply', '../../.local/azure.tfplan', profile='azure')
     elif args.command == 'aws-init':
         terraform('init', '-input=false', profile='aws')
     elif args.command == 'aws-validate':

@@ -49,7 +49,7 @@ make help
 make test          # module, architecture, adapter and draft checks
 make verify        # builds, Terraform validation and real API integration
 make recovery      # real provider outage + interrupted worker recovery
-make diagrams      # render the four Mermaid sources to SVG
+make diagrams      # render editable Mermaid sources to SVG
 ```
 
 The isolated browser suite uses generated microphone audio, never your physical microphone:
@@ -62,16 +62,26 @@ npm run test:browser
 
 [Delivery and verification record](docs/TASK.md) distinguishes implemented behavior, verified acceptance and remaining limits. [Failure drills](docs/failure-drills.md) follow the successful journey. [Operations](docs/operations.md) covers configuration, health, explicit migrations, backups, restore, rollback, deletion and the thirty-day recording policy.
 
-## Optional AWS Singapore profile
+## Future cloud profiles
 
-`infra/aws` provisions one ARM64 EC2 host in `ap-southeast-1`, encrypted persistent storage, and Session Manager access with no inbound security-group rules. A commit-pinned bootstrap runs the same lab and host Ollama. It is a learning deployment, not managed Kafka/PostgreSQL or a high-availability service.
+Azure is the preferred future cloud deployment. Local Compose remains the learning path, and the AWS profile stays available as an alternative. Both cloud profiles run the same application, PostgreSQL, Kafka, transcription and host Ollama on one VM; they are learning deployments with one failure domain.
+
+| Profile | Singapore region | Operator access |
+|---|---|---|
+| [Azure](infra/azure/README.md) — preferred | `southeastasia` | SSH public key, port 22 restricted to an operator IPv4 `/32`, local tunnel to the app |
+| [AWS](infra/aws/README.md) — alternative | `ap-southeast-1` | Session Manager with no security-group ingress |
+
+The Azure profile uses an Ubuntu VM, encrypted managed storage with a protected data disk, and a commit-pinned checkout. Application, database and broker ports remain bound to loopback. See the [Azure deployment diagram](docs/diagrams/azure.svg) and its [editable Mermaid](docs/diagrams/azure.mmd).
 
 ```sh
+make azure-init
+make azure-validate
+# Retained alternative:
 make aws-init
 make aws-validate
 ```
 
-Read [AWS deployment instructions](infra/aws/README.md) before planning or applying. Terraform validation is not a cloud runtime test. No cloud resources were deployed for this delivery.
+Read the provider-specific instructions for required inputs, access, costs and data retention before planning or applying. Terraform validation is not a cloud runtime test. Neither cloud profile has been deployed for this delivery.
 
 ## Limits
 

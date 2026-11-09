@@ -39,7 +39,7 @@ jobs:
         run: make migrate seed
       - name: Start application
         run: docker compose --env-file .local/lab.env up -d --wait --no-build app
-      - name: Verify code, architecture, infrastructure and real API journey
+      - name: Verify code, architecture, AWS/Azure infrastructure and real API journey
         run: make verify
       - name: Install isolated browser runtime
         working-directory: frontend

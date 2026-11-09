@@ -61,4 +61,10 @@ Take a backup, record the current Git commit/image tag, stop the app, review mig
 
 A previous binary can be restarted only if its schema contract is compatible. Migration `Down` methods are not an operational data rollback. Restore a verified private backup into a fresh empty target when an incompatible database change must be reversed. Keep the prior environment until the restored receipt/media and review flow pass.
 
-The optional [Docker-local Terraform](../infra/local/README.md) invokes this same lifecycle. The future [AWS Singapore profile](../infra/aws/README.md) is separate and unapplied.
+## Future cloud deployment
+
+The optional [Docker-local Terraform](../infra/local/README.md) invokes this same lifecycle and remains the learning default. [Azure Southeast Asia (Singapore)](../infra/azure/README.md) is the preferred future cloud profile; [AWS Singapore](../infra/aws/README.md) remains an alternative. Both keep the application and its supporting services on one host with separate retained storage. No cloud deployment has been performed.
+
+Azure access uses an existing SSH key and a local port-forward to `localhost:5188`; its network security group admits SSH only from the required operator IPv4 `/32`, with other inbound access denied. AWS uses Session Manager and no inbound security-group rules. Neither profile publishes the assessment, PostgreSQL, Kafka or Ollama to the public internet. [Azure deployment diagram](diagrams/azure.svg) · [Editable Mermaid](diagrams/azure.mmd).
+
+Read the selected profile before planning: account access, available VM capacity and current resource charges must be checked in that account. Terraform validation does not verify deployment, cloud-init, microphone behavior through the tunnel, restore or provider performance. Take the same private backup before replacing compute. Retained disks remain chargeable, and Terraform protection does not prevent an authorized operator deleting cloud resources outside Terraform.

@@ -18,7 +18,7 @@ Complete one seeded assessment from private login to published human feedback, p
 Eight written questions, four oral questions, twenty minutes. One extended-duration assignment. Preparation, written practice and microphone testing do not start the timer. Fictional workplace scenarios and anchored rubrics.
 
 ## Capabilities and Constraints
-Three modules: Access, Assessments, Evaluation. One backend host and database. Strict server deadline; optimistic concurrency; local IndexedDB drafts; immutable recordings and submission; transactional outbox to Kafka; durable idempotent jobs with fenced leases; transcript persisted before AI scoring. Manual-only review is available. AI suggestions never become final scores without a reviewer. Private credentials, no public registration. Recording retention: thirty days. No paid cloud deployment in this delivery.
+Three modules: Access, Assessments, Evaluation. One backend host and database. Strict server deadline; optimistic concurrency; local IndexedDB drafts; immutable recordings and submission; transactional outbox to Kafka; durable idempotent jobs with fenced leases; transcript persisted before AI scoring. Manual-only review is available. AI suggestions never become final scores without a reviewer. Private credentials, no public registration. Recording retention: thirty days. No paid cloud deployment in this delivery. Local Compose remains the learning path; Azure in Singapore is the preferred future deployment, with AWS retained as an alternative.
 
 ## Brand Commitments
 Title: Candidate Assessment. Clear, direct, calm language. Real statuses, no invented proof or commercial claims.

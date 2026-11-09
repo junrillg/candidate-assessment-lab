@@ -1,0 +1,28 @@
+flowchart TB
+    B["Operator browser\nlocalhost:5188"] --> T["Existing-key SSH tunnel\nlocal bind 127.0.0.1:5188"]
+    subgraph AZ["Azure Southeast Asia · Singapore · unapplied learning profile"]
+        subgraph COMPUTE["Compute resource group · candidate-assessment-lab"]
+            IP["Standard public IPv4\nSSH transport only"] --> NSG
+            subgraph NET["VNet 10.75.0.0/24 · application-host subnet 10.75.0.0/26"]
+                NSG["NSG: TCP 22 from operator /32\nDeny other inbound traffic"]
+            subgraph VM["Ubuntu 24.04 x64 VM · Standard_D4s_v5 · 4 vCPU / 16 GiB"]
+                SSH["SSH daemon\nazureuser + public key"] -->|"tunnel target 127.0.0.1:5188"| H["One .NET host + built React\nAccess · Assessments · Evaluation"]
+                H --> P[("PostgreSQL\nthree module schemas")]
+                H --> K["Kafka\nprocessing IDs only"]
+                K --> H
+                H --> W["whisper.cpp\ntranscription container"]
+                H --> O["Host Ollama\nlocal rubric suggestions"]
+                OS[("32 GiB OS disk")]
+            end
+            NSG --> SSH
+            end
+        end
+        subgraph DATA["Retained data resource group · candidate-assessment-lab-data"]
+            D[("Encrypted managed data disk\n100 GiB default · LUN 0\n/srv/candidate-assessment")]
+        end
+        H -. "Docker volumes: evidence, session keys, database and broker" .-> D
+        O -. "model files" .-> D
+    end
+    T -->|"encrypted SSH over TCP 22"| IP
+    VM -->|"outbound HTTPS downloads"| G["Published full Git commit\nDocker images + model downloads"]
+    L["No public app / database / broker endpoint\nData disk and data resource group: prevent_destroy\nTerraform validation is not cloud runtime evidence"] -.-> DATA

@@ -2,7 +2,7 @@
 .NOTPARALLEL:
 PYTHON ?= python3
 
-.PHONY: help configure validate up down logs status migrate seed sample test integration recovery verify diagrams backup restore deploy-init deploy-validate deploy-plan deploy-apply deploy-down aws-init aws-validate aws-plan aws-apply
+.PHONY: help configure validate up down logs status migrate seed sample test integration recovery verify diagrams backup restore deploy-init deploy-validate deploy-plan deploy-apply deploy-down aws-init aws-validate aws-plan aws-apply azure-init azure-validate azure-plan azure-apply
 help:
 	@echo 'Candidate Assessment — local lab'
 	@echo '  make configure      Generate private local configuration (idempotent)'
@@ -21,9 +21,10 @@ help:
 	@echo '  make deploy-init|deploy-validate|deploy-plan|deploy-apply|deploy-down'
 	@echo '                      Terraform Docker-local profile only; no paid cloud'
 	@echo '  make aws-init|aws-validate|aws-plan|aws-apply  AWS Singapore profile (paid if applied)'
+	@echo '  make azure-init|azure-validate|azure-plan|azure-apply  Preferred Azure Singapore profile (paid if applied)'
 	@echo '  Read docs/operations.md for credentials, retention, recovery and rollback.'
 
-configure validate up down logs status migrate seed sample test integration recovery verify diagrams backup deploy-init deploy-validate deploy-plan deploy-apply deploy-down aws-init aws-validate aws-plan aws-apply:
+configure validate up down logs status migrate seed sample test integration recovery verify diagrams backup deploy-init deploy-validate deploy-plan deploy-apply deploy-down aws-init aws-validate aws-plan aws-apply azure-init azure-validate azure-plan azure-apply:
 	$(PYTHON) scripts/lab.py $@
 
 restore:

@@ -18,6 +18,10 @@ Keep the printed attempt ID and receipt. Open the reviewer queue using the priva
 
 Afterward: [four failure drills](failure-drills.md). Optional depth lives in [architecture](architecture.md), [operations](operations.md), and the module source; it is not a prerequisite quiz before the first lesson.
 
+## Optional cloud comparison
+
+Complete the local journey first. [Azure Southeast Asia (Singapore)](../infra/azure/README.md) is the preferred future cloud profile, with [AWS Singapore](../infra/aws/README.md) retained as an alternative. Compare the [Azure diagram](diagrams/azure.svg) and its [Mermaid source](diagrams/azure.mmd) with the local runtime: the business modules and reliable-processing flow stay the same; host provisioning, network access and disk recovery differ. Neither cloud profile has been deployed. This comparison does not mark a learner checkpoint complete.
+
 ## Learner checkpoints
 
 Record understanding in the private Notion home or the walkthrough's browser-local checklist. Use the same attempt ID throughout. A checked lesson means you can explain what happened, why the pattern exists, where the code runs and how to observe it. It does not mean an implementation acceptance test passed.

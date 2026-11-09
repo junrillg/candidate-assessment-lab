@@ -1,0 +1,13 @@
+#!/bin/bash
+set -euo pipefail
+umask 077
+# Disk attachment follows VM creation, so cloud-init never waits for or formats the data LUN.
+export DEBIAN_FRONTEND=noninteractive
+apt-get update
+apt-get install -y docker.io docker-compose-v2 docker-buildx git python3 make util-linux e2fsprogs curl ca-certificates zstd
+systemctl disable --now docker.service docker.socket
+APP=/opt/candidate-assessment-release
+git clone https://github.com/junrillg/candidate-assessment-lab.git "$APP"
+git -C "$APP" fetch origin '${commit}'
+git -C "$APP" checkout --detach '${commit}'
+printf 'Prerequisites ready. After apply and cloud-init status --wait, run: sudo bash %s/infra/azure/bootstrap.sh\n' "$APP"

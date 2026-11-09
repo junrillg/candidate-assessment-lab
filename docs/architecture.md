@@ -26,7 +26,13 @@ Evaluation claims bounded work through persisted leases and increments a fence. 
 
 ## Explicit limits
 
-This is a local learning deployment with a single Kafka broker and PostgreSQL instance. It establishes neither production scale nor hiring-score validity. The supplied Terraform profile starts Docker-local resources. The user-selected future cloud path is [one AWS Singapore ARM64 host](../infra/aws/README.md) with retained encrypted storage and SSM access. Terraform is validated without applying resources; cloud runtime reliability remains unverified.
+This is a local learning deployment with a single Kafka broker and PostgreSQL instance. It establishes neither production scale nor hiring-score validity. [Docker-local Terraform](../infra/local/README.md) remains the default learning path.
+
+The preferred future cloud path is [Azure Southeast Asia (Singapore)](../infra/azure/README.md): one Ubuntu VM, the same Compose application and host Ollama, retained managed storage, and an SSH tunnel restricted to one operator address. The [AWS Singapore profile](../infra/aws/README.md) remains an alternative, using ARM64 EC2 and Session Manager. These profiles preserve the modular monolith; neither replaces PostgreSQL, Kafka or the AI adapters with a managed service. Cloud runtime reliability remains unverified because neither profile has been applied.
+
+![Azure learning deployment](diagrams/azure.svg)
+
+[Edit Azure Mermaid](diagrams/azure.mmd) · [Azure deployment instructions](../infra/azure/README.md) · [All deployment profiles](../infra/cloud/README.md)
 
 Extract Evaluation into a separate host only after measuring independent scaling, ownership or release needs. Its module boundary makes that a future decision; no microservice implementation is included.
 
