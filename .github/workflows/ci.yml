@@ -1,0 +1,63 @@
+name: verify
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  application:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.15.8
+      - name: Install media validation tooling
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Configure private synthetic identities
+        run: make configure
+      - name: Build one application release
+        run: docker compose --env-file .local/lab.env build app
+        env:
+          COMPOSE_PARALLEL_LIMIT: '1'
+      - name: Start PostgreSQL and Kafka
+        run: docker compose --env-file .local/lab.env up -d --wait --wait-timeout 180 postgres kafka
+      - name: Migrate and seed explicitly
+        run: make migrate seed
+      - name: Start application
+        run: docker compose --env-file .local/lab.env up -d --wait --no-build app
+      - name: Verify code, architecture, infrastructure and real API journey
+        run: make verify
+      - name: Install isolated browser runtime
+        working-directory: frontend
+        run: npx playwright install --with-deps chromium
+      - name: Verify candidate and reviewer browser journey
+        working-directory: frontend
+        run: npm run test:browser
+      - name: Runtime status on failure
+        if: failure()
+        run: docker compose --env-file .local/lab.env ps
+      - name: Preserve non-secret evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-evidence
+          path: .local/integration-evidence.json
+          include-hidden-files: true
+          if-no-files-found: ignore
+      - name: Stop lab preserving volumes
+        if: always()
+        run: make down

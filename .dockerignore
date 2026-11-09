@@ -1,0 +1,10 @@
+.git
+.local
+.impeccable
+**/node_modules
+**/bin
+**/obj
+frontend/dist
+src/Host/wwwroot
+**/.terraform
+*.tfstate*

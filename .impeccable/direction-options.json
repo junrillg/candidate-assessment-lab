@@ -1,0 +1,225 @@
+{
+  "title": "Candidate Assessment \u2014 choose the working environment",
+  "question": "The laboratory notebook keeps the question, answer and acceptance state together. Choose a direction or re-roll; the application behavior stays as specified.",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "The laboratory notebook",
+      "kicker": "THE ROLL",
+      "lineage": "Working notebooks and laboratory procedure sheets",
+      "thesis": "One open working sheet, with every accepted answer visibly accounted for.",
+      "palette": [
+        "#f5f7fa",
+        "#172e45",
+        "#245ea7",
+        "#dfe6ed"
+      ],
+      "materials": [
+        "cool white working paper",
+        "precise ruled sections",
+        "ink-blue active controls"
+      ],
+      "viewport": "A 250px question index sits beside a spacious response sheet; the fixed top band keeps time, save state and review in sight.",
+      "risk": "The ruled structure needs generous spacing to avoid feeling like a form.",
+      "raised": [
+        {
+          "from": "Monochrome proof",
+          "raise": "Keep every status beside the evidence it describes."
+        },
+        {
+          "from": "Evidence catalog",
+          "raise": "Give the current question an unmistakable selection."
+        },
+        {
+          "from": "Movement score",
+          "raise": "Make time and accepted state precise measurements."
+        },
+        {
+          "from": "Review exposure record",
+          "raise": "Distinguish conflicting states without relying on color."
+        }
+      ],
+      "comp": ".impeccable/mocks/decision/assigned.webp"
+    },
+    {
+      "id": "model-pick",
+      "label": "The examination booklet",
+      "kicker": "IMPECCABLE\u2019S PICK",
+      "lineage": "Modern university exam booklets",
+      "thesis": "A familiar question booklet with quiet controls and a clear route to submission.",
+      "palette": [
+        "#ffffff",
+        "#203229",
+        "#287052"
+      ],
+      "materials": [
+        "white paper",
+        "open margins",
+        "green selection"
+      ],
+      "viewport": "Question list at left, answer page in the center, rubric available in a side section.",
+      "risk": "Familiar and effective; also the direction this category commonly produces.",
+      "comp": ".impeccable/mocks/decision/pick.webp"
+    },
+    {
+      "id": "neutral",
+      "label": "Monochrome proof",
+      "lineage": "digital-design-canon-monochrome-product-marketing",
+      "verdict": "declined",
+      "thesis": "Claims become answer evidence beside their rubric.",
+      "case": "Candidate tasks gain clarity, but the marketing sequence interrupts timed work.",
+      "kept": "Keep every status beside the evidence it describes.",
+      "palette": [
+        "#fafafa",
+        "#181818",
+        "#2456a6"
+      ],
+      "materials": [
+        "coherent monochrome proof system"
+      ],
+      "viewport": "Claims become answer evidence beside their rubric.",
+      "risk": "Candidate tasks gain clarity, but the marketing sequence interrupts timed work.",
+      "board": "https://impeccable.style/worlds/cards/digital-design-canon-monochrome-product-marketing.webp",
+      "hero": "https://impeccable.style/worlds/cards/digital-design-canon-monochrome-product-marketing-hero.webp",
+      "comp": ".impeccable/mocks/decision/neutral.webp"
+    },
+    {
+      "id": "catalog",
+      "label": "Evidence catalog",
+      "lineage": "pop-culture-shelf-streaming-title-card-wall",
+      "verdict": "declined",
+      "thesis": "Recordings become playable focus tiles.",
+      "case": "Focus tiles identify media, but conceal the question and deadline.",
+      "kept": "Give the current question an unmistakable selection.",
+      "palette": [
+        "#141414",
+        "#ffffff",
+        "#2c8cd4"
+      ],
+      "materials": [
+        "coherent evidence catalog system"
+      ],
+      "viewport": "Recordings become playable focus tiles.",
+      "risk": "Focus tiles identify media, but conceal the question and deadline.",
+      "board": "https://impeccable.style/worlds/cards/pop-culture-shelf-streaming-title-card-wall.webp",
+      "hero": "https://impeccable.style/worlds/cards/pop-culture-shelf-streaming-title-card-wall-hero.webp",
+      "comp": ".impeccable/mocks/decision/catalog.webp"
+    },
+    {
+      "id": "score",
+      "label": "Movement score",
+      "lineage": "notation-diagram-systems-labanotation",
+      "verdict": "declined",
+      "thesis": "A time staff aligns answers and review criteria.",
+      "case": "Exact duration is useful; upward reading and symbolic controls obscure common actions.",
+      "kept": "Make time and accepted state precise measurements.",
+      "palette": [
+        "#ffffff",
+        "#111111",
+        "#ededed"
+      ],
+      "materials": [
+        "coherent movement score system"
+      ],
+      "viewport": "A time staff aligns answers and review criteria.",
+      "risk": "Exact duration is useful; upward reading and symbolic controls obscure common actions.",
+      "board": "https://impeccable.style/worlds/cards/notation-diagram-systems-labanotation.webp",
+      "hero": "https://impeccable.style/worlds/cards/notation-diagram-systems-labanotation-hero.webp",
+      "comp": ".impeccable/mocks/decision/score.webp"
+    },
+    {
+      "id": "folio",
+      "label": "Evidence folio",
+      "lineage": "editorial-sequence-montage-botanical-folio-season",
+      "verdict": "competitive",
+      "thesis": "Follow one answer from draft to published feedback on registered plates.",
+      "case": "Stage continuity clarifies the learning walkthrough; candidates identify less with specimen plates.",
+      "kept": "Show stable identity across every stage.",
+      "palette": [
+        "#f4eedc",
+        "#284d36",
+        "#6d5042"
+      ],
+      "materials": [
+        "coherent evidence folio system"
+      ],
+      "viewport": "Follow one answer from draft to published feedback on registered plates.",
+      "risk": "Stage continuity clarifies the learning walkthrough; candidates identify less with specimen plates.",
+      "board": "https://impeccable.style/worlds/cards/editorial-sequence-montage-botanical-folio-season.webp",
+      "hero": "https://impeccable.style/worlds/cards/editorial-sequence-montage-botanical-folio-season-hero.webp",
+      "comp": ".impeccable/mocks/decision/folio.webp"
+    },
+    {
+      "id": "transit",
+      "label": "Assessment route",
+      "lineage": "wayfinding-cartography-signage-midnight-transit-diagram",
+      "verdict": "competitive",
+      "thesis": "Question stops lead through written, oral and review interchanges.",
+      "case": "The route clarifies progress; large diagrams compete with a spacious answer area.",
+      "kept": "Preserve destination and transfer context.",
+      "palette": [
+        "#112c4a",
+        "#ffffff",
+        "#e4a522"
+      ],
+      "materials": [
+        "coherent assessment route system"
+      ],
+      "viewport": "Question stops lead through written, oral and review interchanges.",
+      "risk": "The route clarifies progress; large diagrams compete with a spacious answer area.",
+      "board": "https://impeccable.style/worlds/cards/wayfinding-cartography-signage-midnight-transit-diagram.webp",
+      "hero": "https://impeccable.style/worlds/cards/wayfinding-cartography-signage-midnight-transit-diagram-hero.webp",
+      "comp": ".impeccable/mocks/decision/transit.webp"
+    },
+    {
+      "id": "exposure",
+      "label": "Review exposure record",
+      "lineage": "operate-b-exposure-record-zone-sheets",
+      "verdict": "declined",
+      "thesis": "Answer and rubric sheets overlay with crosshatched conflicts.",
+      "case": "Overlays carry review differences but make candidate editing unfamiliar.",
+      "kept": "Distinguish conflicting states without relying on color.",
+      "palette": [
+        "#f7f7f7",
+        "#242424",
+        "#a1276b"
+      ],
+      "materials": [
+        "coherent review exposure record system"
+      ],
+      "viewport": "Answer and rubric sheets overlay with crosshatched conflicts.",
+      "risk": "Overlays carry review differences but make candidate editing unfamiliar.",
+      "board": "https://impeccable.style/worlds/cards/operate-b-exposure-record-zone-sheets.webp",
+      "hero": "https://impeccable.style/worlds/cards/operate-b-exposure-record-zone-sheets-hero.webp",
+      "comp": ".impeccable/mocks/decision/exposure.webp"
+    }
+  ],
+  "reroll": {
+    "registers": [
+      "safer",
+      "bolder"
+    ]
+  },
+  "steer": true,
+  "buildPath": {
+    "value": "code",
+    "toggle": true
+  },
+  "canon": true,
+  "canonCard": {
+    "label": "The category standard",
+    "thesis": "A conventional assessment portal executed with care.",
+    "palette": [
+      "#ffffff",
+      "#111827",
+      "#2563eb"
+    ],
+    "materials": [
+      "standard panels",
+      "neutral application chrome"
+    ],
+    "viewport": "Top bar, sidebar navigation and a central question panel.",
+    "risk": "Deliberately familiar and visually similar to existing portals.",
+    "comp": ".impeccable/mocks/decision/canon.webp"
+  }
+}

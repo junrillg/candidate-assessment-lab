@@ -1,0 +1,39 @@
+#!/bin/bash
+set -euo pipefail
+umask 077
+# No credentials enter user data or cloud-init logs. Application bootstrap is explicit over SSM.
+dnf install -y docker git python3 make xfsprogs util-linux curl-minimal
+systemctl enable --now amazon-ssm-agent
+VOLUME_ID='${volume_id}'
+SERIAL=$(printf '%s' "$VOLUME_ID" | tr -d '-')
+DEVICE=''
+for attempt in $(seq 1 120); do
+  DEVICE=$(lsblk -dn -o PATH,SERIAL | awk -v serial="$SERIAL" '$2 == serial {print $1; exit}')
+  if test -n "$DEVICE"; then break; fi
+  sleep 2
+done
+test -n "$DEVICE"
+if ! blkid "$DEVICE" >/dev/null 2>&1; then mkfs.xfs "$DEVICE"; fi
+mkdir -p /srv/candidate-assessment
+UUID=$(blkid -s UUID -o value "$DEVICE")
+if ! grep -q "UUID=$UUID " /etc/fstab; then
+  printf 'UUID=%s /srv/candidate-assessment xfs defaults,nofail 0 2\n' "$UUID" >> /etc/fstab
+fi
+mount /srv/candidate-assessment
+mkdir -p /srv/candidate-assessment/docker /etc/docker /etc/systemd/system/docker.service.d
+printf '{"data-root":"/srv/candidate-assessment/docker"}\n' >/etc/docker/daemon.json
+printf '[Unit]\nRequiresMountsFor=/srv/candidate-assessment\n' >/etc/systemd/system/docker.service.d/storage.conf
+mkdir -p /usr/local/lib/docker/cli-plugins
+TEMP=$(mktemp -d)
+trap 'rm -rf "$TEMP"' EXIT
+curl --fail --location --retry 3 https://github.com/docker/compose/releases/download/v2.40.3/docker-compose-linux-aarch64 -o "$TEMP/docker-compose-linux-aarch64"
+curl --fail --location --retry 3 https://github.com/docker/compose/releases/download/v2.40.3/docker-compose-linux-aarch64.sha256 -o "$TEMP/checksum"
+(cd "$TEMP" && sha256sum --check checksum)
+install -m 0755 "$TEMP/docker-compose-linux-aarch64" /usr/local/lib/docker/cli-plugins/docker-compose
+systemctl daemon-reload
+systemctl enable --now docker
+APP=/srv/candidate-assessment/app
+if ! test -d "$APP/.git"; then git clone https://github.com/junrillg/candidate-assessment-lab.git "$APP"; fi
+git -C "$APP" fetch origin '${commit}'
+git -C "$APP" checkout --detach '${commit}'
+printf 'Prerequisites ready. In SSM run: sudo bash /srv/candidate-assessment/app/infra/aws/bootstrap.sh\n'

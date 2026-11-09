@@ -1,0 +1,8 @@
+flowchart LR
+    H["Host / composition root"] --> A["Access\nIdentity, sessions and roles"]
+    H --> S["Assessments\nAttempts, answers, recordings and outbox"]
+    H --> E["Evaluation\nJobs, suggestions and human review"]
+    E -->|"public immutable read contract"| S
+    A --> AD[("access schema")]
+    S --> SD[("assessments schema")]
+    E --> ED[("evaluation schema")]

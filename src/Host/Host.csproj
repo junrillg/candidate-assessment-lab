@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <ProjectReference Include="../Access/Access.csproj" />
+    <ProjectReference Include="../Assessments/Assessments.csproj" />
+    <ProjectReference Include="../Evaluation/Evaluation.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,17 @@
+flowchart TD
+    S["Accepted submission + outbox"] --> B{"Broker available?"}
+    B -->|No| O["Keep unpublished intent\nretry later"]
+    O --> B
+    B -->|Yes| J["Idempotent durable job"]
+    J --> L["Claim lease and increment fence"]
+    L --> F{"Provider succeeds?"}
+    F -->|No| D["Persist capped retry schedule"]
+    D --> X{"Retry budget remains?"}
+    X -->|Yes| L
+    X -->|No| M["Needs human review\nnever automatic zero"]
+    F -->|Yes| C{"Lease and fence still current?"}
+    C -->|Yes| R["Persist result for reviewer"]
+    C -->|No| Z["Reject stale completion"]
+    L --> I["Interrupted host"]
+    I --> E["Lease expires; new worker reclaims"]
+    E --> L

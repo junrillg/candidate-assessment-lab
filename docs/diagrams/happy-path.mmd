@@ -1,0 +1,22 @@
+sequenceDiagram
+    actor C as Candidate
+    participant H as One host
+    participant P as PostgreSQL
+    participant K as Kafka
+    participant AI as Local providers
+    actor R as Reviewer
+    C->>H: Login, prepare, start
+    H->>P: Freeze questions and deadline
+    C->>H: Save revision / verified recording
+    H->>P: Accept draft
+    C->>H: Submit
+    H->>P: Atomic snapshot + outbox
+    H-->>C: Durable receipt
+    H->>K: Publish processing-intent IDs
+    K->>H: Deliver metadata
+    H->>P: Idempotent durable job
+    H->>AI: Transcribe then score
+    H->>P: Persist transcript then suggestion
+    R->>H: Review criteria and publish
+    H->>P: Final scores + audit
+    C->>H: Read published feedback

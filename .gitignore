@@ -1,0 +1,17 @@
+**/bin/
+**/obj/
+frontend/node_modules/
+frontend/dist/
+src/Host/wwwroot/
+.local/
+.env
+**/.terraform/
+*.tfstate*
+*.tfplan
+.DS_Store
+.impeccable/config.local.json
+.impeccable/questions/
+frontend/*.tsbuildinfo
+
+__pycache__/
+*.pyc

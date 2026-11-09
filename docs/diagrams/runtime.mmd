@@ -1,0 +1,8 @@
+flowchart LR
+    B["Browser / React\nIndexedDB drafts"] -->|"same-origin cookie + CSRF"| H["One .NET host\nHTTP and background services"]
+    H --> P[("PostgreSQL\nthree owned schemas")]
+    H --> R[("Private recording volume")]
+    H -->|"metadata processing intent"| K["Kafka"]
+    K --> H
+    H --> T["Local whisper.cpp\ntranscription runtime"]
+    H --> O["Host Ollama\nlocal rubric suggestions"]
