@@ -1,0 +1,11 @@
+{
+  "attemptId": "19f4f4b1-6c6e-438f-8a5e-4a66ca0431c9",
+  "status": "published",
+  "oralQuestion": 9,
+  "checks": [
+    "real transcript and two AI criterion suggestions rendered",
+    "reviewer desktop/mobile displayed",
+    "candidate published feedback rendered without AI suggestions",
+    "four Mermaid SVGs rendered in Chromium"
+  ]
+}

@@ -318,7 +318,11 @@ function Preparation({ open }: { open: (id: string) => void }) {
           <h1>Before you begin</h1>
           <p>Settle in, try the tools, and start when you’re ready.</p>
         </div>
-        <span className="status-pill">Timer not started</span>
+        <span className="status-pill">
+          {assignment?.attemptId
+            ? "Attempt already started"
+            : "Timer not started"}
+        </span>
       </div>
       {error && <Note tone="error">{error}</Note>}
       {!assignments ? (
@@ -634,6 +638,19 @@ function CandidateWorkspace({
     setReview(false);
   };
   const state = draft ? states[draft.questionId] : "server-saved";
+  const acceptance = locked
+    ? dirty
+      ? `${dirty} response(s) unsent after the deadline`
+      : "Deadline reached · accepted work is finalizing"
+    : Object.values(states).includes("conflict")
+      ? "Conflicting versions · choose a response"
+      : Object.values(states).includes("failed")
+        ? "Save or upload failed · retry needed"
+        : Object.values(states).includes("syncing")
+          ? "Syncing responses to the server…"
+          : dirty
+            ? `${dirty} response(s) pending server acceptance`
+            : "All changes server saved";
   return (
     <main id="main" className="work-page">
       <div className="work-toolbar">
@@ -644,6 +661,9 @@ function CandidateWorkspace({
             {attempt.manualOnly
               ? "Manual review"
               : "AI assistance and human review"}
+          </span>
+          <span className="toolbar-save" role="status">
+            {acceptance}
           </span>
         </div>
         <div className="work-actions">
@@ -694,10 +714,20 @@ function CandidateWorkspace({
                     q.kind === "oral"
                       ? !!d?.recordingId || !!d?.blob
                       : !!d?.text.trim();
+                  const statusText =
+                    (states[q.id] === "conflict"
+                      ? "Conflict"
+                      : states[q.id] === "failed"
+                        ? "Save failed"
+                        : d?.dirty || d?.blob
+                          ? "Unsent"
+                          : hasAnswer
+                            ? "Answered"
+                            : "Unanswered") + (d?.flagged ? " · flagged" : "");
                   return (
                     <button
                       key={q.id}
-                      aria-label={`Question ${q.number}: ${q.title}`}
+                      aria-label={`Question ${q.number}: ${q.title}. ${statusText}`}
                       aria-current={
                         !review && q.id === question?.id ? "step" : undefined
                       }
@@ -708,17 +738,15 @@ function CandidateWorkspace({
                       >
                         {q.number}
                       </span>
-                      <span>
+                      <span className="question-title">
                         {q.title}
-                        <small>
-                          {d?.flagged
-                            ? "Flagged for review"
-                            : hasAnswer
-                              ? d?.dirty
-                                ? "Unsent changes"
-                                : "Answered"
-                              : "Not answered"}
-                        </small>
+                        <small>{statusText}</small>
+                      </span>
+                      <span
+                        className="mobile-question-state"
+                        aria-hidden="true"
+                      >
+                        {statusText}
                       </span>
                     </button>
                   );
@@ -787,6 +815,9 @@ function CandidateWorkspace({
             </>
           ) : question && draft ? (
             <>
+              <h1 id="question-title" tabIndex={-1}>
+                {question.title}
+              </h1>
               <div className="question-heading">
                 <span className="small muted">
                   Question {question.number} of {attempt.questions.length} ·{" "}
@@ -806,9 +837,7 @@ function CandidateWorkspace({
                   Flag for review
                 </label>
               </div>
-              <h1 id="question-title" tabIndex={-1}>
-                {question.title}
-              </h1>
+
               <p className="prompt">{question.prompt}</p>
               <details className="rubric">
                 <summary>What the reviewer will look for</summary>
@@ -882,7 +911,7 @@ function CandidateWorkspace({
                 </>
               )}
               {state === "conflict" && (
-                <div className="conflict">
+                <div className="conflict-panel">
                   <h2>Choose which response to keep</h2>
                   <p>
                     Another tab saved a newer server version. Your local
@@ -1058,9 +1087,15 @@ function Receipt({
           </button>
         </Note>
       )}
-      {Object.values(drafts).filter(d => d.dirty || d.blob).map(d => (
-        <UnsentResponse key={d.questionId} draft={d} question={attempt.questions.find(q => q.id === d.questionId)!}/>
-      ))}
+      {Object.values(drafts)
+        .filter((d) => d.dirty || d.blob)
+        .map((d) => (
+          <UnsentResponse
+            key={d.questionId}
+            draft={d}
+            question={attempt.questions.find((q) => q.id === d.questionId)!}
+          />
+        ))}
       {error && <Note tone="error">{error}</Note>}
       {evaluation?.publishedAt ? (
         <section className="published">
@@ -1126,17 +1161,43 @@ function Receipt({
   );
 }
 
-function UnsentResponse({draft,question}:{draft:Draft;question:Question}) {
-  const [source,setSource]=useState('');
-  useEffect(()=>{
-    if(!draft.blob)return;
-    const url=URL.createObjectURL(draft.blob);setSource(url);
-    return()=>URL.revokeObjectURL(url);
-  },[draft.blob]);
-  return <details className="unsent-response"><summary>Unsent local work: {question.title}</summary>
-    <p className="submitted-answer">{draft.text||'No written notes.'}</p>
-    {source&&<><audio controls src={source} aria-label={`Unsent recording for ${question.title}`}/><p><a href={source} download={`unsent-question-${question.number}.${draft.blob?.type.includes('mp4')?'mp4':draft.blob?.type.includes('ogg')?'ogg':'webm'}`}>Download unsent recording</a></p></>}
-  </details>;
+function UnsentResponse({
+  draft,
+  question,
+}: {
+  draft: Draft;
+  question: Question;
+}) {
+  const [source, setSource] = useState("");
+  useEffect(() => {
+    if (!draft.blob) return;
+    const url = URL.createObjectURL(draft.blob);
+    setSource(url);
+    return () => URL.revokeObjectURL(url);
+  }, [draft.blob]);
+  return (
+    <details className="unsent-response">
+      <summary>Unsent local work: {question.title}</summary>
+      <p className="submitted-answer">{draft.text || "No written notes."}</p>
+      {source && (
+        <>
+          <audio
+            controls
+            src={source}
+            aria-label={`Unsent recording for ${question.title}`}
+          />
+          <p>
+            <a
+              href={source}
+              download={`unsent-question-${question.number}.${draft.blob?.type.includes("mp4") ? "mp4" : draft.blob?.type.includes("ogg") ? "ogg" : "webm"}`}
+            >
+              Download unsent recording
+            </a>
+          </p>
+        </>
+      )}
+    </details>
+  );
 }
 
 function Reviewer({
@@ -1340,36 +1401,40 @@ function ReviewWorkspace({
       <div className="review-workspace">
         <nav className="question-nav" aria-label="Review questions">
           <h2>Questions</h2>
-          {attempt.questions.map((q, i) => (
-            <button
-              key={q.id}
-              aria-label={`Question ${q.number}: ${q.title}`}
-              aria-current={index === i ? "step" : undefined}
-              onClick={() => {
-                if (mayLeave()) setIndex(i);
-              }}
-            >
-              <span className="question-number">{q.number}</span>
-              <span>
-                {q.title}
-                <small>
-                  {evaluation.questions.find((j) => j.questionId === q.id)
-                    ?.review
-                    ? "Reviewed"
-                    : label(
-                        evaluation.questions.find((j) => j.questionId === q.id)
-                          ?.status ?? "processing",
-                      )}
-                </small>
-              </span>
-            </button>
-          ))}
+          {attempt.questions.map((q, i) => {
+            const item = evaluation.questions.find(
+              (j) => j.questionId === q.id,
+            );
+            const statusText = item?.review
+              ? "Reviewed"
+              : label(item?.status ?? "processing");
+            return (
+              <button
+                key={q.id}
+                aria-label={`Question ${q.number}: ${q.title}. ${statusText}`}
+                aria-current={index === i ? "step" : undefined}
+                onClick={() => {
+                  if (mayLeave()) setIndex(i);
+                }}
+              >
+                <span className="question-number">{q.number}</span>
+                <span className="question-title">
+                  {q.title}
+                  <small>{statusText}</small>
+                </span>
+                <span className="mobile-question-state" aria-hidden="true">
+                  {statusText}
+                </span>
+              </button>
+            );
+          })}
         </nav>
         <section className="review-evidence">
+          <h1>{question.title}</h1>
           <span className="small muted">
             Question {question.number} · {question.kind} response
           </span>
-          <h1>{question.title}</h1>
+
           <p>{question.prompt}</p>
           <h2>Submitted evidence</h2>
           <div className="submitted-answer">
@@ -1382,17 +1447,23 @@ function ReviewWorkspace({
               aria-label="Submitted recording playback"
             />
           )}
-          {question.kind === "oral" && (
-            <>
-              <h3>Transcript</h3>
-              <p className="transcript">
-                {job?.transcript ??
-                  (attempt.manualOnly
-                    ? "Manual-only review selected. Listen to the recording directly."
-                    : "Transcript is not available yet. Listen directly or retry a failed job.")}
-              </p>
-            </>
-          )}
+          {question.kind === "oral" &&
+            (!answer.recordingId ? (
+              <Note>
+                No recording was submitted for this question. Review any written
+                notes directly.
+              </Note>
+            ) : (
+              <>
+                <h3>Transcript</h3>
+                <p className="transcript">
+                  {job?.transcript ??
+                    (attempt.manualOnly
+                      ? "Manual-only review selected. Listen to the recording directly."
+                      : "Transcript is not available yet. Listen directly or retry a failed job.")}
+                </p>
+              </>
+            ))}
           {job?.suggestion ? (
             <>
               <h2>AI suggestion</h2>
@@ -1417,33 +1488,39 @@ function ReviewWorkspace({
             </>
           ) : (
             <Note>
-              {job?.error
-                ? `Processing needs attention: ${label(job.error)}. You can still review the submitted evidence.`
-                : "No AI suggestion is available. Apply the rubric to the evidence directly."}
+              {attempt.manualOnly
+                ? "Manual-only review selected. Apply the rubric to the submitted evidence directly."
+                : job?.error
+                  ? `Processing needs attention: ${label(job.error)}. You can still review the submitted evidence.`
+                  : "No AI suggestion is available. Apply the rubric to the evidence directly."}
             </Note>
           )}
-          {!attempt.manualOnly && job?.status === "needs-review" && (
-            <button
-              className="secondary"
-              disabled={!!evaluation.publishedAt || busy}
-              onClick={async () => {
-                setBusy(true);
-                try {
-                  await api(
-                    `/reviews/${attemptId}/questions/${question.id}/retry`,
-                    json("POST", {}),
-                  );
-                  await load();
-                } catch (e) {
-                  setError(message(e));
-                } finally {
-                  setBusy(false);
-                }
-              }}
-            >
-              Retry failed processing
-            </button>
-          )}
+          {!attempt.manualOnly &&
+            job?.status === "needs-review" &&
+            !["unanswered", "missing-recording", "manual-only"].includes(
+              job.error ?? "",
+            ) && (
+              <button
+                className="secondary"
+                disabled={!!evaluation.publishedAt || busy}
+                onClick={async () => {
+                  setBusy(true);
+                  try {
+                    await api(
+                      `/reviews/${attemptId}/questions/${question.id}/retry`,
+                      json("POST", {}),
+                    );
+                    await load();
+                  } catch (e) {
+                    setError(message(e));
+                  } finally {
+                    setBusy(false);
+                  }
+                }}
+              >
+                Retry failed processing
+              </button>
+            )}
         </section>
         <aside className="scoring-panel">
           <QuestionReview

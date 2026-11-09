@@ -119,7 +119,7 @@ button.primary:hover:not(:disabled) {
 }
 button.secondary {
   background: #fff;
-  border-color: #8fa4b8;
+  border-color: #71879d;
 }
 button.secondary:hover:not(:disabled) {
   background: #e9f0f8;
@@ -160,7 +160,7 @@ label {
 input:not([type="checkbox"]),
 textarea,
 select {
-  border: 1px solid #8fa4b8;
+  border: 1px solid #71879d;
   background: #fff;
   color: var(--ink);
   border-radius: 5px;
@@ -539,7 +539,7 @@ audio {
   border-color: #a1bbdd;
   color: #184e91;
 }
-.question-nav button > span:last-child {
+.question-nav .question-title {
   flex: 1;
 }
 .question-nav button small {
@@ -551,7 +551,7 @@ audio {
 .question-number {
   height: 26px;
   min-width: 26px;
-  border: 1px solid #a0b1c3;
+  border: 1px solid #71879d;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -665,17 +665,17 @@ details summary {
 .response-sheet > h2 {
   margin-top: 28px;
 }
-.conflict {
+.conflict-panel {
   background: #fff4e4;
   border: 1px solid #d3af75;
   padding: 20px;
   margin: 24px 0;
   border-radius: 5px;
 }
-.conflict h2 {
+.conflict-panel h2 {
   font-size: 1rem;
 }
-.conflict p {
+.conflict-panel p {
   font-size: 0.875rem;
 }
 .review-summary {
@@ -1159,7 +1159,7 @@ details summary {
     justify-content: center;
     margin: 2px;
   }
-  .question-nav button > span:last-child {
+  .question-nav .question-title {
     display: none;
   }
   .question-number {
@@ -1279,5 +1279,40 @@ details summary {
   * {
     transition: none !important;
     scroll-behavior: auto !important;
+  }
+}
+
+.identity .quiet {
+  white-space: nowrap;
+}
+
+.toolbar-save {
+  display: block;
+  font-size: 0.8125rem;
+  color: #334e6c;
+  margin-top: 5px;
+}
+.mobile-question-state {
+  display: none;
+}
+@media (max-width: 760px) {
+  .question-nav button {
+    width: calc(25% - 4px);
+    min-height: 68px;
+    flex-direction: column;
+    gap: 5px;
+    padding: 6px 3px;
+    vertical-align: top;
+  }
+  .question-nav .mobile-question-state {
+    display: block;
+    font-size: 0.625rem;
+    line-height: 1.25;
+    color: #334e6c;
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+  .toolbar-save {
+    font-size: 0.75rem;
   }
 }

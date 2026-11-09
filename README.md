@@ -40,7 +40,7 @@ Use `make sample` to create one reusable synthetic trace for learning. [Six less
 - Evaluation stores each intent once, then claims persisted leases with fenced completion. Transcription is saved before scoring. Timeouts, capped retries and terminal needs-review states are durable.
 - A reviewer’s scores, feedback, private notes and audit records are separate from AI suggestions. Publication is immutable and only published feedback reaches the candidate.
 
-The modules use EF Core directly. There is no mediator framework, generic repository, event sourcing, saga or separate read database. [Architecture and boundaries](docs/architecture.md) · [Diagrams and editable Mermaid](docs/diagrams/).
+The modules use EF Core directly. There is no mediator framework, generic repository, event sourcing, saga or separate read database. [Architecture and boundaries](docs/architecture.md) · [Diagrams and editable Mermaid](docs/diagrams/) · [Shipped UI design system](DESIGN.md).
 
 ## Check and recover
 

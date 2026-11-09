@@ -4,7 +4,7 @@ import json
 import os
 from pathlib import Path
 import time
-from journey import Client, db, evaluation, save, start, upload, users, wait_for, compose, ROOT
+from journey import Client, db, evaluation, save, start, upload, users, wait_for, compose, ROOT, cleanup_fixtures
 from lab import wait_ready
 
 
@@ -77,6 +77,9 @@ def main():
             compose('start', 'app', capture_output=True)
             wait_ready()
         candidate.request('DELETE', f"/api/attempts/{attempt['id']}", expected=(202, 404))
+        wait_for(lambda: db(f'''SELECT "CleanedAt" IS NOT NULL FROM assessments.attempts WHERE "Id"='{attempt['id']}';''') in {'t', ''},
+                 seconds=45, description='synthetic recovery fixture cleanup')
+        cleanup_fixtures()
 
 
 if __name__ == '__main__':

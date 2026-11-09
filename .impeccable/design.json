@@ -1,0 +1,310 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-09T14:01:47.797938Z",
+  "title": "Design System: Candidate Assessment",
+  "extensions": {
+    "colorMeta": {
+      "ink": {
+        "role": "neutral",
+        "displayName": "Notebook Ink",
+        "tonalRamp": [
+          "oklch(15.0% 0.0513 250.0)",
+          "oklch(26.4% 0.0513 250.0)",
+          "oklch(37.9% 0.0513 250.0)",
+          "oklch(49.3% 0.0513 250.0)",
+          "oklch(60.7% 0.0513 250.0)",
+          "oklch(72.1% 0.0513 250.0)",
+          "oklch(83.6% 0.0513 250.0)",
+          "oklch(95.0% 0.0513 250.0)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Slate Annotation",
+        "tonalRamp": [
+          "oklch(15.0% 0.0390 251.3)",
+          "oklch(26.4% 0.0390 251.3)",
+          "oklch(37.9% 0.0390 251.3)",
+          "oklch(49.3% 0.0390 251.3)",
+          "oklch(60.7% 0.0390 251.3)",
+          "oklch(72.1% 0.0390 251.3)",
+          "oklch(83.6% 0.0390 251.3)",
+          "oklch(95.0% 0.0390 251.3)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Ruled Line",
+        "tonalRamp": [
+          "oklch(15.0% 0.0212 248.1)",
+          "oklch(26.4% 0.0212 248.1)",
+          "oklch(37.9% 0.0212 248.1)",
+          "oklch(49.3% 0.0212 248.1)",
+          "oklch(60.7% 0.0212 248.1)",
+          "oklch(72.1% 0.0212 248.1)",
+          "oklch(83.6% 0.0212 248.1)",
+          "oklch(95.0% 0.0212 248.1)"
+        ]
+      },
+      "blue": {
+        "role": "primary",
+        "displayName": "Ink Blue",
+        "tonalRamp": [
+          "oklch(15.0% 0.1317 255.9)",
+          "oklch(26.4% 0.1317 255.9)",
+          "oklch(37.9% 0.1317 255.9)",
+          "oklch(49.3% 0.1317 255.9)",
+          "oklch(60.7% 0.1317 255.9)",
+          "oklch(72.1% 0.1317 255.9)",
+          "oklch(83.6% 0.1317 255.9)",
+          "oklch(95.0% 0.1317 255.9)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "White Paper",
+        "tonalRamp": [
+          "oklch(15.0% 0.0000 0.0)",
+          "oklch(26.4% 0.0000 0.0)",
+          "oklch(37.9% 0.0000 0.0)",
+          "oklch(49.3% 0.0000 0.0)",
+          "oklch(60.7% 0.0000 0.0)",
+          "oklch(72.1% 0.0000 0.0)",
+          "oklch(83.6% 0.0000 0.0)",
+          "oklch(95.0% 0.0000 0.0)"
+        ]
+      },
+      "field": {
+        "role": "neutral",
+        "displayName": "Cool Field",
+        "tonalRamp": [
+          "oklch(15.0% 0.0045 258.3)",
+          "oklch(26.4% 0.0045 258.3)",
+          "oklch(37.9% 0.0045 258.3)",
+          "oklch(49.3% 0.0045 258.3)",
+          "oklch(60.7% 0.0045 258.3)",
+          "oklch(72.1% 0.0045 258.3)",
+          "oklch(83.6% 0.0045 258.3)",
+          "oklch(95.0% 0.0045 258.3)"
+        ]
+      },
+      "danger": {
+        "role": "semantic",
+        "displayName": "Danger",
+        "tonalRamp": [
+          "oklch(15.0% 0.1599 22.6)",
+          "oklch(26.4% 0.1599 22.6)",
+          "oklch(37.9% 0.1599 22.6)",
+          "oklch(49.3% 0.1599 22.6)",
+          "oklch(60.7% 0.1599 22.6)",
+          "oklch(72.1% 0.1599 22.6)",
+          "oklch(83.6% 0.1599 22.6)",
+          "oklch(95.0% 0.1599 22.6)"
+        ]
+      },
+      "control-border": {
+        "role": "neutral",
+        "displayName": "Control Edge",
+        "tonalRamp": [
+          "oklch(15.0% 0.0421 248.5)",
+          "oklch(26.4% 0.0421 248.5)",
+          "oklch(37.9% 0.0421 248.5)",
+          "oklch(49.3% 0.0421 248.5)",
+          "oklch(60.7% 0.0421 248.5)",
+          "oklch(72.1% 0.0421 248.5)",
+          "oklch(83.6% 0.0421 248.5)",
+          "oklch(95.0% 0.0421 248.5)"
+        ]
+      },
+      "blue-hover": {
+        "role": "primary",
+        "displayName": "Primary Hover",
+        "tonalRamp": [
+          "oklch(15.0% 0.1161 255.9)",
+          "oklch(26.4% 0.1161 255.9)",
+          "oklch(37.9% 0.1161 255.9)",
+          "oklch(49.3% 0.1161 255.9)",
+          "oklch(60.7% 0.1161 255.9)",
+          "oklch(72.1% 0.1161 255.9)",
+          "oklch(83.6% 0.1161 255.9)",
+          "oklch(95.0% 0.1161 255.9)"
+        ]
+      },
+      "acceptance-ink": {
+        "role": "neutral",
+        "displayName": "Acceptance Ink",
+        "tonalRamp": [
+          "oklch(15.0% 0.0602 251.9)",
+          "oklch(26.4% 0.0602 251.9)",
+          "oklch(37.9% 0.0602 251.9)",
+          "oklch(49.3% 0.0602 251.9)",
+          "oklch(60.7% 0.0602 251.9)",
+          "oklch(72.1% 0.0602 251.9)",
+          "oklch(83.6% 0.0602 251.9)",
+          "oklch(95.0% 0.0602 251.9)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page headings, reduced on narrow screens."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Ordinary section headings."
+      },
+      "section": {
+        "displayName": "Section",
+        "purpose": "Compact section headings."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Application prose."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Form labels."
+      },
+      "support": {
+        "displayName": "Support",
+        "purpose": "Supporting copy."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "button-state",
+        "value": "background-color 0.16s ease-out, border-color 0.16s ease-out",
+        "purpose": "Button state transitions; disabled under prefers-reduced-motion: reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile-max",
+        "value": "760px"
+      },
+      {
+        "name": "intermediate-max",
+        "value": "1100px"
+      },
+      {
+        "name": "wide-min",
+        "value": "1500px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Shared action geometry; primary action treatment.",
+      "html": "<button type=\"button\" class=\"ds-button-primary\">Review answers</button>",
+      "css": ".ds-button-primary{font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;font-size:16px;line-height:1.55;font-weight:600;min-height:44px;padding:10px 18px;border-radius:6px;border:1px solid transparent;cursor:pointer;transition:background-color .16s ease-out,border-color .16s ease-out;background:var(--blue,#245ea7);color:#fff;border-color:transparent;}.ds-button-primary:hover:not(:disabled){background:#194b89}.ds-button-primary:focus-visible{outline:3px solid var(--blue,#245ea7);outline-offset:3px}.ds-button-primary:disabled{opacity:.55;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-button-primary{transition:none}}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Shared action geometry; secondary action treatment.",
+      "html": "<button type=\"button\" class=\"ds-button-secondary\">Next question</button>",
+      "css": ".ds-button-secondary{font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;font-size:16px;line-height:1.55;font-weight:600;min-height:44px;padding:10px 18px;border-radius:6px;border:1px solid transparent;cursor:pointer;transition:background-color .16s ease-out,border-color .16s ease-out;background:#fff;color:var(--ink,#172e45);border-color:#71879d;}.ds-button-secondary:hover:not(:disabled){background:#e9f0f8;border-color:var(--blue,#245ea7)}.ds-button-secondary:focus-visible{outline:3px solid var(--blue,#245ea7);outline-offset:3px}.ds-button-secondary:disabled{opacity:.55;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-button-secondary{transition:none}}"
+    },
+    {
+      "name": "Quiet Button",
+      "kind": "button",
+      "refersTo": "button-quiet",
+      "description": "Shared action geometry; quiet action treatment.",
+      "html": "<button type=\"button\" class=\"ds-button-quiet\">Continue answering</button>",
+      "css": ".ds-button-quiet{font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;font-size:16px;line-height:1.55;font-weight:600;min-height:44px;padding:10px 18px;border-radius:6px;border:1px solid transparent;cursor:pointer;transition:background-color .16s ease-out,border-color .16s ease-out;background:transparent;color:var(--ink,#172e45);border-color:transparent;}.ds-button-quiet:hover:not(:disabled){background:#e5edf6}.ds-button-quiet:focus-visible{outline:3px solid var(--blue,#245ea7);outline-offset:3px}.ds-button-quiet:disabled{opacity:.55;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-button-quiet{transition:none}}"
+    },
+    {
+      "name": "Stop Recording Button",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Shared action geometry; red is reserved for the recording stop action and danger.",
+      "html": "<button type=\"button\" class=\"ds-button-danger\">Stop recording</button>",
+      "css": ".ds-button-danger{font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;font-size:16px;line-height:1.55;font-weight:600;min-height:44px;padding:10px 18px;border-radius:6px;border:1px solid transparent;cursor:pointer;transition:background-color .16s ease-out,border-color .16s ease-out;background:var(--danger,#a72b32);color:#fff;border-color:transparent;}.ds-button-danger:focus-visible{outline:3px solid var(--blue,#245ea7);outline-offset:3px}.ds-button-danger:disabled{opacity:.55;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-button-danger{transition:none}}"
+    },
+    {
+      "name": "Response Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "A labeled, vertically resizable white answer field.",
+      "html": "<label class=\"ds-field-label\" for=\"ds-response\">Your response</label><textarea id=\"ds-response\" class=\"ds-field\" rows=\"5\">I would clarify the next step.</textarea>",
+      "css": ".ds-field-label{font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;display:block;font-size:14px;font-weight:600;color:var(--ink,#172e45);margin-bottom:8px}.ds-field{font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;font-size:16px;line-height:1.65;color:var(--ink,#172e45);background:#fff;border:1px solid #71879d;border-radius:5px;width:100%;padding:11px 12px;resize:vertical;caret-color:var(--blue,#245ea7)}.ds-field:focus-visible{outline:3px solid var(--blue,#245ea7);outline-offset:3px}"
+    },
+    {
+      "name": "Question Navigation",
+      "kind": "nav",
+      "refersTo": "question-navigation",
+      "description": "Number, title and textual state stay distinct from current selection.",
+      "html": "<nav aria-label=\"Assessment questions\" class=\"ds-nav\"><button class=\"ds-question\" aria-current=\"step\" aria-label=\"Question 1: A deadline at risk. Answered\"><span class=\"ds-number\">1</span><span class=\"ds-question-title\">A deadline at risk<small>Answered</small></span><span class=\"ds-mobile-state\" aria-hidden=\"true\">Answered</span></button><button class=\"ds-question\" aria-label=\"Question 2: Conflicting priorities. Unanswered\"><span class=\"ds-number\">2</span><span class=\"ds-question-title\">Conflicting priorities<small>Unanswered</small></span><span class=\"ds-mobile-state\" aria-hidden=\"true\">Unanswered</span></button></nav>",
+      "css": ".ds-question{font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;display:flex;align-items:center;gap:10px;width:100%;border:1px solid transparent;border-radius:5px;background:transparent;color:var(--ink,#172e45);text-align:left;padding:11px 10px;margin:3px 0;font-size:13px;line-height:1.35;min-height:55px;cursor:pointer}.ds-question:hover{background:#e9eff6}.ds-question[aria-current]{background:#e4edf9;border-color:#a1bbdd;color:#184e91}.ds-question:focus-visible{outline:3px solid var(--blue,#245ea7);outline-offset:3px}.ds-number{height:26px;min-width:26px;border:1px solid #71879d;display:flex;align-items:center;justify-content:center;border-radius:4px;font-variant-numeric:tabular-nums;font-size:12px}.ds-question-title{flex:1}.ds-question-title small{display:block;font-size:11px;color:var(--muted,#516377);margin-top:3px}.ds-mobile-state{display:none}@media(max-width:760px){.ds-question{display:inline-flex;width:calc(25% - 4px);min-height:68px;flex-direction:column;gap:5px;padding:6px 3px;vertical-align:top;margin:2px}.ds-question-title{display:none}.ds-mobile-state{display:block;font-size:10px;line-height:1.25;color:#334e6c;text-align:center;overflow-wrap:anywhere}}"
+    },
+    {
+      "name": "Status Chip",
+      "kind": "chip",
+      "refersTo": "status-chip",
+      "description": "A descriptive, noninteractive status label.",
+      "html": "<span class=\"ds-status\">Human review</span>",
+      "css": ".ds-status{font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;display:inline-block;border-radius:4px;padding:5px 10px;font-size:13px;background:#e7eef8;color:#1b4d88;white-space:nowrap}"
+    },
+    {
+      "name": "Response Sheet",
+      "kind": "card",
+      "refersTo": "response-sheet",
+      "description": "Flat white working surface with thin rules and a title above metadata.",
+      "html": "<section class=\"ds-sheet\"><h1>A deadline at risk</h1><p class=\"ds-sheet-meta\">Question 1 of 12 · Written response</p><p>Write the message you would send to your team lead.</p><details class=\"ds-rubric\"><summary>What the reviewer will look for</summary><p>Clarify the problem and agree on the next step.</p></details></section>",
+      "css": ".ds-sheet{font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;color:var(--ink,#172e45);background:#fff;border:1px solid var(--line,#c4d0dc);border-radius:6px;padding:36px 40px;max-width:1100px}.ds-sheet h1{font-size:28px;line-height:1.2;font-weight:650;letter-spacing:-.025em;margin:0 0 18px}.ds-sheet p{font-size:16px;line-height:1.75;max-width:72ch;margin:0 0 24px}.ds-sheet .ds-sheet-meta{font-size:14px;color:var(--muted,#516377)}.ds-rubric{border-block:1px solid var(--line,#c4d0dc);padding:14px 0}.ds-rubric summary{font-size:14px;color:var(--blue,#245ea7);cursor:pointer}.ds-rubric summary:focus-visible{outline:3px solid var(--blue,#245ea7);outline-offset:3px}@media(max-width:760px){.ds-sheet{padding:24px 20px}.ds-sheet h1{font-size:24px}}"
+    },
+    {
+      "name": "Persistent Acceptance Band",
+      "kind": "custom",
+      "refersTo": "acceptance-band",
+      "description": "Sticky assignment context, acceptance and tabular remaining time.",
+      "html": "<div class=\"ds-band\"><div><strong>Workplace assessment</strong><span class=\"ds-band-meta\">1 of 12 answered · Manual review</span><span class=\"ds-acceptance\" role=\"status\">All changes server saved</span></div><div class=\"ds-timer\" role=\"timer\" aria-label=\"19 minutes remaining\"><span>Time remaining</span><strong>19:00</strong></div></div>",
+      "css": ".ds-band{font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif;position:sticky;top:0;z-index:4;background:var(--field,#f5f7fa);color:var(--ink,#172e45);display:flex;justify-content:space-between;gap:24px;padding:22px 0;border-bottom:1px solid var(--line,#c4d0dc);align-items:center}.ds-band-meta{display:block;font-size:14px;color:var(--muted,#516377)}.ds-acceptance{display:block;font-size:13px;color:#334e6c;margin-top:5px}.ds-timer{border-right:1px solid var(--line,#c4d0dc);padding-right:28px;min-width:130px}.ds-timer span{display:block;font-size:12px;color:var(--muted,#516377)}.ds-timer strong{font-size:24px;line-height:1.2;letter-spacing:.015em;font-variant-numeric:tabular-nums}@media(max-width:760px){.ds-band{flex-direction:column;align-items:stretch;padding:16px 0;gap:12px}.ds-acceptance{font-size:12px}.ds-timer strong{font-size:22px}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Laboratory Notebook",
+    "overview": "The Laboratory Notebook makes work legible through cool paper, ink-blue controls and ruled regions. White working sheets sit on a cool gray field; visible acceptance, question state and human scoring carry the visual emphasis.\n\nThe system is calm, direct and deliberately flat. Compact navigation supports spacious answer and evidence regions. The learning walkthrough uses the same paper, ink, blue focus and ruled divisions, with its own reading proportions. Source evidence is the shipped frontend stylesheet and components, plus the walkthrough’s inline styles; the recorded system follows those implementations rather than the preliminary direction.",
+    "keyCharacteristics": [
+      "Cool field and white working sheets.",
+      "Ink-blue actions, explicit textual states and tabular quantities.",
+      "Ruled separation without shadows or ornamental imagery.",
+      "Persistent work context; responsive navigation preserves state."
+    ],
+    "rules": [
+      {
+        "name": "The State Has Words Rule",
+        "body": "Pair state color with readable status text; selection, completion and acceptance remain distinct.",
+        "section": "colors"
+      },
+      {
+        "name": "The Title First Rule",
+        "body": "Question and checkpoint titles precede their metadata. Keep labels in sentence case and quantities tabular.",
+        "section": "typography"
+      },
+      {
+        "name": "The Ruled Sheet Rule",
+        "body": "Use paper, tonal grounds and thin rules to separate work regions; the shipped system has no box shadows.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do preserve the distinction between local work, pending acceptance and server-saved work in persistent status text.",
+      "Do keep question titles above metadata and reveal rubric detail through native disclosure.",
+      "Do retain visible keyboard focus, textual mobile state, wrapping evidence and reduced-motion behavior.",
+      "Do use the existing paper sheets and ruled sections for both candidate work and human review."
+    ],
+    "donts": [
+      "Don't use success color alone as proof that work was accepted.",
+      "Don't add ornamental notebook grids behind reading or response text.",
+      "Don't merge AI suggestions into the visual or verbal identity of a final human score.",
+      "Don't inherit the build’s 10–11px mobile navigation and audit metadata as a recommended type scale; these are carried density defects."
+    ]
+  }
+}

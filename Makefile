@@ -15,7 +15,7 @@ help:
 	@echo '  make integration    Real API/Postgres/Kafka checks against running local lab'
 	@echo '  make recovery       Real provider-outage and interrupted-host recovery (local Ollama required)'
 	@echo '  make verify         Tests, builds, config, Terraform and integration; serialized'
-	@echo '  make diagrams       Render editable Mermaid to SVG using Docker'
+	@echo '  make diagrams       Render editable Mermaid to SVG using installed Chromium'
 	@echo '  make backup         Private consistent database/recording/key backup'
 	@echo '  make restore BACKUP=...  Restore a backup into an EMPTY stopped lab'
 	@echo '  make deploy-init|deploy-validate|deploy-plan|deploy-apply|deploy-down'

@@ -21,6 +21,10 @@ The generated `.local/lab.env` supplies PostgreSQL's password and `OLLAMA_MODEL`
 
 Readiness `/health/ready` checks database access and required module tables. Liveness `/health/live` checks the HTTP host. Broker/provider failure does not reject already accepted draft work or erase submission intent; inspect question processing status and reviewer retry controls.
 
+## Editable diagrams
+
+Run `cd frontend && npm ci && npx playwright install chromium` once to install the same isolated browser used by the browser checks, then run `make diagrams` from the repository root. The official pinned Mermaid CLI is fetched into npm's tool cache and reuses that Chromium. Rendering runs serially and writes SVGs beside their editable `.mmd` sources. It does not add a frontend runtime dependency.
+
 ## Backup and restore
 
 ```sh

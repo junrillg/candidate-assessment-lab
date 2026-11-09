@@ -17,6 +17,11 @@ async function login(page: Page, user: (typeof credentials)[number]) {
   await page.getByRole("button", { name: "Sign in", exact: true }).click();
 }
 async function screenshot(page: Page, name: string) {
+  await page.evaluate(() => {
+    (document.activeElement as HTMLElement | null)?.blur();
+    window.scrollTo(0, 0);
+  });
+  await page.waitForFunction(() => window.scrollY === 0);
   await page.screenshot({ path: path.join(shots, name), fullPage: true });
   expect(
     await page.evaluate(
@@ -75,7 +80,13 @@ test("candidate recording, draft recovery/conflict, offline messaging, review an
     "I would clarify the problem, agree the next step and verify the outcome.",
   );
   await screenshot(page, "desktop.png");
+  await page.getByLabel('Flag for review',{exact:true}).check();
+  await expect(page.getByText('Server saved',{exact:true})).toBeVisible();
+  await page.evaluate(()=>window.scrollTo(0,document.body.scrollHeight));
+  await expect(page.locator('.toolbar-save')).toBeInViewport();
+  await expect(page.locator('.toolbar-save')).toHaveText('All changes server saved');
   await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator('.mobile-question-state').filter({hasText:'Answered · flagged'})).toBeVisible();
   await screenshot(page, "mobile.png");
   await page.setViewportSize({ width: 1440, height: 1000 });
   await context.setOffline(true);
@@ -87,6 +98,9 @@ test("candidate recording, draft recovery/conflict, offline messaging, review an
   await screenshot(page, "offline-desktop.png");
   await context.setOffline(false);
   await expect(page.getByText("Server saved", { exact: true })).toBeVisible();
+  await expect(
+    page.getByText("You are offline.", { exact: false }),
+  ).toHaveCount(0);
   // Two independent documents keep their recovery records while server revisions reject a stale write.
   const stale = await context.newPage();
   await stale.goto(`/?attempt=${attemptId}`);
@@ -119,15 +133,26 @@ test("candidate recording, draft recovery/conflict, offline messaging, review an
     .getByRole("button", { name: /Question 9:/ });
   await oral.click();
   await page.evaluate(async (id) => {
-    const session = await fetch('/api/session').then(r => r.json());
-    const attempt = await fetch(`/api/attempts/${id}`).then(r => r.json());
-    const question = attempt.questions.find((q:{number:number}) => q.number === 9);
+    const session = await fetch("/api/session").then((r) => r.json());
+    const attempt = await fetch(`/api/attempts/${id}`).then((r) => r.json());
+    const question = attempt.questions.find(
+      (q: { number: number }) => q.number === 9,
+    );
     const response = await fetch(`/api/attempts/${id}/answers/${question.id}`, {
-      method:'PUT',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':session.csrfToken},
-      body:JSON.stringify({revision:0,text:'A concurrent tab saved this version.',flagged:false})
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": session.csrfToken,
+      },
+      body: JSON.stringify({
+        revision: 0,
+        text: "A concurrent tab saved this version.",
+        flagged: false,
+      }),
     });
-    if(!response.ok)throw new Error('Concurrent recording-selection fixture failed');
-  },attemptId);
+    if (!response.ok)
+      throw new Error("Concurrent recording-selection fixture failed");
+  }, attemptId);
   await page
     .getByRole("button", { name: "Start recording", exact: true })
     .click();
@@ -138,12 +163,21 @@ test("candidate recording, draft recovery/conflict, offline messaging, review an
   await page
     .getByRole("button", { name: "Stop recording", exact: true })
     .click();
-  await expect(page.getByRole('heading',{name:'Choose which response to keep'})).toBeVisible();
-  await expect(page.getByText('Completed on this device.',{exact:false})).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Choose which response to keep" }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Completed on this device.", { exact: false }),
+  ).toBeVisible();
   await page.reload();
-  await page.getByRole('navigation',{name:'Assessment questions'}).getByRole('button',{name:/Question 9:/}).click();
-  await expect(page.getByLabel('Your selected recording playback')).toBeVisible();
-  await page.getByRole('button',{name:'Keep my local response'}).click();
+  await page
+    .getByRole("navigation", { name: "Assessment questions" })
+    .getByRole("button", { name: /Question 9:/ })
+    .click();
+  await expect(
+    page.getByLabel("Your selected recording playback"),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Keep my local response" }).click();
   await expect(
     page.getByText("Verified recording selected on the server."),
   ).toBeVisible();
@@ -201,6 +235,7 @@ test("candidate recording, draft recovery/conflict, offline messaging, review an
     ).toBeVisible();
   }
   await screenshot(reviewer, "reviewer-desktop.png");
+  await expect(reviewer.getByText('No recording was submitted for this question.',{exact:false})).toBeVisible();
   await reviewer.setViewportSize({ width: 390, height: 844 });
   await screenshot(reviewer, "reviewer-mobile.png");
   await reviewer.setViewportSize({ width: 1440, height: 1000 });
@@ -235,4 +270,77 @@ test("candidate recording, draft recovery/conflict, offline messaging, review an
       throw new Error("Synthetic attempt cleanup failed");
   }, attemptId);
   await reviewerContext.close();
+});
+
+test("blocked device storage still permits an acknowledged online server save", async ({
+  page,
+  context,
+}) => {
+  const fixture = JSON.parse(
+    execFileSync(
+      "python3",
+      ["tests/Integration/journey.py", "browser-fixture"],
+      { cwd: root, encoding: "utf8" },
+    ),
+  );
+  await context.addInitScript(() => {
+    Object.defineProperty(window, "indexedDB", {
+      value: {
+        open() {
+          throw new Error("Device storage is blocked.");
+        },
+      },
+    });
+  });
+  await login(page, credentials[0]);
+  await page
+    .getByLabel("Assignment", { exact: true })
+    .selectOption(fixture.assignmentId);
+  await page.getByLabel("I understand recording").check();
+  await page.getByLabel("Request manual-only review").check();
+  await page
+    .getByRole("button", { name: "Start 20-minute assessment" })
+    .click();
+  await page
+    .getByLabel("Your response", { exact: true })
+    .fill("An online save remains possible when local backup is blocked.");
+  await expect(page.getByText("Server saved", { exact: true })).toBeVisible();
+  await expect(
+    page.getByText("Local backup is not guaranteed.", { exact: false }),
+  ).toBeVisible();
+  const saved = await page.evaluate(async () => {
+    const id = new URL(location.href).searchParams.get("attempt");
+    const attempt = await fetch(`/api/attempts/${id}`).then((r) => r.json());
+    const session = await fetch("/api/session").then((r) => r.json());
+    await fetch(`/api/attempts/${id}`, {
+      method: "DELETE",
+      headers: { "X-CSRF-TOKEN": session.csrfToken },
+    });
+    return attempt.answers.find((a: { text: string }) =>
+      a.text.startsWith("An online save"),
+    );
+  });
+  expect(saved.revision).toBe(1);
+});
+
+test("illustrated walkthrough saves learner checkpoints independently of implementation evidence", async ({
+  page,
+}) => {
+  await page.goto("http://127.0.0.1:5193/follow-an-assessment.html");
+  await page.getByRole("checkbox").check();
+  await expect(page.locator("#progress")).toHaveText(
+    "1 of 6 learner checkpoints saved in this browser.",
+  );
+  await page.reload();
+  await expect(page.getByRole("checkbox")).toBeChecked();
+  await page.getByRole("button", { name: "02 · Save", exact: true }).click();
+  await expect(page.locator("#title")).toContainText("Written answer");
+  await screenshot(page, "walkthrough-desktop.png");
+  await page.setViewportSize({ width: 390, height: 844 });
+  await screenshot(page, "walkthrough-mobile.png");
+  await page.evaluate(() =>
+    localStorage.setItem("assessment-learning-v1", "invalid JSON"),
+  );
+  await page.reload();
+  await expect(page.getByRole("checkbox")).not.toBeChecked();
 });

@@ -131,6 +131,12 @@ export function useAttempt(userId: string, attemptId: string) {
           setStorageError(message(reason)),
         );
         setState(id, accepted.dirty ? "local-saved" : "server-saved");
+        if (
+          !Object.values(savedStates.current).some(
+            (state) => state === "failed" || state === "conflict",
+          )
+        )
+          setError("");
         return !accepted.dirty;
       } catch (reason) {
         setState(

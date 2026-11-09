@@ -38,6 +38,20 @@ def fresh_assignment(candidate_id, title='Integration synthetic', minutes=20):
     return identity
 
 
+def cleanup_fixtures():
+    # These titles are created only by this harness; learning samples and real seeds stay untouched.
+    db("""BEGIN;
+        CREATE TEMP TABLE fixture_cleanup ON COMMIT DROP AS
+        SELECT a."Id" AS assignment_id,t."Id" AS attempt_id
+        FROM assessments.assignments a LEFT JOIN assessments.attempts t ON t."AssignmentId"=a."Id"
+        WHERE a."Title" IN ('Integration synthetic','Recovery synthetic','Browser synthetic','Expiry synthetic')
+          AND a."Id" NOT IN ('aaaaaaaa-1111-1111-1111-111111111111','aaaaaaaa-2222-2222-2222-222222222222')
+          AND (t."Id" IS NULL OR (t."DeletedAt" IS NOT NULL AND t."CleanedAt" IS NOT NULL));
+        DELETE FROM assessments.attempts t USING fixture_cleanup f WHERE t."Id"=f.attempt_id;
+        DELETE FROM assessments.assignments a USING fixture_cleanup f WHERE a."Id"=f.assignment_id;
+        COMMIT;""")
+
+
 class Client:
     def __init__(self):
         self.cookies = http.cookiejar.CookieJar()
@@ -231,6 +245,9 @@ def integration():
         for client, item in [(candidate, attempt), (other, expiry)]:
             if item:
                 client.request('DELETE', f"/api/attempts/{item['id']}", expected=(202, 404))
+                wait_for(lambda: db(f'''SELECT "CleanedAt" IS NOT NULL FROM assessments.attempts WHERE "Id"='{item['id']}';''') in {'t', ''},
+                         seconds=45, description='synthetic fixture cleanup')
+        cleanup_fixtures()
     result = {'passed': completed, 'attemptId': attempt['id'], 'checkedAt': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}
     destination = ROOT / '.local/integration-evidence.json'
     destination.write_text(json.dumps(result, indent=2) + '\n')
@@ -242,7 +259,10 @@ def integration():
 
 if __name__ == '__main__':
     command = sys.argv[1] if len(sys.argv) > 1 else 'integration'
-    if command == 'browser-fixture':
+    if command == 'cleanup-fixtures':
+        cleanup_fixtures()
+        print('Removed only completed disposable test assignments; seeds, active attempts and learning samples remain.')
+    elif command == 'browser-fixture':
         identity = fresh_assignment(users()[0]['id'], title='Browser synthetic')
         print(json.dumps({'assignmentId': identity, 'title': 'Browser synthetic'}))
     elif command == 'sample':
@@ -250,4 +270,4 @@ if __name__ == '__main__':
     elif command == 'integration':
         integration()
     else:
-        raise SystemExit('Usage: journey.py sample|integration|browser-fixture')
+        raise SystemExit('Usage: journey.py sample|integration|browser-fixture|cleanup-fixtures')

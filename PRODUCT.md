@@ -6,7 +6,7 @@
 web
 
 ## Stack
-React and TypeScript; .NET 10 modular monolith; PostgreSQL; Kafka; local private recording storage; host Ollama and local transcription. Confirmed by the implementation plan. Code-first visual workflow selected by the user.
+React and TypeScript; .NET 10 modular monolith; PostgreSQL; Kafka; local private recording storage; host Ollama and local transcription. Confirmed by the implementation plan.
 
 ## Users
 Candidates completing a timed workplace assessment and reviewers evaluating submitted evidence. The repository also teaches a developer one execution trace at a time.

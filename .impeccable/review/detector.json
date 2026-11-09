@@ -1,0 +1,6 @@
+{
+  "status": "degraded",
+  "findings": [],
+  "limitation": "HTML parser modules unavailable; regex fallback does not evaluate computed contrast or selector matching.",
+  "run": "node /Users/junrillg/.agents/skills/impeccable/scripts/detect.mjs --json frontend/src/App.tsx frontend/src/style.css frontend/src/useAttempt.ts frontend/src/useRecorder.ts docs/follow-an-assessment.html"
+}
