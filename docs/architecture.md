@@ -2,7 +2,7 @@
 
 Candidate Assessment is a modular monolith: one .NET process serves the built React application, exposes the HTTP API and runs background services. Access, Assessments and Evaluation are business modules within that process. PostgreSQL, Kafka, transcription and host Ollama are separate supporting runtimes.
 
-The views below describe the **implemented local deployment** and its internal components. They show structure, dependencies and ownership. The [assessment workflow](diagrams/journey.svg) and [submission sequence](diagrams/happy-path.svg) describe execution order separately.
+The [integrated lifecycle architecture](diagrams/overview.svg) connects the full assessment journey to its modules, stores and processing boundaries. Its [coverage ledger and text explanation](design/lifecycle-diagram.md) includes material alternatives such as offline work, expiry, manual-only review and provider failure. The views below expand the **implemented local deployment** and its internal components. The [submission sequence](diagrams/happy-path.svg) adds detailed execution order.
 
 ## Runtime and deployment architecture
 
@@ -71,8 +71,9 @@ The local stack uses HTTP and plaintext Kafka on trusted development infrastruct
 
 ## Runtime scenarios and recovery
 
-The structural diagrams above describe where components run and what they depend on. These views describe what happens during execution:
+The structural diagrams above describe where components run and what they depend on. These views connect that structure to execution:
 
+- [Lifecycle architecture](diagrams/overview.svg): preparation, live work, durable processing, human publication and cleanup, with runtime ownership.
 - [Assessment journey](diagrams/journey.svg): candidate work through published human feedback.
 - [Submission sequence](diagrams/happy-path.svg): transaction, dispatch, durable intake and review.
 - [Recovery sequence](diagrams/recovery.svg): unavailable dependencies, repeated delivery and interrupted workers.

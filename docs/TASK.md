@@ -85,3 +85,17 @@ Outcome: install a global architecture-diagram skill from the shared skills repo
 | Publication | Verified and published | Shared skill `962a8a9`; application figure sources/notices published together; 153 local links resolved; unchanged runtime tests reused | None |
 
 Verification scope: documentation and skill behavior only; application code/config are unchanged and their prior acceptance evidence is reused. Offline SVG checks intentionally allow the Apache Kafka project hyperlink; it is navigation, not a loaded rendering asset. The earlier `dc4b005` CI failed while downloading Ubuntu packages from its mirror, before application execution; no application change is inferred from that network failure.
+
+## Integrated lifecycle architecture
+
+Outcome: make the primary diagram connect the complete scoped candidate/reviewer journey to actual modules, artifacts, stores and supporting runtimes. Update the global skill so broad architecture requests require that coverage rather than a technology inventory. Scope: shared skill, the existing overview HTML/SVG/Mermaid, README navigation and technical design documentation. Exclusions: application behavior, infrastructure changes, paid deployment, exhaustive low-level implementation events and unsupported pixel-identity claims. Stop condition: every [coverage-ledger](design/lifecycle-diagram.md) row is visible, source-accurate and readable; exported artifacts and mobile access pass; one independent review closes material findings; both repositories are published.
+
+| Requirement | Status | Evidence | Next action |
+|---|---|---|---|
+| Research and explicit composition plan | Verified | Primary C4, Microsoft, vendor and W3C guidance; four categorized phases, action/artifact pictograms, named runtime ownership and dependency foundation | None |
+| Shared skill defaults and global install | Verified and published | Shared skills commit `64c0407`; lifecycle default, narrow-view override and fast help reviewed; validation/context sync 1940/1940 passed; installed links resolve | None |
+| Integrated overview and source-linked coverage | Verified | All 30 ledger anchors visible/present; written/oral acceptance, submission/expiry, delivery, AI bypasses/retries, publication and cleanup; one-process runtime ownership preserved | Use the overview and detail companions |
+| Visual and artifact checks | Verified | 1440×2750 export, 830px light/dark inspection; zero out-of-bounds/within-node text overlaps, duplicate IDs or broken references; 390px document containment and keyboard scrolling; exact canonical export; 212 local links resolve | None |
+| Independent review and publication | Verified and published | Evidence-to-review path and reviewer-retry loop corrected and independently rechecked; README and technical docs link the new figure; shared skill and application sources published together | Check repository CI for current-head application verification |
+
+Skill help was reviewed and forward-simulated, not executed in an instrumented isolated invocation. Diagram checks do not constitute new application, microphone, provider or cloud-runtime tests. Application code/config did not change; unchanged runtime evidence is reused from green [CI on `84d6c12`](https://github.com/junrillg/candidate-assessment-lab/actions/runs/42746773485). The two external Kafka project hyperlinks are navigation, not remote rendering assets. Local render/coverage evidence is retained in `.local/lifecycle-diagram-evidence.json` and `.local/lifecycle-root-evidence.json`.

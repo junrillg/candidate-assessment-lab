@@ -30,11 +30,11 @@ The app uses **React, .NET, PostgreSQL and Kafka**, with local whisper.cpp trans
 
 ## System architecture
 
-One application process hosts the API and three business modules. PostgreSQL, Kafka and transcription run in separate containers; Ollama runs on the host. React is served by the application and executes in the browser.
+Follow the candidate's work from preparation through accepted evidence, durable processing, human review and published feedback. The diagram connects those stages to their owning modules and supporting runtimes.
 
-[![System architecture: local deployment boundaries, application and infrastructure processes, network interfaces and persistent storage](docs/diagrams/system-architecture.svg)](docs/diagrams/system-architecture.svg)
+[![Complete assessment lifecycle and architecture: preparation, written and spoken answer acceptance, submission and expiry, Kafka jobs, optional AI, human publication and cleanup](docs/diagrams/overview.svg)](docs/diagrams/overview.svg)
 
-[Component and data-ownership diagram](docs/diagrams/module-architecture.svg) · [Engineering architecture](docs/architecture.md) · [Editable model](docs/diagrams/system-architecture.mmd)
+[Editable HTML (download to view)](docs/diagrams/overview.html) · [Flow explanation and coverage](docs/design/lifecycle-diagram.md) · [Deployment and ports](docs/diagrams/system-architecture.svg) · [Module ownership](docs/diagrams/module-architecture.svg) · [Engineering architecture](docs/architecture.md)
 
 ## Run locally
 

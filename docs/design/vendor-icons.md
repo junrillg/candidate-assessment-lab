@@ -1,6 +1,6 @@
 # Technology marks in architecture diagrams
 
-The deployment and module figures use vendor marks to identify the technologies present in the application. They are embedded as vectors, scaled proportionally and retain their source colors. No asset is fetched when the diagrams open. Marks identify their respective projects; they do not imply endorsement of Candidate Assessment.
+The lifecycle, deployment and module figures use vendor marks to identify the technologies present in the application. They are embedded as vectors, scaled proportionally and retain their source colors. No asset is fetched when the diagrams open. Marks identify their respective projects; they do not imply endorsement of Candidate Assessment.
 
 | Mark | Vector source | Attribution and applicable terms |
 |---|---|---|

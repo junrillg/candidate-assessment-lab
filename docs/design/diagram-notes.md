@@ -1,6 +1,6 @@
 # Why these diagrams and guides are structured this way
 
-The first overview showed all connections, but its tall host box and long labels made a reader parse implementation detail before seeing the structure. The views separate three questions: **where does software run?**, **which module owns what?**, and **what happens to one assessment?** This is a documentation design choice, not an architecture change.
+The primary overview connects **what happens to an assessment** with **which module and runtime does the work**. Categorized phases, visible artifacts and conditional paths explain the whole lifecycle. Deployment and component companions expand **where software runs** and **who owns what**. This is a documentation design choice, not an architecture change.
 
 ## Practices adopted from primary guides
 
@@ -9,7 +9,7 @@ The first overview showed all connections, but its tall host box and long labels
 | [Microsoft diagram guidance](https://learn.microsoft.com/en-us/azure/well-architected/architect-role/design-diagrams) and [IBM technical diagrams](https://www.ibm.com/design/language/infographics/technical-diagrams/usage/) | Use consistent icon sizes and line styles; pair recognizable icons with words so the picture never depends on guessing a symbol. |
 | [C4 notation](https://c4model.com/diagrams/notation) and [review checklist](https://c4model.com/diagrams/checklist) | Name the scope, identify the kinds of components, keep descriptions short, label directed relationships, and include a key. |
 | [C4 component diagrams](https://c4model.com/diagrams/component) and [deployment diagrams](https://c4model.com/diagrams/deployment) | Show logical module ownership separately from environment-specific runtime placement, interfaces and retained state. |
-| [C4 container diagrams](https://c4model.com/diagrams/container) and [dynamic diagrams](https://c4model.com/diagrams/dynamic) | Separate the static system map from an ordered runtime example. Our overview is C4-inspired; it is not a claim of full C4 conformance. |
+| [C4 container diagrams](https://c4model.com/diagrams/container) and [dynamic diagrams](https://c4model.com/diagrams/dynamic) | Retain structural views alongside numbered runtime interactions. Our integrated overview connects both questions; it does not claim full C4 conformance. |
 | [arc42 building blocks](https://docs.arc42.org/section-5/) and [runtime view](https://docs.arc42.org/section-6/) | Keep module ownership and runtime scenarios available as distinct explanations. |
 | [Diátaxis explanation](https://diataxis.fr/explanation/) and [how-to guides](https://diataxis.fr/how-to-guides/) | Explain relationships, constraints and design decisions in the knowledge docs; keep startup and recovery procedures in task-focused operating guidance. |
 | [GitHub README guidance](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes) | Explain what the project does, why it is useful, how to start and where to get help; use relative links for repository documentation. |
@@ -21,15 +21,15 @@ These are specific sources for our choices, not a survey proving one universal i
 - **[System architecture](../diagrams/system-architecture.svg):** the engineer-facing local deployment, including execution boundaries, interfaces and retained state.
 - **[Component architecture](../diagrams/module-architecture.svg):** module ownership, the allowed read contract and separate consistency boundaries inside one backend process.
 
-- **[System map](../diagrams/overview.svg):** read from the people and browser into the single .NET application, then follow the labeled connections to storage, Kafka and local AI. The business modules live inside one application boundary.
+- **[Lifecycle architecture](../diagrams/overview.svg):** follow preparation, local and accepted answers, submission or expiry, durable processing, human review and feedback. The runtime foundation preserves the single-host architecture. The [coverage ledger](lifecycle-diagram.md) explains every material branch and its source.
 - **[Assessment journey](../diagrams/journey.svg):** follow the numbered stages for one successful attempt. The human reviewer owns final scores and publication. Written answers do not require transcription; manual-only attempts skip AI processing.
 - **[Architecture details](../architecture.md):** use this after the overview for the module contract, transaction, durable jobs and recovery. The existing runtime, sequence, recovery and Azure views answer narrower questions.
 
-The diagrams summarize code verified in `src/Host`, `src/Assessments`, `src/Evaluation` and `compose.yaml`. Database schema names, endpoint details, retry internals and cloud resource nesting belong in those detailed views and source links, not in every node.
+The diagrams summarize code verified in `frontend/src`, `src/Host`, `src/Access`, `src/Assessments`, `src/Evaluation` and `compose.yaml`. The primary lifecycle includes the important acceptance, retry and human-decision boundaries. Exact endpoint exchanges, port mappings and cloud resource nesting remain in detail views and source links.
 
 ## Visual direction and editable sources
 
-The already-selected **Laboratory Notebook** direction in [DESIGN.md](../../DESIGN.md) supplies the visual style. The reusable [Architecture Diagram skill](https://github.com/junrillg/skills/blob/main/skills/engineering/architecture-diagram/SKILL.md) supplies the icon-led architecture conventions: titled dashed execution groups, softly tinted responsibility areas, recognizable vendor marks and short directed connections. Diagram Design supplies reusable SVG layout and geometry checks; Clarity guides documentation wording. The skill is maintained separately from this application; the figures need no frontend dependency or network asset.
+The already-selected **Laboratory Notebook** direction in [DESIGN.md](../../DESIGN.md) supplies the visual style. The reusable [Architecture Diagram skill](https://github.com/junrillg/skills/blob/main/skills/engineering/architecture-diagram/SKILL.md) supplies the lifecycle architecture conventions: coverage before layout, titled categories, softly tinted functional areas, recognizable vendor marks, action/artifact pictograms and directed branches. Diagram Design offers reusable SVG layout/export checks; documentation uses plain technical explanations. The skill is maintained separately from this application; the figures need no frontend dependency or network asset.
 
 | Role | Project value |
 |---|---|
@@ -39,7 +39,7 @@ The already-selected **Laboratory Notebook** direction in [DESIGN.md](../../DESI
 | Rules / essential connector strokes | `#c4d0dc` / `#516377` |
 | Type | Native system sans; monospace reserved for technical identifiers |
 
-The opaque paper artboard keeps the SVG readable when GitHub uses a dark page. Labels and shapes carry meaning alongside color. Titled dashed frames distinguish execution and ownership scopes; they do not imply network isolation. Vendor marks retain their own approved colors. Short names, alignment, whitespace and orthogonal connectors establish hierarchy; the figures need no animation or network fonts.
+The opaque paper artboard keeps the SVG readable when GitHub uses a dark page. Labels and shapes carry meaning alongside color. The lifecycle overview's dashed frames name phases; structural companions explicitly name execution and ownership scopes. Neither implies network isolation. Vendor marks retain their own approved colors. Short names, alignment, whitespace and directed connectors establish hierarchy; the figures need no animation or network fonts.
 
 | File | Edit for |
 |---|---|

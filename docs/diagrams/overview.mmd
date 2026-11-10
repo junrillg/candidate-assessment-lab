@@ -1,10 +1,69 @@
-%% Semantic model for overview.html. The curated HTML owns the visual layout.
-flowchart LR
-    PEOPLE["Candidate and reviewer"] -->|"use"| UI["Web workspace · React and IndexedDB drafts"]
-    UI -->|"HTTP API · session and CSRF"| HOST["Assessment backend · one .NET host · Access, Assessments, Evaluation · HTTP and background loops"]
-    HOST -->|"SQL · each module owns its schema"| PG[("Database · PostgreSQL · access, assessments, evaluation")]
-    HOST -->|"file I/O · verified immutable audio"| AUDIO[("Recordings · private volume")]
-    HOST -->|"publish processing IDs"| TOPIC[("Job delivery · Kafka topic assessment.processing.v1")]
-    TOPIC -. "deliver processing IDs" .-> HOST
-    HOST -->|"HTTP · transcribe oral audio"| WHISPER["Transcription · whisper.cpp"]
-    HOST -->|"HTTP · rubric suggestions"| OLLAMA["AI suggestions · host Ollama"]
+%% Semantic companion of the integrated lifecycle architecture in overview.html.
+%% Phase groups categorize behavior, not independently deployed services.
+flowchart TB
+    subgraph PREP["Before the timer starts"]
+        OP["Operator · migrate and seed private accounts, assignments, questions and rubrics"]
+        C["Candidate"] --> LOGIN["Access · cookie login, roles and CSRF"]
+        OP --> LOGIN
+        LOGIN --> PRACTICE["Browser · instructions, written practice, microphone/playback; timer not started"]
+        PRACTICE --> START["Assessments · start or resume; freeze questions, rubric, duration and manual-only choice"]
+    end
+    subgraph LIVE["Capture and accept answers"]
+        START --> WRITE["Browser · write, navigate and flag"]
+        START --> RECORD["Browser · record up to two minutes"]
+        WRITE --> LOCAL[("IndexedDB · draft saved immediately")]
+        LOCAL -->|"one-second debounce; revisioned PUT"| SAVE["Assessments · accept answer or reject stale revision"]
+        RECORD -->|"stop recording"| CLIP[("IndexedDB · completed clip with stable upload ID")]
+        CLIP -->|"authenticated whole-file POST"| UPLOAD["Assessments · verify actual bytes and store immutable recording"]
+        UPLOAD -->|"answer PUT selects verified recording ID"| SELECT["Assessments · select recording"]
+        SAVE --> ACCEPT[("Server-accepted answers and selected private recordings")]
+        SELECT --> ACCEPT
+        LOCAL -. "offline / conflict / failure" .-> UNSENT["Local and unsent · refresh/reconnect or resolve before deadline; late work stays unsent"]
+        CLIP -. "upload failure / interruption" .-> UNSENT
+        UNSENT -. "active attempt only; resolve and retry" .-> SAVE
+        UNSENT -. "active attempt only; retry whole file" .-> UPLOAD
+    end
+    subgraph PROCESS["Freeze evidence and process reliably"]
+        ACCEPT --> FINAL["Assessments · review then submit, or server expiry even browser closed"]
+        FINAL --> TX[("One Assessments transaction · frozen evidence + durable receipt + per-question outbox; repeated submit returns same receipt")]
+        TX --> DISPATCH["Assessments dispatcher · publish pending outbox; mark only after broker ack"]
+        DISPATCH --> KAFKA[("Kafka · processing-intent and correlation IDs only; no answer text or audio")]
+        DISPATCH -. "broker unavailable" .-> PENDING["Unpublished outbox remains pending for retry"]
+        PENDING -. "broker available" .-> DISPATCH
+        KAFKA -. "delivery may repeat" .-> INTAKE["Evaluation · evidence via IAssessmentReader; idempotent durable job before delivery ack"]
+        INTAKE --> LEASE["Evaluation · job claim with lease and fence; interrupted claim becomes reclaimable"]
+        LEASE -. "manual-only" .-> HUMAN["Needs review · never automatic zero"]
+        LEASE -. "unanswered / missing recording" .-> HUMAN
+        LEASE -->|"oral audio"| WHISPER["whisper.cpp · audio to transcript"]
+        WHISPER --> TRANSCRIPT[("Evaluation · persist transcript before scoring")]
+        TRANSCRIPT --> OLLAMA["Host Ollama · text + frozen rubric"]
+        LEASE -->|"written text; bypass transcription"| OLLAMA
+        OLLAMA --> AI[("Evaluation · validated criterion 0–5 suggestions, evidence and versions; separate from final scores")]
+        WHISPER -. "provider failure" .-> RETRY["Evaluation · persisted retry schedule with capped backoff"]
+        OLLAMA -. "provider failure or invalid output" .-> RETRY
+        RETRY -. "retry due; new fence" .-> LEASE
+        RETRY -. "four failed attempts" .-> HUMAN
+        HUMAN -. "reviewer retries eligible provider failure before publication" .-> LEASE
+    end
+    subgraph REVIEW["Human review and published feedback"]
+        R["Reviewer · own authorized login"] --> REVIEWQ["Evaluation · inspect frozen answer, selected private audio, rubric, optional transcript and AI; confirm or override scores"]
+        TX -->|"frozen evidence available before AI finishes"| REVIEWQ
+        AI --> REVIEWQ
+        HUMAN --> REVIEWQ
+        REVIEWQ --> SCORES[("Evaluation · revisioned criterion scores, feedback, private notes and audit")]
+        SCORES --> PUBLISH["Evaluation · all criterion scores required; aggregate and freeze immutable publication"]
+        PUBLISH --> FEEDBACK["Candidate browser · poll processing status; read only published scores and feedback"]
+        DELETE["Candidate or reviewer may delete at any stage · block access immediately"] --> CLEANUP["Retryable Assessments evidence/file cleanup, then Evaluation jobs/reviews cleanup"]
+        RETENTION["Independent 30-day retention"] --> PURGE["Purge live recording bytes; not all assessment data"]
+    end
+    subgraph RUNTIME["Implemented local execution · phase groups above are conceptual"]
+        BROWSER["React in browser · IndexedDB local drafts/audio"]
+        subgraph COMPOSE["Docker Compose · application and supporting containers"]
+            DOTNET["One .NET host · Access, Assessments, Evaluation · API + background loops + private files"]
+            DOTNET -->|"SQL; three code-owned schemas and shared DB role"| PG[("PostgreSQL")]
+            DOTNET -->|"publish and consume metadata"| BROKER["Kafka"]
+            DOTNET -->|"HTTP audio"| STT["whisper.cpp"]
+        end
+        BROWSER -->|"HTTP API"| DOTNET
+        DOTNET -->|"HTTP rubric scoring"| HOSTAI["Host Ollama · outside Compose"]
+    end
