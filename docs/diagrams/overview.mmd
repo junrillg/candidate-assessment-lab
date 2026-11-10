@@ -1,0 +1,15 @@
+flowchart TB
+    UI["React browser<br/>Candidate: prepare → answer → submit<br/>Reviewer: inspect → score → publish<br/>IndexedDB keeps local drafts"]
+    H["ONE .NET HOST<br/>Access · login, sessions and roles<br/>Assessments · timer, answers, recordings and outbox<br/>Evaluation · jobs, AI suggestions and human review<br/>HTTP endpoints + background loops"]
+
+    UI <-->|"same-origin API · cookie + CSRF"| H
+    H <--> P[("ONE PostgreSQL database<br/>access · Identity users and roles<br/>assessments · attempts, snapshots, outbox<br/>evaluation · jobs, transcripts, reviews")]
+    H <-->|"verified upload / private playback"| R[("Private recording storage<br/>Immutable audio versions")]
+    H -->|"outbox dispatcher publishes IDs only"| K["Kafka<br/>Processing-intent metadata<br/>No answers or audio"]
+    K -->|"idempotent intake → durable job"| H
+    H <-->|"provider calls and validated results"| AI["LOCAL AI PROVIDERS<br/>1 · whisper.cpp transcribes oral audio<br/>Transcript saved before scoring<br/>2 · Ollama suggests rubric scores"]
+
+    classDef browser fill:#245ea7,color:#ffffff,stroke:#245ea7
+    classDef infrastructure fill:#f5f7fa,color:#172e45,stroke:#526f90
+    class UI browser
+    class P,R,K,AI infrastructure

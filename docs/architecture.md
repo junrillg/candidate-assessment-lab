@@ -2,6 +2,10 @@
 
 Candidate Assessment is one .NET host with HTTP endpoints and `BackgroundService` loops. React is built into the host. PostgreSQL, Kafka, recording storage, transcription and Ollama support that application; they are not business microservices.
 
+![Application overview: browser, three modules, persistence, Kafka and local AI providers](diagrams/overview.svg)
+
+[Edit overview Mermaid](diagrams/overview.mmd). Arrows show runtime communication. Inside the host, Evaluation reads immutable evidence and private audio through Assessments' public in-process contract. Each module uses only its own database schema. The browser saves answers and uploads audio through Assessments; submission commits its snapshot and outbox together. Kafka delivers processing IDs to Evaluation, which persists any oral transcript before requesting an AI suggestion. The reviewer then supplies the final scores and publishes feedback for the candidate. Manual-only attempts and terminal provider failures go to human review without an automatic zero.
+
 ![Module boundaries](diagrams/modules.svg)
 
 [Edit Mermaid](diagrams/modules.mmd) · [Runtime diagram](diagrams/runtime.svg) · [Runtime source](diagrams/runtime.mmd)

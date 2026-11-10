@@ -1,8 +1,50 @@
-# Candidate Assessment
+<p align="center">
+  <img src="docs/assets/candidate-assessment-icon.svg" width="96" height="96" alt="Candidate Assessment notebook icon" />
+</p>
+
+<h1 align="center">Candidate Assessment</h1>
+
+<p align="center"><strong>A local learning lab for timed assessments, reliable jobs and human review.</strong></p>
+<p align="center">Prepare. Answer. Follow the evidence from submission to published feedback.</p>
+
+<p align="center">
+  <a href="#run-locally">Run locally</a> ·
+  <a href="#screenshots">Screenshots</a> ·
+  <a href="#how-it-connects">Architecture</a> ·
+  <a href="docs/learning.md">Six lessons</a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/junrillg/candidate-assessment-lab/actions/workflows/ci.yml"><img src="https://github.com/junrillg/candidate-assessment-lab/actions/workflows/ci.yml/badge.svg" alt="Build and verification status" /></a>
+</p>
 
 A timed assessment lab built as a **.NET modular monolith with background processing**, React, PostgreSQL and Kafka. One backend release contains Access, Assessments and Evaluation. Kafka carries processing IDs; answers and audio remain private.
 
 The fictional assessment contains eight written questions, four spoken questions and a twenty-minute deadline. A second candidate has a thirty-minute assignment. A reviewer applies anchored criteria, checks AI suggestions and publishes the final feedback.
+
+## Screenshots
+
+Real application screens with fictional learning data. Select an image to view it at full size.
+
+[![Candidate workspace with question navigation, timer and answer save status](docs/assets/screenshots/candidate-workspace.png)](docs/assets/screenshots/candidate-workspace.png)
+
+| Prepare before the timer starts | Review the evidence and rubric |
+|---|---|
+| [![Preparation and microphone practice](docs/assets/screenshots/preparation.png)](docs/assets/screenshots/preparation.png) | [![Reviewer workspace with evidence and rubric criteria](docs/assets/screenshots/reviewer-workspace.png)](docs/assets/screenshots/reviewer-workspace.png) |
+
+[Capture details and provenance](docs/assets/screenshots/README.md). The [supplied Langdeck screenshot](docs/assets/langdeck-readme-reference.png) is preserved as a layout reference; the screens above are Candidate Assessment.
+
+## How it connects
+
+The browser talks to **one .NET application**. Access handles identity, Assessments accepts and freezes answers, and Evaluation runs processing and human review. Each module owns its PostgreSQL schema; recordings stay in private storage.
+
+[![High-level architecture connecting the React browser, three modules in one .NET host, PostgreSQL, Kafka, private recording storage, transcription and Ollama](docs/diagrams/overview.svg)](docs/diagrams/overview.svg)
+
+1. **Prepare and answer:** the candidate signs in, starts an assignment, and saves answers or verified recordings through the authenticated API.
+2. **Submit durably:** Assessments commits the frozen submission and outbox intents in one transaction. A background dispatcher sends IDs to Kafka; answer text and audio never enter messages.
+3. **Process and review:** Evaluation creates durable jobs, saves transcripts from whisper.cpp, then asks Ollama for rubric suggestions. A reviewer confirms or changes the scores and publishes feedback for the candidate. Manual-only review skips AI processing.
+
+[Editable overview](docs/diagrams/overview.mmd) · [Detailed architecture](docs/architecture.md) · [Step-by-step submission flow](docs/diagrams/happy-path.svg) · [Interactive illustrated walkthrough](docs/follow-an-assessment.html)
 
 ## Run locally
 
