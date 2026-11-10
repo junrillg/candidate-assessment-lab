@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 960" role="img" aria-labelledby="system-architecture-title system-architecture-desc"><title id="system-architecture-title">Local runtime and deployment architecture</title><desc id="system-architecture-desc">A local browser calls one .NET app container, which uses PostgreSQL, a Kafka broker, a private transcription container and host Ollama, with named volumes retaining application data.</desc>
+<!-- Generic user, laptop, server, database, file and queue glyphs adapted from Tabler Icons.
+Source: https://github.com/tabler/tabler-icons (MIT).
+Copyright (c) 2020-2026 Paweł Kuna
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE. Waveform and rubric glyphs are original diagram artwork. -->
+<defs>
+<style>
+text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #172e45; }
+.title { font-size: 28px; font-weight: 650; letter-spacing: -0.5px; }
+.name { font-size: 20px; font-weight: 650; }
+.body { font-size: 14px; fill: #516377; }
+.small { font-size: 11px; fill: #516377; }
+.tag { font-size: 10px; font-weight: 600; letter-spacing: 1.1px; fill: #516377; }
+.route { fill: none; stroke: #71879d; stroke-width: 1.6; }
+.primary-route { fill: none; stroke: #245ea7; stroke-width: 1.8; }
+.async-route { fill: none; stroke: #71879d; stroke-width: 1.6; stroke-dasharray: 5 4; }
+.mono { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; fill: #516377; }
+</style>
+<marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0 0L8 3L0 6Z" fill="#71879d"/></marker>
+<marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0 0L8 3L0 6Z" fill="#245ea7"/></marker>
+<marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0 0L8 3L0 6Z" fill="#245ea7"/></marker>
+</defs>
+<rect width="1440" height="960" fill="#fff"/>
+<text x="48" y="40" class="tag">RUNTIME ARCHITECTURE / LOCAL DEFAULT PROFILE</text>
+<text x="48" y="80" class="title">Where the application runs and what it connects to.</text>
+<text x="48" y="108" class="body">One backend process. Separate infrastructure containers. Local browser and Ollama run outside Compose.</text>
+<rect x="40" y="132" width="1360" height="708" rx="8" fill="#fff" stroke="#c4d0dc" />
+<text x="64" y="160" class="tag">LOCAL MACHINE · EXECUTION BOUNDARY</text>
+<rect x="440" y="184" width="920" height="624" rx="8" fill="#f5f7fa" stroke="#c4d0dc" />
+<text x="464" y="212" class="tag">DOCKER COMPOSE · SHARED CONTAINER NETWORK</text>
+<path d="M336 308H488" class="primary-route" marker-end="url(#arrow-accent)"/>
+<path d="M848 296H1032" class="route" marker-end="url(#arrow)"/>
+<path d="M848 408H904Q912 408 912 416V496Q912 504 920 504H1032" class="route" marker-end="url(#arrow)"/>
+<path d="M1032 556H888Q880 556 880 548V464Q880 456 872 456H848" class="async-route" marker-end="url(#arrow)"/>
+<path d="M752 496V616Q752 624 760 624H1164Q1172 624 1172 632V648" class="route" marker-end="url(#arrow)"/>
+<path d="M488 452H400Q392 452 392 460V672Q392 680 384 680H336" class="route" marker-end="url(#arrow)"/>
+<rect x="348" y="280" width="128" height="20" rx="0" fill="#fff" stroke="none" />
+<text x="412.0" y="294" class="tag" text-anchor="middle">HTTP :5188</text>
+<rect x="876" y="268" width="128" height="20" rx="0" fill="#fff" stroke="none" />
+<text x="940.0" y="282" class="tag" text-anchor="middle">SQL / :5432</text>
+<rect x="920" y="476" width="104" height="20" rx="0" fill="#fff" stroke="none" />
+<text x="972.0" y="490" class="tag" text-anchor="middle">SEND / :9092</text>
+<rect x="888" y="528" width="136" height="20" rx="0" fill="#fff" stroke="none" />
+<text x="956.0" y="542" class="tag" text-anchor="middle">RECEIVE / :9092</text>
+<rect x="816" y="596" width="152" height="20" rx="0" fill="#fff" stroke="none" />
+<text x="892.0" y="610" class="tag" text-anchor="middle">HTTP / :8081</text>
+<rect x="400" y="548" width="152" height="20" rx="0" fill="#fff" stroke="none" />
+<text x="476.0" y="562" class="tag" text-anchor="middle">HTTP / :11434</text>
+<rect x="72" y="248" width="264" height="140" rx="6" fill="#fff" stroke="#c4d0dc" />
+<g data-icon="laptop" aria-hidden="true" transform="translate(288 264)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19l18 0" /> <path d="M5 7a1 1 0 0 1 1 -1h12a1 1 0 0 1 1 1v8a1 1 0 0 1 -1 1h-12a1 1 0 0 1 -1 -1l0 -8" /></g><text x="96" y="280" class="tag">BROWSER / HOST</text>
+<text x="96" y="312" class="name">Candidate + reviewer</text>
+<text x="96" y="340" class="body">React SPA · same-origin API</text>
+<text x="96" y="364" class="mono">IndexedDB drafts and audio</text>
+<rect x="488" y="248" width="360" height="248" rx="6" fill="#e7eef8" stroke="#245ea7" />
+<g data-icon="server" aria-hidden="true" transform="translate(800 264)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v2a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3" /> <path d="M3 15a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v2a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3l0 -2" /> <path d="M7 8l0 .01" /> <path d="M7 16l0 .01" /></g><text x="512" y="280" class="tag">CONTAINER: APP · ONE .NET PROCESS</text>
+<text x="512" y="312" class="name">HTTP + background services</text>
+<text x="512" y="340" class="body">Serves built React and authenticated API</text>
+<line x1="512" y1="356" x2="824" y2="356" stroke="#c4d0dc"/>
+<text x="512" y="380" class="tag">IN-PROCESS BACKGROUND LOOPS</text>
+<text x="512" y="404" class="body">Expiry · outbox · Kafka intake · evaluation</text>
+<text x="512" y="428" class="body">Provider retry · cleanup</text>
+<line x1="512" y1="444" x2="824" y2="444" stroke="#c4d0dc"/>
+<text x="512" y="468" class="mono">MOUNTS: recordings · session-keys</text>
+<rect x="1032" y="248" width="280" height="144" rx="6" fill="#fff" stroke="#c4d0dc" />
+<g data-icon="database" aria-hidden="true" transform="translate(1264 264)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6a8 3 0 1 0 16 0a8 3 0 1 0 -16 0" /> <path d="M4 6v6a8 3 0 0 0 16 0v-6" /> <path d="M4 12v6a8 3 0 0 0 16 0v-6" /></g><text x="1056" y="280" class="tag">CONTAINER: POSTGRES</text>
+<text x="1056" y="312" class="name">PostgreSQL database</text>
+<text x="1056" y="336" class="body">assessment · three owned schemas</text>
+<text x="1056" y="364" class="mono">MOUNT postgres-data</text>
+<rect x="1032" y="448" width="280" height="144" rx="6" fill="#fff" stroke="#c4d0dc" />
+<g data-icon="queue" aria-hidden="true" transform="translate(1264 464)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l-8 4l8 4l8 -4l-8 -4" /> <path d="M4 12l8 4l8 -4" /> <path d="M4 16l8 4l8 -4" /></g><text x="1056" y="480" class="tag">CONTAINER: KAFKA</text>
+<text x="1056" y="512" class="name">Broker + processing topic</text>
+<text x="1056" y="536" class="mono">assessment.processing.v1</text>
+<text x="1056" y="560" class="mono">MOUNT kafka-data</text>
+<text x="1056" y="580" class="small">IDs only; no answers or audio</text>
+<rect x="1032" y="648" width="280" height="144" rx="6" fill="#fff" stroke="#c4d0dc" />
+<g data-icon="waveform" aria-hidden="true" transform="translate(1264 664)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10V14M7 6V18M12 3V21M17 7V17M21 10V14"/></g><text x="1056" y="680" class="tag">CONTAINER: TRANSCRIPTION</text>
+<text x="1056" y="712" class="name">whisper.cpp runtime</text>
+<text x="1056" y="736" class="mono">transcription:8081 · internal HTTP</text>
+<text x="1056" y="764" class="mono">MOUNT whisper-models → /models</text>
+<rect x="72" y="608" width="264" height="140" rx="6" fill="#fff" stroke="#c4d0dc" />
+<g data-icon="rubric" aria-hidden="true" transform="translate(288 624)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M7 8L8 9L10 7M13 8H17M7 13L8 14L10 12M13 13H17M7 18H10M13 18H17"/></g><text x="96" y="640" class="tag">HOST RUNTIME</text>
+<text x="96" y="672" class="name">Ollama scoring</text>
+<text x="96" y="696" class="mono">host.docker.internal:11434</text>
+<text x="96" y="720" class="small">Host-managed model storage</text>
+<text x="72" y="448" class="mono">Browser → 127.0.0.1:5188</text>
+<text x="72" y="472" class="mono">Docker forwards to app:8080</text>
+<text x="72" y="504" class="small">Requests carry the session cookie</text>
+<text x="72" y="524" class="small">and a CSRF token for writes.</text>
+<text x="48" y="864" class="mono">OPERATOR LOOPBACK PORTS: PostgreSQL 127.0.0.1:55438 → 5432 · Kafka 127.0.0.1:19098 → 9094. App clients use kafka:9092.</text>
+<text x="48" y="888" class="small">Transcription has no published host port. Defaults shown; host ports and the Ollama model can be configured.</text>
+<line x1="48" y1="904" x2="1392" y2="904" stroke="#c4d0dc"/>
+<text x="48" y="932" class="tag">READING KEY</text>
+<path d="M176 928H224" class="route" marker-end="url(#arrow)"/>
+<text x="240" y="932" class="small">Caller → dependency; result returns</text>
+<path d="M552 928H600" class="async-route" marker-end="url(#arrow)"/>
+<text x="616" y="932" class="small">Message delivery</text>
+<text x="840" y="932" class="small">MOUNT = persistent Docker named volume</text>
+<text x="48" y="952" class="small">Scope frames show execution/network placement, not a firewall or identity boundary. Provider traffic is plain HTTP; no service authentication is implemented.</text>
+</svg>

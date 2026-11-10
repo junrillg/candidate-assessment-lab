@@ -10,7 +10,7 @@
 <p align="center">
   <a href="#run-locally">Run locally</a> ·
   <a href="#assessment-workflow">Workflow</a> ·
-  <a href="#how-it-connects">Architecture</a> ·
+  <a href="#system-architecture">Architecture</a> ·
   <a href="docs/how-it-works.md">How it works</a> ·
   <a href="#screenshots">Screenshots</a>
 </p>
@@ -28,7 +28,13 @@ The app uses **React, .NET, PostgreSQL and Kafka**, with local whisper.cpp trans
 - A durable receipt separates submission from background processing.
 - AI suggestions, human scores and private reviewer notes remain separate.
 
-[![Assessment workflow: preparation, written and spoken responses, submission, processing, human review and published feedback](docs/diagrams/journey.svg)](docs/diagrams/journey.svg)
+## System architecture
+
+One application process hosts the API and three business modules. PostgreSQL, Kafka and transcription run in separate containers; Ollama runs on the host. React is served by the application and executes in the browser.
+
+[![System architecture: local deployment boundaries, application and infrastructure processes, network interfaces and persistent storage](docs/diagrams/system-architecture.svg)](docs/diagrams/system-architecture.svg)
+
+[Component and data-ownership diagram](docs/diagrams/module-architecture.svg) · [Engineering architecture](docs/architecture.md) · [Editable model](docs/diagrams/system-architecture.mmd)
 
 ## Run locally
 
@@ -65,6 +71,8 @@ You should reach **Before you begin** with **Timer not started**. Preparation an
 
 ## Assessment workflow
 
+[![Assessment workflow: preparation, written and spoken responses, submission, processing, human review and published feedback](docs/diagrams/journey.svg)](docs/diagrams/journey.svg)
+
 **Candidate.** Sign in, read the instructions and test written input and microphone playback. Preparation does not start the timer. Before starting, the candidate can select **Request manual-only review, without AI processing**. During the attempt, answers save with explicit status, questions can be flagged, and completed recordings can be played back before submission. **Review answers** shows unanswered questions and upload status. Submission returns a durable receipt and freezes accepted evidence.
 
 **Reviewer.** Open an attempt from the review queue. Inspect each answer or recording with its rubric, transcript and available AI rationale. Save every criterion score for all 12 questions, add overall feedback and publish. The candidate can then read the published scores and feedback; internal notes remain private. Manual-only review uses direct listening. Processing failure allows manual review and never assigns an automatic zero.
@@ -73,15 +81,15 @@ You should reach **Before you begin** with **Timer not started**. Preparation an
 
 [How the lifecycle works](docs/how-it-works.md) explains the state transitions, storage boundaries and failure handling. `make sample` creates or reopens a submitted synthetic example for inspection; a reviewer still scores and publishes it.
 
-## How it connects
+## Design boundaries
 
 The browser talks to **one .NET application**. Access handles sign-in, Assessments accepts and freezes responses, and Evaluation handles jobs and human review. Each module owns its PostgreSQL schema. Supporting infrastructure provides Kafka, private recordings, transcription and local AI scoring.
 
-[![Architecture: React connects to Access, Assessments and Evaluation within one .NET host, supported by PostgreSQL, Kafka, private recordings, whisper.cpp and Ollama](docs/diagrams/overview.svg)](docs/diagrams/overview.svg)
+[![Internal component architecture showing module responsibilities, permitted contracts and owned persistence](docs/diagrams/module-architecture.svg)](docs/diagrams/module-architecture.svg)
 
 Submission saves frozen evidence and processing intent together. Kafka carries IDs, never answer text or audio. Evaluation persists jobs and transcripts before requesting AI suggestions. A reviewer decides the final scores and publishes feedback.
 
-[Architecture explanation](docs/architecture.md) · [Editable overview](docs/diagrams/overview.mmd) · [Submission sequence](docs/diagrams/happy-path.svg) · [Illustrated walkthrough](docs/follow-an-assessment.html)
+[Architecture explanation](docs/architecture.md) · [Editable component model](docs/diagrams/module-architecture.mmd) · [Submission sequence](docs/diagrams/happy-path.svg) · [Illustrated walkthrough](docs/follow-an-assessment.html)
 
 <details>
 <summary>Architecture terms</summary>

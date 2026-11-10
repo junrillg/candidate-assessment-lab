@@ -1,6 +1,6 @@
 # Why these diagrams and guides are structured this way
 
-The first overview showed all connections, but its tall host box and long labels made a reader parse implementation detail before seeing the structure. The replacement separates two questions: **what runs together?** and **what happens to one assessment?** This is a documentation design choice, not an architecture change.
+The first overview showed all connections, but its tall host box and long labels made a reader parse implementation detail before seeing the structure. The views separate three questions: **where does software run?**, **which module owns what?**, and **what happens to one assessment?** This is a documentation design choice, not an architecture change.
 
 ## Practices adopted from primary guides
 
@@ -8,6 +8,7 @@ The first overview showed all connections, but its tall host box and long labels
 |---|---|
 | [Microsoft diagram guidance](https://learn.microsoft.com/en-us/azure/well-architected/architect-role/design-diagrams) and [IBM technical diagrams](https://www.ibm.com/design/language/infographics/technical-diagrams/usage/) | Use consistent icon sizes and line styles; pair recognizable icons with words so the picture never depends on guessing a symbol. |
 | [C4 notation](https://c4model.com/diagrams/notation) and [review checklist](https://c4model.com/diagrams/checklist) | Name the scope, identify the kinds of components, keep descriptions short, label directed relationships, and include a key. |
+| [C4 component diagrams](https://c4model.com/diagrams/component) and [deployment diagrams](https://c4model.com/diagrams/deployment) | Show logical module ownership separately from environment-specific runtime placement, interfaces and retained state. |
 | [C4 container diagrams](https://c4model.com/diagrams/container) and [dynamic diagrams](https://c4model.com/diagrams/dynamic) | Separate the static system map from an ordered runtime example. Our overview is C4-inspired; it is not a claim of full C4 conformance. |
 | [arc42 building blocks](https://docs.arc42.org/section-5/) and [runtime view](https://docs.arc42.org/section-6/) | Keep module ownership and runtime scenarios available as distinct explanations. |
 | [Diátaxis explanation](https://diataxis.fr/explanation/) and [how-to guides](https://diataxis.fr/how-to-guides/) | Explain relationships, constraints and design decisions in the knowledge docs; keep startup and recovery procedures in task-focused operating guidance. |
@@ -16,6 +17,9 @@ The first overview showed all connections, but its tall host box and long labels
 These are specific sources for our choices, not a survey proving one universal industry style. No copied logos, invented user counts, performance promises or production claims are needed.
 
 ## Read the figures
+
+- **[System architecture](../diagrams/system-architecture.svg):** the engineer-facing local deployment, including execution boundaries, interfaces and retained state.
+- **[Component architecture](../diagrams/module-architecture.svg):** module ownership, the allowed read contract and separate consistency boundaries inside one backend process.
 
 - **[System map](../diagrams/overview.svg):** read from the people and browser into the single .NET application, then follow the labeled connections to storage, Kafka and local AI. The business modules live inside one application boundary.
 - **[Assessment journey](../diagrams/journey.svg):** follow the numbered stages for one successful attempt. The human reviewer owns final scores and publication. Written answers do not require transcription; manual-only attempts skip AI processing.
@@ -39,11 +43,11 @@ The opaque paper artboard keeps the SVG readable when GitHub uses a dark page. L
 
 | File | Edit for |
 |---|---|
-| [overview.html](../diagrams/overview.html), [journey.html](../diagrams/journey.html) | The final layout, text, styling and accessible inline SVG; also viewable locally in a browser |
-| [overview.mmd](../diagrams/overview.mmd), [journey.mmd](../diagrams/journey.mmd) | The semantic components and flow, editable with Mermaid tools |
-| `overview.svg`, `journey.svg` | Committed README images, exported from the HTML sources |
+| [system-architecture.html](../diagrams/system-architecture.html), [module-architecture.html](../diagrams/module-architecture.html), [overview.html](../diagrams/overview.html), [journey.html](../diagrams/journey.html) | The final layout, text, styling and accessible inline SVG; also viewable locally in a browser |
+| [system-architecture.mmd](../diagrams/system-architecture.mmd), [module-architecture.mmd](../diagrams/module-architecture.mmd), [overview.mmd](../diagrams/overview.mmd), [journey.mmd](../diagrams/journey.mmd) | The semantic components and flow, editable with Mermaid tools |
+| Their corresponding `.svg` files | Committed README images, exported from the HTML sources |
 
-Run `make diagrams` to export these two figures and render the other Mermaid diagrams. It preserves the editorial layout instead of overwriting it with an automatic graph. Keep both the semantic models and the HTML content aligned when architecture changes. [Dependency setup](../operations.md#editable-diagrams).
+Run `make diagrams` to export these curated figures and render the other Mermaid diagrams. It preserves the editorial layout instead of overwriting it with an automatic graph. Keep both the semantic models and the HTML content aligned when architecture changes. [Dependency setup](../operations.md#editable-diagrams).
 
 ## Verification scope
 

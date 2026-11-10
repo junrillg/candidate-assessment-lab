@@ -1,0 +1,22 @@
+%% Semantic model. module-architecture.html owns the curated structural layout.
+flowchart LR
+    subgraph HOST["One .NET host · composition root registers modules, middleware, routes and built SPA"]
+        ACCESS["Access assembly · Identity, roles and cookie sessions"]
+        ASSESSMENTS["Assessments assembly · attempts, frozen evidence · expiry/outbox/cleanup loops"]
+        EVALUATION["Evaluation assembly · jobs/transcripts/suggestions/review · intake/worker/retry loops"]
+        READER["IAssessmentReader · public contract owned by Assessments · frozen DTOs and private audio"]
+        EVALUATION -->|"in-process read call"| READER
+        READER -->|"implemented by"| ASSESSMENTS
+    end
+    subgraph PG["One PostgreSQL database and role · ownership enforced by code"]
+        ACCESS_SCHEMA[("access schema · Identity users and roles")]
+        ASSESSMENT_SCHEMA[("assessments schema · attempts/answers/recordings · submission snapshots + outbox in one transaction")]
+        EVALUATION_SCHEMA[("evaluation schema · jobs/transcripts/suggestions/reviews/publications/audit")]
+    end
+    ACCESS -->|"EF Core / owned persistence"| ACCESS_SCHEMA
+    ASSESSMENTS -->|"EF Core / owned persistence"| ASSESSMENT_SCHEMA
+    EVALUATION -->|"EF Core / owned persistence"| EVALUATION_SCHEMA
+    ASSESSMENTS -->|"outbox publishes IDs"| KAFKA["External Kafka topic · assessment.processing.v1"]
+    KAFKA -. "idempotent durable intake before acknowledgement" .-> EVALUATION
+    %% No cross-module table access. Assessments has no Evaluation dependency.
+    %% Host wires modules; Evaluation composes review responses via reader + EvaluationDb.

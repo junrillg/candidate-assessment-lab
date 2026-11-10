@@ -21,13 +21,13 @@ AI assistance is an attempt-level choice made before starting. Manual-only revie
 
 ## Why one backend
 
-Access, Assessments and Evaluation are separate assemblies inside one .NET host. Each owns its persistence mappings and PostgreSQL schema. Evaluation reads frozen assessment evidence through the Assessments public contract; modules do not read each other's tables. The host combines module responses for the frontend.
+Access, Assessments and Evaluation are separate assemblies inside one .NET host. Each owns its persistence mappings and PostgreSQL schema. Evaluation reads frozen assessment evidence through the Assessments public contract; modules do not read each other's tables. The host wires and maps the modules; Evaluation endpoints combine assessment evidence with their own review data.
 
 This keeps assessment rules, processing and review ownership explicit while retaining one backend release and ordinary in-process calls. Kafka is used for durable processing delivery. The architecture does not require separately deployed business services or a cross-module database transaction.
 
-[![Runtime architecture with React, three modules in one host, PostgreSQL, Kafka, private recordings, whisper.cpp and Ollama](diagrams/overview.svg)](diagrams/overview.svg)
+[![Component architecture: three business modules, their public contract and owned persistence inside one backend process](diagrams/module-architecture.svg)](diagrams/module-architecture.svg)
 
-[Architecture decisions and boundaries](architecture.md) · [Editable overview](diagrams/overview.mmd) · [Submission sequence](diagrams/happy-path.svg) · [Recovery sequence](diagrams/recovery.svg)
+[Architecture decisions and boundaries](architecture.md) · [Editable component model](diagrams/module-architecture.mmd) · [Submission sequence](diagrams/happy-path.svg) · [Recovery sequence](diagrams/recovery.svg)
 
 ## Data and trust boundaries
 

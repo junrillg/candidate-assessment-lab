@@ -16,7 +16,7 @@ Scope exclusions: microservices, recruiting-platform expansion, paid cloud deplo
 | Frontend and mobile states | Implemented and verified | Three isolated Chromium journeys; MediaRecorder/playback, offline/refresh/conflicts, local-recording selection conflict, blocked storage, publication, lifecycle explorer navigation | Physical microphone quality remains device-specific |
 | Module boundaries and CI | Implemented and verified locally and on Linux baseline | Twelve .NET tests, sixteen Python checks, three draft checks and seven offline Azure mock plans; [green baseline CI](https://github.com/junrillg/candidate-assessment-lab/actions/runs/42627766681); [current CI](https://github.com/junrillg/candidate-assessment-lab/actions/workflows/ci.yml) | Published head must be green before handoff |
 | Independent design finish | Four material fixes resolved; disposition ship at that scope | Persistent acceptance band, mobile state labels/accessible names, absent-recording truth, metadata below titles; screenshot evidence in `.impeccable/review/` | Shipped system recorded in DESIGN.md |
-| Technical documentation | Implemented and verified | Lifecycle and design notes, six flow explanations, failure/recovery scenarios, seven Mermaid/SVG pairs and interactive lifecycle explorer | Use the documentation index |
+| Technical documentation | Implemented and verified | Lifecycle and design notes, six flow explanations, failure/recovery scenarios, nine Mermaid/SVG pairs and interactive lifecycle explorer | Use the documentation index |
 | Backup and retention | Implemented; private backup verified | Quiesced database/recording/key backup, checksums, private modes, safe archive paths and corrupt-restore rejection | Live restore needs a separate empty target |
 | Terraform | Docker-local, Azure and AWS validated; cloud runtime owner-deferred | Azure Singapore preferred, AWS alternative; AzureRM 4.81.0, seven account-offline mock plans, bootstrap safety tests; no apply | Review provider inputs, access, cost and retained-data recovery before deployment |
 
@@ -60,3 +60,14 @@ User outcome: replace the dense overview with clear, attractive diagrams, use co
 | Repeatable diagram export | Verified | Stable HTML extraction, pixel-identical to bundled export; Mermaid fallback and four invalid-source preservation cases checked | None |
 | Lifecycle explorer | Verified | Isolated browser test: stage navigation, keyboard access, six source links, no app mutation, no page overflow at 390px; course/progress controls removed | None |
 | Review and publication | Verified and published | Source/visual review; offline SVG/geometry and icon bounds checks; repeatable exports; 149 local links; product README GitHub rendering; targeted lifecycle browser case and frontend build passed | None |
+
+## Engineer-facing system design
+
+Outcome: show the application's structural architecture for engineering review, alongside the separate business workflow. Scope: two technical diagrams and their source-grounded explanation/navigation; no runtime or infrastructure changes. Stop condition: deployment/process boundaries, interfaces/ports, module dependency direction, data ownership, persistence and reliability boundaries agree with source; both rendered figures are legible, accessible, repeatably exported and published.
+
+| Requirement | Status | Evidence | Next action |
+|---|---|---|---|
+| Runtime and deployment structure | Verified | `system-architecture` HTML/SVG/Mermaid; actual workload placement, interfaces and five retained volumes match Compose | None |
+| Internal components and ownership | Verified | `module-architecture` HTML/SVG/Mermaid; one process, three schemas, public reader, outbox/intake and shared credential boundaries verified | None |
+| Architecture explanation and discovery | Verified | README presents system design first; architecture document adds interface/storage/ownership tables and operational constraints; stale aggregation/recovery claims corrected | None |
+| Verification and publication | Verified and published | Independent engineering review clear; both 1440×960 figures pass geometry/bounds/mobile/export checks; 152 local links and GitHub rendering checked; unchanged app checks reused from green `d8d4b42` | None |

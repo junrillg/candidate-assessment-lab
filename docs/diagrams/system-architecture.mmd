@@ -1,0 +1,20 @@
+%% Semantic model. system-architecture.html owns the curated structural layout.
+flowchart LR
+    subgraph MACHINE["Local machine · execution scope, not a security boundary"]
+        BROWSER["Browser · React SPA + IndexedDB"]
+        OLLAMA["Host Ollama · host-managed model storage"]
+        subgraph COMPOSE["Docker Compose · shared container network"]
+            APP["app · one .NET process · HTTP + background loops · mounts recordings and session-keys"]
+            PG[("postgres · assessment database · mounts postgres-data")]
+            KAFKA["kafka · assessment.processing.v1 · mounts kafka-data"]
+            TRANSCRIBE["transcription · whisper.cpp · mounts whisper-models"]
+        end
+        BROWSER -->|"HTTP · 127.0.0.1:5188 → app:8080 · cookie + CSRF"| APP
+        APP -->|"SQL · postgres:5432"| PG
+        APP -->|"produce IDs · kafka:9092"| KAFKA
+        KAFKA -. "deliver IDs · consumer uses kafka:9092" .-> APP
+        APP -->|"HTTP · transcription:8081 · no published port"| TRANSCRIBE
+        APP -->|"HTTP · host.docker.internal:11434"| OLLAMA
+    end
+    %% Operator loopback mappings: 127.0.0.1:55438→5432 and 127.0.0.1:19098→9094.
+    %% Mounts are Docker named volumes. Host Ollama storage is outside Compose.

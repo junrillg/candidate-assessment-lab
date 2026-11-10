@@ -23,7 +23,7 @@ Readiness `/health/ready` checks database access and required module tables. Liv
 
 ## Editable diagrams
 
-Run `cd frontend && npm ci && npx playwright install chromium` once to install the same isolated browser used by the browser checks, then run `make diagrams` from the repository root. The overview and journey have hand-composed, self-contained HTML sources; the command extracts their inline SVGs without changing the layout. Their `.mmd` files preserve editable semantic models. Other figures use the official pinned Mermaid CLI, fetched into npm's tool cache, and reuse that Chromium. Rendering runs serially and writes the SVGs beside their sources. It does not add a frontend runtime dependency. See [diagram design and editing](design/diagram-notes.md).
+Run `cd frontend && npm ci && npx playwright install chromium` once to install the same isolated browser used by the browser checks, then run `make diagrams` from the repository root. The system architecture, module architecture, overview and journey have hand-composed, self-contained HTML sources; the command extracts their inline SVGs without changing the layout. Their `.mmd` files preserve editable semantic models. Other figures use the official pinned Mermaid CLI, fetched into npm's tool cache, and reuse that Chromium. Rendering runs serially and writes the SVGs beside their sources. It does not add a frontend runtime dependency. See [diagram design and editing](design/diagram-notes.md).
 
 ## Backup and restore
 
@@ -32,7 +32,7 @@ make backup
 # Read the printed private .local/backups/<timestamp> path.
 ```
 
-Backup temporarily stops only this project's app, dumps PostgreSQL, archives private recordings and session keys, copies private seed credentials and writes checksums. It restarts an app that was running. Keep the backup private: it contains real evidence if real users have used the lab. Database and recording files remain consistent because the application is quiesced. Kafka contains metadata only and is recoverable from the durable database outbox/jobs.
+Backup temporarily stops only this project's app, dumps PostgreSQL, archives private recordings and session keys, copies private seed credentials and writes checksums. It restarts an app that was running. Keep the backup private: it contains real evidence if real users have used the lab. Database and recording files remain consistent because the application is quiesced. Kafka contains metadata only, but broker-log recovery is not automated by this backup/restore path. A published intent that was not yet durably ingested can require operator reconciliation after broker data loss: published outbox entries are not automatically replayed. Retaining assessment evidence and jobs does not by itself prove complete processing recovery.
 
 Restore **only into an empty, stopped lab**, with PostgreSQL running and an application image already built:
 
