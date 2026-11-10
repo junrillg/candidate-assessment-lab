@@ -194,7 +194,7 @@ export function App() {
           target="_blank"
           rel="noreferrer"
         >
-          Learning guide
+          Documentation
         </a>
       </footer>
     </>

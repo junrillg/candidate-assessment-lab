@@ -4,127 +4,148 @@
 
 <h1 align="center">Candidate Assessment</h1>
 
-<p align="center"><strong>A local learning lab for timed assessments, reliable jobs and human review.</strong></p>
-<p align="center">Prepare. Answer. Follow the evidence from submission to published feedback.</p>
+<p align="center"><strong>Timed written and spoken assessments, with AI assistance and human-reviewed feedback.</strong></p>
+<p align="center">Private responses. Reliable processing. Final scores decided by a reviewer.</p>
 
 <p align="center">
   <a href="#run-locally">Run locally</a> ·
-  <a href="#screenshots">Screenshots</a> ·
+  <a href="#assessment-workflow">Workflow</a> ·
   <a href="#how-it-connects">Architecture</a> ·
-  <a href="docs/learning.md">Six lessons</a>
+  <a href="docs/how-it-works.md">How it works</a> ·
+  <a href="#screenshots">Screenshots</a>
 </p>
 
 <p align="center">
   <a href="https://github.com/junrillg/candidate-assessment-lab/actions/workflows/ci.yml"><img src="https://github.com/junrillg/candidate-assessment-lab/actions/workflows/ci.yml/badge.svg" alt="Build and verification status" /></a>
 </p>
 
-A timed assessment lab built as a **.NET modular monolith with background processing**, React, PostgreSQL and Kafka. One backend release contains Access, Assessments and Evaluation. Kafka carries processing IDs; answers and audio remain private.
+Candidate Assessment manages a timed response session from candidate preparation through published feedback. Candidates write answers and record spoken responses; reviewers inspect the evidence, apply rubric criteria and publish final scores.
 
-The fictional assessment contains eight written questions, four spoken questions and a twenty-minute deadline. A second candidate has a thirty-minute assignment. A reviewer applies anchored criteria, checks AI suggestions and publishes the final feedback.
+The app uses **React, .NET, PostgreSQL and Kafka**, with local whisper.cpp transcription and Ollama score suggestions. AI processing is optional. The seeded demonstration contains fictional workplace scenarios: **8 written questions, 4 spoken questions and a 20-minute deadline**, plus a second candidate with 30 minutes.
 
-## Screenshots
+- Draft recovery, explicit server-save status and revision checks protect accepted answers.
+- Recordings are validated, versioned and served through authenticated access.
+- A durable receipt separates submission from background processing.
+- AI suggestions, human scores and private reviewer notes remain separate.
 
-Real application screens with fictional learning data. Select an image to view it at full size.
-
-[![Candidate workspace with question navigation, timer and answer save status](docs/assets/screenshots/candidate-workspace.png)](docs/assets/screenshots/candidate-workspace.png)
-
-| Prepare before the timer starts | Review the evidence and rubric |
-|---|---|
-| [![Preparation and microphone practice](docs/assets/screenshots/preparation.png)](docs/assets/screenshots/preparation.png) | [![Reviewer workspace with evidence and rubric criteria](docs/assets/screenshots/reviewer-workspace.png)](docs/assets/screenshots/reviewer-workspace.png) |
-
-[Capture details and provenance](docs/assets/screenshots/README.md).
-
-## How it connects
-
-The browser talks to **one .NET application**. Access handles identity, Assessments accepts and freezes answers, and Evaluation runs processing and human review. Each module owns its PostgreSQL schema; recordings stay in private storage.
-
-[![High-level architecture connecting the React browser, three modules in one .NET host, PostgreSQL, Kafka, private recording storage, transcription and Ollama](docs/diagrams/overview.svg)](docs/diagrams/overview.svg)
-
-1. **Prepare and answer:** the candidate signs in, starts an assignment, and saves answers or verified recordings through the authenticated API.
-2. **Submit durably:** Assessments commits the frozen submission and outbox intents in one transaction. A background dispatcher sends IDs to Kafka; answer text and audio never enter messages.
-3. **Process and review:** Evaluation creates durable jobs, saves transcripts from whisper.cpp, then asks Ollama for rubric suggestions. A reviewer confirms or changes the scores and publishes feedback for the candidate. Manual-only review skips AI processing.
-
-[Editable overview](docs/diagrams/overview.mmd) · [Detailed architecture](docs/architecture.md) · [Step-by-step submission flow](docs/diagrams/happy-path.svg) · [Interactive illustrated walkthrough](docs/follow-an-assessment.html)
+[![Assessment workflow: preparation, written and spoken responses, submission, processing, human review and published feedback](docs/diagrams/journey.svg)](docs/diagrams/journey.svg)
 
 ## Run locally
 
-Install Docker Compose, .NET 10, Node 24, Python 3, FFmpeg and Terraform. Install and start [Ollama](https://ollama.com/), then:
+### 1. Prepare your tools
+
+Install **Git, Make, Python 3, Docker with Compose, and [Ollama](https://ollama.com/)**. Start Docker and Ollama. Docker builds the frontend and backend; no cloud account is needed.
+
+For development/checks, also install .NET 10 SDK, Node 24/npm, FFmpeg/ffprobe and Terraform. [Tool details](docs/operations.md).
+
+### 2. Clone and start
 
 ```sh
+git clone https://github.com/junrillg/candidate-assessment-lab.git
+cd candidate-assessment-lab
 ollama pull llama3.2:latest
 make up
 ```
 
-Open **[http://localhost:5188](http://localhost:5188)**. `make configure` generates private credentials for two candidates and one reviewer in `.local/credentials.json` (mode 0600, ignored by Git). Open that file locally to sign in. Registration is disabled. Never commit or paste those passwords into learning notes.
+The first run downloads images and AI models, builds the app and transcription runtime, creates the database schemas and seeds fictional accounts. Whisper’s base model is checksum-verified. Wait for setup to finish; later starts reuse stored data and models.
 
-The first start builds the application and transcription runtime, downloads a checksum-verified Whisper base model, explicitly migrates all three schemas, and seeds the fictional assessment. Preparation and microphone practice do not start the timer.
+When startup succeeds, the terminal prints:
 
-`make down` preserves the database, broker, recordings, session keys and downloaded model. No command in the default local path deploys paid cloud infrastructure.
+```text
+Candidate Assessment ready: http://localhost:5188
+```
 
-## Follow one attempt
+### 3. Sign in
 
-1. Sign in as a candidate, choose an assignment and try the practice tools.
-2. Start the timer, write an answer, wait for **Server saved**, then refresh.
-3. Record a spoken answer, stop, play it back and wait for verified server selection.
-4. Review the answers and submit. Keep the durable receipt.
-5. Sign in as the reviewer. Inspect the evidence, transcript, rubric and AI rationale.
-6. Save every criterion score and publish feedback. The candidate can return to the receipt to read it.
+Open **[http://localhost:5188](http://localhost:5188)**. Open `.local/credentials.json` in your local editor and use one of its candidate accounts. That file also contains the reviewer account.
 
-Manual-only review is available before starting. AI suggestions are never final scores. Failed processing requests human review and never assigns an automatic zero.
+`make up` automatically generates this private file (mode `0600`, ignored by Git). Registration is disabled. Keep passwords out of commits, screenshots and notes.
 
-Use `make sample` to create one reusable synthetic trace for learning. [Six lessons](docs/learning.md) · [Interactive illustrated walkthrough](docs/follow-an-assessment.html) · [Private Notion learning home](https://app.notion.com/p/41371e91a0f681cb9ba9daddbe4048cf). To open the interactive walkthrough locally, serve `docs/` with `python3 -m http.server 5193 --directory docs` and visit `/follow-an-assessment.html` on that port.
+You should reach **Before you begin** with **Timer not started**. Preparation and microphone practice do not consume assessment time.
 
-## What to observe
+## Assessment workflow
 
-- A response first persists in IndexedDB, then synchronizes after a one-second debounce. Device and server acceptance have distinct statuses. Separate tab drafts survive a server revision conflict.
-- The database clock controls expiry. A background loop freezes only accepted answers and verified selected recordings, even when the browser is closed. Late local work is visibly unsent and can be downloaded.
-- Submission freezes evidence and writes an outbox intent per question in the same transaction. Broker downtime delays processing while the receipt remains durable.
-- Evaluation stores each intent once, then claims persisted leases with fenced completion. Transcription is saved before scoring. Timeouts, capped retries and terminal needs-review states are durable.
-- A reviewer’s scores, feedback, private notes and audit records are separate from AI suggestions. Publication is immutable and only published feedback reaches the candidate.
+**Candidate.** Sign in, read the instructions and test written input and microphone playback. Preparation does not start the timer. Before starting, the candidate can select **Request manual-only review, without AI processing**. During the attempt, answers save with explicit status, questions can be flagged, and completed recordings can be played back before submission. **Review answers** shows unanswered questions and upload status. Submission returns a durable receipt and freezes accepted evidence.
 
-The modules use EF Core directly. There is no mediator framework, generic repository, event sourcing, saga or separate read database. [Architecture and boundaries](docs/architecture.md) · [Diagrams and editable Mermaid](docs/diagrams/) · [Shipped UI design system](DESIGN.md).
+**Reviewer.** Open an attempt from the review queue. Inspect each answer or recording with its rubric, transcript and available AI rationale. Save every criterion score for all 12 questions, add overall feedback and publish. The candidate can then read the published scores and feedback; internal notes remain private. Manual-only review uses direct listening. Processing failure allows manual review and never assigns an automatic zero.
 
-## Check and recover
+**The server deadline is strict, even offline or with the browser closed.** Only accepted answers and verified selected recordings are finalized. Late local drafts remain unsent; unfinished recordings can be lost on interruption.
+
+[How the lifecycle works](docs/how-it-works.md) explains the state transitions, storage boundaries and failure handling. `make sample` creates or reopens a submitted synthetic example for inspection; a reviewer still scores and publishes it.
+
+## How it connects
+
+The browser talks to **one .NET application**. Access handles sign-in, Assessments accepts and freezes responses, and Evaluation handles jobs and human review. Each module owns its PostgreSQL schema. Supporting infrastructure provides Kafka, private recordings, transcription and local AI scoring.
+
+[![Architecture: React connects to Access, Assessments and Evaluation within one .NET host, supported by PostgreSQL, Kafka, private recordings, whisper.cpp and Ollama](docs/diagrams/overview.svg)](docs/diagrams/overview.svg)
+
+Submission saves frozen evidence and processing intent together. Kafka carries IDs, never answer text or audio. Evaluation persists jobs and transcripts before requesting AI suggestions. A reviewer decides the final scores and publishes feedback.
+
+[Architecture explanation](docs/architecture.md) · [Editable overview](docs/diagrams/overview.mmd) · [Submission sequence](docs/diagrams/happy-path.svg) · [Illustrated walkthrough](docs/follow-an-assessment.html)
+
+<details>
+<summary>Architecture terms</summary>
+
+| Term | Meaning here |
+|---|---|
+| Modular monolith | Access, Assessments and Evaluation are separate business modules in one backend release |
+| Rubric | Scoring criteria with anchored descriptions |
+| Revision | Server version used to reject a stale tab’s save |
+| Outbox | Processing intent committed with the submission, ready to send when Kafka is available |
+| Idempotency | Repeated submissions/messages safely reuse a receipt/job |
+| Lease and fence | A bounded job claim that prevents a stale worker overwriting a newer result |
+
+[Reliability guarantees and module source](docs/architecture.md) · [UI design system](DESIGN.md)
+
+</details>
+
+## Screenshots
+
+Real app screens with fictional demonstration data. Select an image to view it at full size.
+
+[![Candidate workspace with question navigation, timer and server-save status](docs/assets/screenshots/candidate-workspace.png)](docs/assets/screenshots/candidate-workspace.png)
+
+| Prepare before the timer starts | Review the evidence and rubric |
+|---|---|
+| [![Preparation and microphone practice](docs/assets/screenshots/preparation.png)](docs/assets/screenshots/preparation.png) | [![Reviewer workspace with transcript, AI rationale and human criterion scores](docs/assets/screenshots/reviewer-workspace.png)](docs/assets/screenshots/reviewer-workspace.png) |
+
+[Recording screen and capture details](docs/assets/screenshots/README.md)
+
+## If something gets stuck
+
+| What you see | What to do next |
+|---|---|
+| Startup has not reached the ready message | Check Docker, then use `make status` and `make logs`. First-run downloads need network access. |
+| Sign-in fails | Use `.local/credentials.json`; check that startup finished seeding. There is no shared default password. |
+| A response is only saved locally | Reconnect before the deadline; wait for **Server saved**. Resolve conflicts explicitly. |
+| AI processing needs review | Review evidence directly or retry failed processing. Check Ollama and `llama3.2:latest`. |
+
+Stop with `make down`; data, recordings, session keys and models remain. Return with `make up`. Avoid deleting volumes to repair startup.
+
+[Operations](docs/operations.md) covers recovery, backups and 30-day recording retention. [Failure scenarios](docs/failure-drills.md) document offline saves, broker outages, worker interruption and provider failures.
+
+## Checks and further reading
+
+Run these from the repository root, one at a time:
 
 ```sh
 make help
 make test          # module, architecture, adapter and draft checks
-make verify        # builds, Terraform validation and real API integration
-make recovery      # real provider outage + interrupted worker recovery
-make diagrams      # render editable Mermaid sources to SVG
+make verify        # tests, builds, configuration, Terraform and API integration
+make recovery      # provider-outage and interrupted-worker checks
+make diagrams      # export editorial figures and render Mermaid to SVG
 ```
 
-The isolated browser suite uses generated microphone audio, never your physical microphone:
+For browser checks: `cd frontend && npm ci && npx playwright install chromium`, then `npm run test:browser` against the running lab. Audio is generated; your microphone is not used.
 
-```sh
-cd frontend
-npx playwright install --with-deps chromium
-npm run test:browser
-```
+[How it works](docs/how-it-works.md) · [Architecture and source boundaries](docs/architecture.md) · [Verification evidence](docs/TASK.md)
 
-[Delivery and verification record](docs/TASK.md) distinguishes implemented behavior, verified acceptance and remaining limits. [Failure drills](docs/failure-drills.md) follow the successful journey. [Operations](docs/operations.md) covers configuration, health, explicit migrations, backups, restore, rollback, deletion and the thirty-day recording policy.
+## Optional cloud profiles
 
-## Future cloud profiles
+Local Compose is the default runtime. [Azure Singapore](infra/azure/README.md) (`southeastasia`) is the preferred future deployment; [AWS Singapore](infra/aws/README.md) (`ap-southeast-1`) remains available. Both run the same app and supporting processes on one VM, with one failure domain.
 
-Azure is the preferred future cloud deployment. Local Compose remains the learning path, and the AWS profile stays available as an alternative. Both cloud profiles run the same application, PostgreSQL, Kafka, transcription and host Ollama on one VM; they are learning deployments with one failure domain.
+[Azure deployment diagram](docs/diagrams/azure.svg) · [Editable Azure diagram](docs/diagrams/azure.mmd) · [Cloud profile comparison](infra/cloud/README.md)
 
-| Profile | Singapore region | Operator access |
-|---|---|---|
-| [Azure](infra/azure/README.md) — preferred | `southeastasia` | SSH public key, port 22 restricted to an operator IPv4 `/32`, local tunnel to the app |
-| [AWS](infra/aws/README.md) — alternative | `ap-southeast-1` | Session Manager with no security-group ingress |
+Neither cloud profile has been deployed. Review its access, cost and retained-storage instructions before applying. Only explicit cloud apply commands provision paid cloud resources.
 
-The Azure profile uses an Ubuntu VM, encrypted managed storage with a protected data disk, and a commit-pinned checkout. Application, database and broker ports remain bound to loopback. See the [Azure deployment diagram](docs/diagrams/azure.svg) and its [editable Mermaid](docs/diagrams/azure.mmd).
-
-```sh
-make azure-init
-make azure-validate
-# Retained alternative:
-make aws-init
-make aws-validate
-```
-
-Read the provider-specific instructions for required inputs, access, costs and data retention before planning or applying. Terraform validation is not a cloud runtime test. Neither cloud profile has been deployed for this delivery.
-
-## Limits
-
-An unfinished browser recording can be lost. Offline editing cannot extend the deadline. Browser storage can be blocked or exhausted; the UI warns explicitly and continues online server saves. Physical microphone quality, production capacity, cloud runtime reliability and hiring-score validity require separate evidence.
+Physical microphone quality, live restore, production capacity, cloud runtime reliability and hiring-score validity require separate evidence. Browser storage can be blocked or exhausted; the app warns and continues online server saves. The seeded deployment uses fictional data; it does not establish suitability for real hiring decisions.

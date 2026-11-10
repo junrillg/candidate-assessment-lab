@@ -1,0 +1,10 @@
+%% Semantic model for journey.html. Stages describe one mixed written/oral attempt.
+flowchart LR
+    START["01 · Start · freeze questions and deadline"] -->|"save"| SAVE["02 · Save written answers and verify uploaded audio"]
+    SAVE -->|"submit"| SUBMIT["03 · Atomic frozen evidence + outbox · durable receipt"]
+    SUBMIT -->|"dispatch"| JOB["04 · Kafka processing IDs · idempotent durable job before acknowledgement"]
+    JOB -->|"process oral answers"| TRANSCRIPT["05 · whisper.cpp · persist transcript before scoring"]
+    TRANSCRIPT -->|"suggest"| SUGGEST["06 · Ollama · validate rubric suggestions, separate from human scores"]
+    SUGGEST -->|"review"| REVIEW["07 · Human reviewer confirms or overrides and publishes feedback"]
+    REVIEW -->|"read"| FEEDBACK["Candidate reads only published feedback"]
+    %% Written answers skip transcription. Manual-only or terminal failure goes to human review without automatic zero.

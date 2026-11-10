@@ -322,25 +322,3 @@ test("blocked device storage still permits an acknowledged online server save", 
   });
   expect(saved.revision).toBe(1);
 });
-
-test("illustrated walkthrough saves learner checkpoints independently of implementation evidence", async ({
-  page,
-}) => {
-  await page.goto("http://127.0.0.1:5193/follow-an-assessment.html");
-  await page.getByRole("checkbox").check();
-  await expect(page.locator("#progress")).toHaveText(
-    "1 of 6 learner checkpoints saved in this browser.",
-  );
-  await page.reload();
-  await expect(page.getByRole("checkbox")).toBeChecked();
-  await page.getByRole("button", { name: "02 · Save", exact: true }).click();
-  await expect(page.locator("#title")).toContainText("Written answer");
-  await screenshot(page, "walkthrough-desktop.png");
-  await page.setViewportSize({ width: 390, height: 844 });
-  await screenshot(page, "walkthrough-mobile.png");
-  await page.evaluate(() =>
-    localStorage.setItem("assessment-learning-v1", "invalid JSON"),
-  );
-  await page.reload();
-  await expect(page.getByRole("checkbox")).not.toBeChecked();
-});

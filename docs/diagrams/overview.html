@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Candidate Assessment · system map</title>
+<style>
+body { margin: 0; color: #172e45; background: #f5f7fa; font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+main { max-width: 1360px; margin: 0 auto; padding: 28px 20px; min-width: 0; }
+h1 { margin: 0 0 8px; font-size: 24px; }
+p { max-width: 78ch; }
+a { color: #245ea7; }
+.diagram-container { width: 100%; overflow-x: auto; background: #fff; border: 1px solid #c4d0dc; }
+.diagram-container:focus-visible { outline: 3px solid #245ea7; outline-offset: 3px; }
+.diagram-container > svg { display: block; width: 100%; min-width: 1280px; }
+@media print { .diagram-container { overflow-x: visible; border: 0; } .diagram-container > svg { min-width: 0; } }
+</style>
+</head>
+<body><main>
+<h1>Start with the system map</h1>
+<p>Read the top row from left to right. Then look below the application for its background-processing dependencies. On a narrow screen, scroll the diagram horizontally.</p>
+<div class="diagram-container" tabindex="0" role="region" aria-label="Scrollable overview diagram">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-labelledby="overview-title overview-desc">
+<title id="overview-title">Candidate Assessment · local system map</title>
+<desc id="overview-desc">Candidates and reviewers use React and one .NET application supported by PostgreSQL, private audio storage, a Kafka processing topic, whisper.cpp transcription and Ollama suggestions.</desc>
+<!-- Generic user, laptop, server, database, file and queue glyphs adapted from Tabler Icons.
+Source: https://github.com/tabler/tabler-icons (MIT).
+Copyright (c) 2020-2026 Paweł Kuna
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE. Waveform and rubric glyphs are original diagram artwork. -->
+<defs>
+<style>
+text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #172e45; }
+.title { font-size: 28px; font-weight: 650; letter-spacing: -0.5px; }
+.name { font-size: 16px; font-weight: 650; }
+.body { font-size: 12px; fill: #516377; }
+.small { font-size: 11px; fill: #516377; }
+.tag { font-size: 10px; font-weight: 600; letter-spacing: 1.1px; fill: #516377; }
+.route { fill: none; stroke: #71879d; stroke-width: 1.6; }
+.primary-route { fill: none; stroke: #245ea7; stroke-width: 1.8; }
+.async-route { fill: none; stroke: #71879d; stroke-width: 1.6; stroke-dasharray: 5 4; }
+</style>
+<marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0 0L8 3L0 6Z" fill="#71879d"/></marker>
+<marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0 0L8 3L0 6Z" fill="#245ea7"/></marker>
+<marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0 0L8 3L0 6Z" fill="#245ea7"/></marker>
+</defs>
+<rect width="1280" height="720" fill="#fff"/>
+<text x="48" y="40" class="tag">01 / SYSTEM MAP · LOCAL RUNTIME</text>
+<text x="48" y="80" class="title">One application. Clear responsibilities.</text>
+<text x="48" y="108" class="body">The browser talks to one backend. Stores, messaging and AI support that same application.</text>
+
+<!-- Quiet zones distinguish runtime dependencies without making modules look like services. -->
+<rect x="48" y="432" width="456" height="164" rx="8" fill="#f5f7fa" stroke="#c4d0dc"/>
+<text x="72" y="456" class="tag">LOCAL AI PROVIDERS</text>
+
+<!-- Directed routes are drawn before nodes. -->
+<path d="M248 220H304" class="primary-route" marker-end="url(#arrow-accent)"/>
+<path d="M504 220H608" class="primary-route" marker-end="url(#arrow-link)"/>
+<path d="M896 180H1016" class="route" marker-end="url(#arrow)"/>
+<path d="M896 308H1016" class="route" marker-end="url(#arrow)"/>
+<path d="M680 356V464" class="route" marker-end="url(#arrow)"/>
+<path d="M824 464V356" class="async-route" marker-end="url(#arrow)"/>
+<path d="M608 292H568Q560 292 560 300V404Q560 412 552 412H248Q240 412 240 420V480" class="route" marker-end="url(#arrow)"/>
+<path d="M608 324H592Q584 324 584 332V440Q584 448 576 448H404Q396 448 396 456V480" class="route" marker-end="url(#arrow)"/>
+
+<!-- Labels sit beside their routes, with an opaque mask and an 8px gap. -->
+<rect x="252" y="192" width="48" height="20" fill="#fff"/><text x="276" y="206" text-anchor="middle" class="tag">USES</text>
+<rect x="524" y="192" width="64" height="20" fill="#fff"/><text x="556" y="206" text-anchor="middle" class="tag">HTTP API</text>
+<rect x="928" y="152" width="56" height="20" fill="#fff"/><text x="956" y="166" text-anchor="middle" class="tag">SQL</text>
+<rect x="924" y="280" width="64" height="20" fill="#fff"/><text x="956" y="294" text-anchor="middle" class="tag">FILE I/O</text>
+<rect x="688" y="384" width="96" height="20" fill="#fff"/><text x="696" y="398" class="tag">PUBLISH IDS</text>
+<rect x="832" y="420" width="80" height="20" fill="#fff"/><text x="840" y="434" class="tag">DELIVER IDS</text>
+<rect x="280" y="384" width="136" height="20" fill="#fff"/><text x="348" y="398" text-anchor="middle" class="tag">AUDIO / HTTP</text>
+<rect x="432" y="420" width="144" height="20" fill="#fff"/><text x="504" y="434" text-anchor="middle" class="tag">RUBRIC / HTTP</text>
+
+<!-- People and browser. -->
+<rect x="48" y="164" width="200" height="112" rx="6" fill="#fff" stroke="#c4d0dc"/>
+<g data-icon="user" aria-hidden="true" transform="translate(68 176)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /> <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /></g>
+<text x="104" y="192" class="tag">PEOPLE</text>
+<text x="68" y="240" class="name">Candidate · Reviewer</text>
+<text x="68" y="260" class="body">Answer. Review. Publish.</text>
+<rect x="304" y="164" width="200" height="112" rx="6" fill="#fff" stroke="#c4d0dc"/>
+<g data-icon="laptop" aria-hidden="true" transform="translate(464 176)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19l18 0" /> <path d="M5 7a1 1 0 0 1 1 -1h12a1 1 0 0 1 1 1v8a1 1 0 0 1 -1 1h-12a1 1 0 0 1 -1 -1l0 -8" /></g>
+<text x="324" y="192" class="tag">BROWSER</text>
+<text x="324" y="224" class="name">Web workspace</text>
+<text x="324" y="248" class="body">React · IndexedDB drafts</text>
+<text x="324" y="264" class="small">Sessions + CSRF protection</text>
+
+<!-- One process, three internal modules. -->
+<rect x="608" y="132" width="288" height="224" rx="6" fill="#e7eef8" stroke="#245ea7" stroke-width="1.6"/>
+<g data-icon="server" aria-hidden="true" transform="translate(848 144)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v2a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3" /> <path d="M3 15a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v2a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3l0 -2" /> <path d="M7 8l0 .01" /> <path d="M7 16l0 .01" /></g>
+<text x="632" y="160" class="tag">ONE BACKEND RELEASE</text>
+<text x="632" y="192" class="name">Assessment backend</text>
+<text x="632" y="212" class="body">.NET · HTTP + background loops</text>
+<line x1="632" y1="228" x2="872" y2="228" stroke="#c4d0dc"/>
+<text x="632" y="252" class="name">Access</text><text x="744" y="252" class="body">Identity and roles</text>
+<text x="632" y="288" class="name">Assessments</text><text x="744" y="288" class="body">Attempts and evidence</text>
+<text x="632" y="324" class="name">Evaluation</text><text x="744" y="324" class="body">Jobs and human review</text>
+
+<!-- Stores are purposefully simpler than the application. -->
+<rect x="1016" y="132" width="216" height="96" rx="6" fill="#f5f7fa" stroke="#c4d0dc"/>
+<g data-icon="database" aria-hidden="true" transform="translate(1192 144)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6a8 3 0 1 0 16 0a8 3 0 1 0 -16 0" /> <path d="M4 6v6a8 3 0 0 0 16 0v-6" /> <path d="M4 12v6a8 3 0 0 0 16 0v-6" /></g>
+<text x="1036" y="160" class="tag">STATE STORE</text>
+<text x="1036" y="188" class="name">Database</text>
+<text x="1036" y="212" class="body">PostgreSQL · 3 owned schemas</text>
+<rect x="1016" y="260" width="216" height="96" rx="6" fill="#f5f7fa" stroke="#c4d0dc"/>
+<g data-icon="file" aria-hidden="true" transform="translate(1192 272)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4" /> <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2" /></g>
+<text x="1036" y="288" class="tag">PRIVATE AUDIO</text>
+<text x="1036" y="316" class="name">Recordings</text>
+<text x="1036" y="340" class="body">Verified immutable audio</text>
+
+<!-- Background dependencies. -->
+<rect x="72" y="480" width="192" height="92" rx="6" fill="#fff" stroke="#c4d0dc"/>
+<g data-icon="waveform" aria-hidden="true" transform="translate(224 492)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10V14M7 6V18M12 3V21M17 7V17M21 10V14"/></g>
+<text x="92" y="504" class="tag">ORAL AUDIO</text>
+<text x="92" y="532" class="name">Transcription</text>
+<text x="92" y="556" class="body">whisper.cpp · audio to text</text>
+<rect x="312" y="480" width="168" height="92" rx="6" fill="#fff" stroke="#c4d0dc"/>
+<g data-icon="rubric" aria-hidden="true" transform="translate(440 492)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M7 8L8 9L10 7M13 8H17M7 13L8 14L10 12M13 13H17M7 18H10M13 18H17"/></g>
+<text x="332" y="504" class="tag">RUBRIC ASSIST</text>
+<text x="332" y="532" class="name">AI suggestions</text>
+<text x="332" y="556" class="body">Host Ollama · rubric</text>
+<rect x="608" y="464" width="288" height="112" rx="6" fill="#f5f7fa" stroke="#c4d0dc"/>
+<g data-icon="queue" aria-hidden="true" transform="translate(848 476)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l-8 4l8 4l8 -4l-8 -4" /> <path d="M4 12l8 4l8 -4" /> <path d="M4 16l8 4l8 -4" /></g>
+<text x="632" y="492" class="tag">DURABLE MESSAGING</text>
+<text x="632" y="520" class="name">Job delivery</text>
+<text x="632" y="544" class="body">Kafka · assessment.processing.v1</text>
+<text x="632" y="564" class="small">Identifiers only · no answers or audio</text>
+<text x="1016" y="476" class="tag">KEEP THIS IN MIND</text>
+<text x="1016" y="508" class="name">AI suggests.</text>
+<text x="1016" y="532" class="name">A reviewer decides.</text>
+<text x="1016" y="560" class="body">Only published feedback</text>
+<text x="1016" y="580" class="body">reaches the candidate.</text>
+
+<!-- Legend is outside the topology, in its own bottom strip. -->
+<line x1="48" y1="632" x2="1232" y2="632" stroke="#c4d0dc"/>
+<text x="48" y="660" class="tag">HOW TO READ</text>
+<line x1="168" y1="656" x2="216" y2="656" stroke="#71879d" stroke-width="1.6" marker-end="url(#arrow)"/>
+<text x="228" y="660" class="small">Caller → dependency</text>
+<line x1="432" y1="656" x2="480" y2="656" stroke="#71879d" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+<text x="492" y="660" class="small">Asynchronous delivery</text>
+<rect x="736" y="648" width="16" height="16" rx="2" fill="#e7eef8" stroke="#245ea7"/>
+<text x="764" y="660" class="small">One application process</text>
+<text x="48" y="692" class="small">Results return to the caller. CSRF = cross-site request forgery. The numbered journey explains execution order.</text>
+</svg>
+</div>
+<p><a href="journey.html">Next: follow one successful attempt →</a> · <a href="../architecture.md">Architecture notes</a> · <a href="overview.mmd">Editable Mermaid model</a></p>
+<p>Inside the application, Evaluation reads frozen evidence and private audio through the Assessments public contract. Each module accesses only its own PostgreSQL schema. The separate provider runtimes do not turn the business modules into microservices.</p>
+</main></body></html>

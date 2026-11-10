@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Candidate Assessment · successful journey</title>
+<style>
+body { margin: 0; color: #172e45; background: #f5f7fa; font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+main { max-width: 1360px; margin: 0 auto; padding: 28px 20px; min-width: 0; }
+h1 { margin: 0 0 8px; font-size: 24px; }
+p { max-width: 78ch; }
+a { color: #245ea7; }
+.diagram-container { width: 100%; overflow-x: auto; background: #fff; border: 1px solid #c4d0dc; }
+.diagram-container:focus-visible { outline: 3px solid #245ea7; outline-offset: 3px; }
+.diagram-container > svg { display: block; width: 100%; min-width: 1280px; }
+@media print { .diagram-container { overflow-x: visible; border: 0; } .diagram-container > svg { min-width: 0; } }
+</style>
+</head>
+<body><main><h1>Follow one successful attempt</h1>
+<p>Start at 01. Follow the arrows across the top, then back along the bottom. Each stage explains one handoff; the real application still runs in one .NET host.</p>
+<div class="diagram-container" tabindex="0" role="region" aria-label="Scrollable journey diagram">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-labelledby="journey-title journey-desc">
+<title id="journey-title">Candidate Assessment · one successful attempt</title>
+<desc id="journey-desc">A candidate starts and saves work, submission freezes evidence with an outbox, Kafka creates durable evaluation work, oral transcripts are saved before AI suggestions, and a reviewer publishes the feedback.</desc>
+<defs>
+<style>
+text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #172e45; }
+.title { font-size: 28px; font-weight: 650; letter-spacing: -0.5px; }
+.name { font-size: 16px; font-weight: 650; }
+.body { font-size: 12px; fill: #516377; }
+.small { font-size: 11px; fill: #516377; }
+.tag { font-size: 10px; font-weight: 600; letter-spacing: 1.1px; fill: #516377; }
+.route { fill: none; stroke: #71879d; stroke-width: 1.6; }
+.primary-route { fill: none; stroke: #245ea7; stroke-width: 1.8; }
+.async-route { fill: none; stroke: #71879d; stroke-width: 1.6; stroke-dasharray: 5 4; }
+</style>
+<marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0 0L8 3L0 6Z" fill="#71879d"/></marker>
+<marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0 0L8 3L0 6Z" fill="#245ea7"/></marker>
+<marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0 0L8 3L0 6Z" fill="#245ea7"/></marker>
+</defs><rect width="1280" height="720" fill="#fff"/>
+<text x="48" y="40" class="tag">02 / SUCCESSFUL JOURNEY · ONE MIXED WRITTEN AND ORAL ATTEMPT</text>
+<text x="48" y="80" class="title">Accepted work becomes reviewed feedback.</text>
+<text x="48" y="108" class="body">Follow the handoffs. AI assists with evidence; a person supplies the final scores.</text>
+<path d="M272 248H368" class="route" marker-end="url(#arrow)"/>
+<rect x="280" y="220" width="80" height="20" fill="#fff"/><text x="320" y="234" text-anchor="middle" class="tag">SAVE</text>
+<path d="M592 248H688" class="route" marker-end="url(#arrow)"/>
+<rect x="600" y="220" width="80" height="20" fill="#fff"/><text x="640" y="234" text-anchor="middle" class="tag">SUBMIT</text>
+<path d="M912 248H1008" class="route" marker-end="url(#arrow)"/>
+<rect x="920" y="220" width="80" height="20" fill="#fff"/><text x="960" y="234" text-anchor="middle" class="tag">DISPATCH</text>
+<path d="M1120 328V428" class="route" marker-end="url(#arrow)"/><rect x="1128" y="368" width="88" height="20" fill="#fff"/><text x="1136" y="382" class="tag">PROCESS</text>
+<path d="M1008 512H912" class="route" marker-end="url(#arrow)"/>
+<rect x="920" y="484" width="80" height="20" fill="#fff"/><text x="960" y="498" text-anchor="middle" class="tag">SUGGEST</text>
+<path d="M688 512H592" class="route" marker-end="url(#arrow)"/>
+<rect x="600" y="484" width="80" height="20" fill="#fff"/><text x="640" y="498" text-anchor="middle" class="tag">REVIEW</text>
+<path d="M368 512H272" class="route" marker-end="url(#arrow)"/>
+<rect x="280" y="484" width="80" height="20" fill="#fff"/><text x="320" y="498" text-anchor="middle" class="tag">READ</text>
+<rect x="48" y="164" width="224" height="164" rx="6" fill="#fff" stroke="#c4d0dc" stroke-width="1"/>
+<text x="68" y="192" class="tag">01 / CANDIDATE</text>
+<text x="68" y="224" class="name">Start the timer</text>
+<text x="68" y="256" class="body">Freeze questions and deadline.</text>
+<text x="68" y="276" class="body">Preparation and practice</text>
+<text x="68" y="296" class="body">do not start the clock.</text>
+<rect x="368" y="164" width="224" height="164" rx="6" fill="#fff" stroke="#c4d0dc" stroke-width="1"/>
+<text x="388" y="192" class="tag">02 / CANDIDATE</text>
+<text x="388" y="224" class="name">Save accepted work</text>
+<text x="388" y="256" class="body">Save written answers.</text>
+<text x="388" y="276" class="body">Upload completed recordings.</text>
+<text x="388" y="296" class="body">Wait for server verification.</text>
+<rect x="688" y="164" width="224" height="164" rx="6" fill="#e7eef8" stroke="#245ea7" stroke-width="1.6"/>
+<text x="708" y="192" class="tag">03 / ASSESSMENTS</text>
+<text x="708" y="224" class="name">Submit and</text>
+<text x="708" y="246" class="name">keep the receipt</text>
+<text x="708" y="268" class="body">Commit frozen evidence</text>
+<text x="708" y="288" class="body">and outbox in one transaction.</text>
+<text x="708" y="308" class="body">Return a durable receipt.</text>
+<rect x="1008" y="164" width="224" height="164" rx="6" fill="#fff" stroke="#c4d0dc" stroke-width="1"/>
+<text x="1028" y="192" class="tag">04 / KAFKA + EVALUATION</text>
+<text x="1028" y="224" class="name">Create a durable job</text>
+<text x="1028" y="256" class="body">Publish processing IDs.</text>
+<text x="1028" y="276" class="body">Deduplicate message intake.</text>
+<text x="1028" y="296" class="body">Persist job, then acknowledge.</text>
+<rect x="1008" y="428" width="224" height="164" rx="6" fill="#fff" stroke="#c4d0dc" stroke-width="1"/>
+<text x="1028" y="456" class="tag">05 / EVALUATION + WHISPER</text>
+<text x="1028" y="488" class="name">Save the transcript</text>
+<text x="1028" y="520" class="body">For each oral answer,</text>
+<text x="1028" y="540" class="body">transcribe the verified audio.</text>
+<text x="1028" y="560" class="body">Persist before AI scoring.</text>
+<rect x="688" y="428" width="224" height="164" rx="6" fill="#fff" stroke="#c4d0dc" stroke-width="1"/>
+<text x="708" y="456" class="tag">06 / EVALUATION + OLLAMA</text>
+<text x="708" y="488" class="name">Request a suggestion</text>
+<text x="708" y="520" class="body">Score against the rubric.</text>
+<text x="708" y="540" class="body">Validate scores and evidence.</text>
+<text x="708" y="560" class="body">Keep suggestions separate.</text>
+<rect x="368" y="428" width="224" height="164" rx="6" fill="#fff" stroke="#c4d0dc" stroke-width="1"/>
+<text x="388" y="456" class="tag">07 / REVIEWER</text>
+<text x="388" y="488" class="name">Publish human</text>
+<text x="388" y="510" class="name">feedback</text>
+<text x="388" y="532" class="body">Inspect evidence and rubric.</text>
+<text x="388" y="552" class="body">Confirm or change scores.</text>
+<text x="388" y="572" class="body">Publish the completed review.</text>
+<circle cx="80" cy="456" r="16" fill="#245ea7"/>
+<path d="M72 456L78 462L88 450" fill="none" stroke="#fff" stroke-width="2"/>
+<text x="48" y="508" class="name">The candidate returns</text>
+<text x="48" y="532" class="name">to published feedback.</text>
+<text x="48" y="564" class="body">Internal notes and unpublished</text>
+<text x="48" y="584" class="body">AI suggestions stay private.</text>
+<line x1="48" y1="632" x2="1232" y2="632" stroke="#c4d0dc"/>
+<text x="48" y="660" class="tag">HOW TO READ</text>
+<line x1="168" y1="656" x2="216" y2="656" stroke="#71879d" stroke-width="1.6" marker-end="url(#arrow)"/>
+<text x="228" y="660" class="small">Next handoff in this attempt</text>
+<rect x="536" y="648" width="16" height="16" rx="2" fill="#e7eef8" stroke="#245ea7"/>
+<text x="564" y="660" class="small">Atomic submission boundary</text>
+<text x="48" y="692" class="small">Written answers skip transcription. Manual-only attempts and terminal provider failures go to human review; neither receives an automatic zero.</text>
+</svg></div>
+<p><a href="overview.html">← System map</a> · <a href="../how-it-works.md">Lifecycle and design notes</a> · <a href="journey.mmd">Editable Mermaid model</a></p>
+<p>The numbered stages describe a successful AI-assisted attempt. Saving, uploading and submitting happen through the authenticated API. The outbox dispatcher, Kafka consumer and evaluation workers all run inside the same .NET host. A failed provider leaves accepted evidence available for human review.</p>
+</main></body></html>

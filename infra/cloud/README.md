@@ -1,6 +1,6 @@
 # Deployment profiles
 
-Local learning remains the default. Azure is the preferred future cloud deployment; AWS is retained as an alternative. No cloud profile has been applied.
+Local development remains the default. Azure is the preferred future cloud deployment; AWS is retained as an alternative. No cloud profile has been applied.
 
 | Profile | Runtime and access | Persistent data |
 |---|---|---|
@@ -8,7 +8,7 @@ Local learning remains the default. Azure is the preferred future cloud deployme
 | [Azure Singapore](../azure/README.md), preferred future cloud | One Ubuntu VM in `southeastasia`; existing SSH key, operator IPv4 `/32`, local port-forward | Separate encrypted managed data disk with Terraform deletion protection |
 | [AWS Singapore](../aws/README.md), alternative | One ARM64 EC2 host in `ap-southeast-1`; Session Manager, no inbound security-group rules | Separate encrypted EBS volume with Terraform deletion protection |
 
-Each profile runs the same one-host Compose application, PostgreSQL, Kafka and transcription runtime, with host Ollama. Cloud support means these specific learning paths, not arbitrary managed databases, broker/storage vendors, Kubernetes or AI providers. There is no public assessment endpoint, managed high availability or verified cloud recovery path.
+Each profile runs the same one-host Compose application, PostgreSQL, Kafka and transcription runtime, with host Ollama. Cloud support means these specific deployment paths, not arbitrary managed databases, broker/storage vendors, Kubernetes or AI providers. There is no public assessment endpoint, managed high availability or verified cloud recovery path.
 
 [Azure deployment SVG](../../docs/diagrams/azure.svg) · [Editable Mermaid](../../docs/diagrams/azure.mmd) · [Local runtime](../../docs/diagrams/runtime.svg).
 

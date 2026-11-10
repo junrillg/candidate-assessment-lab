@@ -1,12 +1,12 @@
-# Four failure drills
+# Failure and recovery
 
-Finish one successful published review first. Use fictional work and a separate synthetic assignment. These drills affect only the dedicated `candidate-assessment-lab` Compose project. Keep accepted work and learner checkpoints separate from automated verification evidence.
+These scenarios describe how accepted work survives unavailable dependencies. Commands affect only the dedicated `candidate-assessment-lab` Compose project and use a separate synthetic assignment. Verification evidence is separate from candidate data.
 
 ## 1. Offline save
 
 In a candidate written answer, disconnect the browser with developer tools. Type a distinctive fictional sentence. The UI must say local-saved/failed or offline, rather than server-saved. Refresh and inspect the local draft. Reconnect before the server deadline and wait for acknowledgment. For the strict-cutoff case, reconnect after expiry and keep the late work visibly unsent.
 
-Explain: IndexedDB recovery protects browser-local work; only the server can accept an answer before the deadline. An uncompleted recording can still be lost on interruption. Do not use this drill on a real candidate's work.
+IndexedDB recovery protects browser-local work; only the server can accept an answer before the deadline. An uncompleted recording can still be lost on interruption. Do not use this drill on a real candidate's work.
 
 ## 2. Unavailable broker
 
@@ -16,13 +16,13 @@ docker compose --env-file .local/lab.env stop kafka
 docker compose --env-file .local/lab.env start kafka
 ```
 
-The submission should stay accepted while processing waits. The durable outbox retries delivery after restart. `make integration` automates this case and duplicate delivery. Explain why receipt and processing completion mean different things.
+The submission should stay accepted while processing waits. The durable outbox retries delivery after restart. `make integration` automates this case and duplicate delivery. The receipt confirms durable submission; processing completion is a separate state.
 
 ## 3. Interrupted worker
 
 `make recovery` pauses the local transcriber during a synthetic claimed job, stops the app, expires only that test job's lease, then restarts the app and transcriber. It requires a higher fence on recovery and explicitly checks that an old-fence completion affects zero rows.
 
-The lease expiry is advanced by isolated test setup to avoid waiting five minutes. The application has no public test endpoint or shortened production lease. Explain why cancelling an old process is insufficient without a durable fence.
+The lease expiry is advanced by isolated test setup to avoid waiting five minutes. The application has no public test endpoint or shortened production lease. A durable fence prevents stale completion even if an old process survives cancellation.
 
 ## 4. Failed provider
 
@@ -30,4 +30,4 @@ The lease expiry is advanced by isolated test setup to avoid waiting five minute
 
 Host Ollama is never stopped by the drill because other projects may use it. Local providers must be installed and available for the successful recovery portion. A provider still failing after restart is visible evidence to investigate, not a reason to bypass review or invent a result.
 
-When done, record one sentence per drill: the accepted fact, the failed dependency, the durable recovery state and the observation that proved recovery.
+The observable outcomes are a retained receipt, durable retry state, a rejected stale completion and explicit human handling of terminal failures.

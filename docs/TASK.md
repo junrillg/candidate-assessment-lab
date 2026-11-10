@@ -13,16 +13,16 @@ Scope exclusions: microservices, recruiting-platform expansion, paid cloud deplo
 | Durable jobs and AI adapters | Implemented and verified | Five real recovery checks: terminal retries, manual retry, restarted worker, old-fence update zero, real Whisper/Ollama | Inspect provider metadata and evidence |
 | Review and published feedback | Implemented and verified | Full-criteria/concurrency gates, audit, immutable publication, candidate redaction | Human scores remain separate from AI |
 | Full AI-assisted sample | Implemented and verified | Four transcripts, nine validated suggestions, three invalid outputs safely routed to review; all twelve synthetic reviews published 72/120 | Open the retained sample receipt |
-| Frontend and mobile states | Implemented and verified | Three isolated Chromium journeys; MediaRecorder/playback, offline/refresh/conflicts, local-recording selection conflict, blocked storage, publication, saved walkthrough checkpoints | Physical microphone quality remains device-specific |
+| Frontend and mobile states | Implemented and verified | Three isolated Chromium journeys; MediaRecorder/playback, offline/refresh/conflicts, local-recording selection conflict, blocked storage, publication, lifecycle explorer navigation | Physical microphone quality remains device-specific |
 | Module boundaries and CI | Implemented and verified locally and on Linux baseline | Twelve .NET tests, sixteen Python checks, three draft checks and seven offline Azure mock plans; [green baseline CI](https://github.com/junrillg/candidate-assessment-lab/actions/runs/42627766681); [current CI](https://github.com/junrillg/candidate-assessment-lab/actions/workflows/ci.yml) | Published head must be green before handoff |
 | Independent design finish | Four material fixes resolved; disposition ship at that scope | Persistent acceptance band, mobile state labels/accessible names, absent-recording truth, metadata below titles; screenshot evidence in `.impeccable/review/` | Shipped system recorded in DESIGN.md |
-| Learning and Notion | Implemented | Six lessons, four subsequent failure drills, six Mermaid/SVG pairs, interactive illustrated walkthrough, [private Notion home](https://app.notion.com/p/41371e91a0f681cb9ba9daddbe4048cf) | Learner checkpoints remain unstarted |
+| Technical documentation | Implemented and verified | Lifecycle and design notes, six flow explanations, failure/recovery scenarios, seven Mermaid/SVG pairs and interactive lifecycle explorer | Use the documentation index |
 | Backup and retention | Implemented; private backup verified | Quiesced database/recording/key backup, checksums, private modes, safe archive paths and corrupt-restore rejection | Live restore needs a separate empty target |
 | Terraform | Docker-local, Azure and AWS validated; cloud runtime owner-deferred | Azure Singapore preferred, AWS alternative; AzureRM 4.81.0, seven account-offline mock plans, bootstrap safety tests; no apply | Review provider inputs, access, cost and retained-data recovery before deployment |
 
 ## Evidence and practical limits
 
-Validated on 2026-11-09 with .NET 10.0.400, Docker 29.5.2, Terraform 1.15.8, host `llama3.2:latest`, whisper.cpp base and isolated Chromium. Local evidence files are `.local/integration-evidence.json`, `.local/recovery-evidence.json` and `.local/sample-evidence.json`; the retained receipt is `.local/sample.json`. They contain synthetic identifiers/status only and are separate from learner progress. Disposable test assignments are cleaned; the two original assignments and learning sample remain.
+Validated on 2026-11-09 with .NET 10.0.400, Docker 29.5.2, Terraform 1.15.8, host `llama3.2:latest`, whisper.cpp base and isolated Chromium. Local evidence files are `.local/integration-evidence.json`, `.local/recovery-evidence.json` and `.local/sample-evidence.json`; the retained receipt is `.local/sample.json`. They contain synthetic identifiers/status only and are separate from application data. Disposable test assignments are cleaned; the two original assignments and learning sample remain.
 
 The browser suite uses generated microphone audio. Connected-browser access was unavailable; physical microphone quality was not tested. The Impeccable detector ran once with no regex findings, but parser modules were unavailable; computed-style/selector auditing was not performed. Independent source-token contrast arithmetic and visual review were used, with the stated scope.
 
@@ -33,7 +33,7 @@ Neither Azure nor AWS was applied. Live restore, production capacity, cloud runt
 
 ## Azure follow-up
 
-Requested outcome: add a runnable future Azure profile alongside AWS, make Azure the preferred cloud path, update repository/Notion docs, and add editable Mermaid plus rendered Azure deployment diagram. Local learning remains primary. Exclusions: cloud deployment, paid resource creation, managed-service migration, application/UI changes. Implemented: AzureRM 4.81.0 profile, explicit Azure Make/CLI commands and CI validation, protected data disk/resource group, commit-pinned Ubuntu bootstrap and SSH tunnel. Verified: format/init/validate, seven mock-provider plan cases, eight new Python bootstrap tests (including nine refusal subcases), script syntax, readable SVG render, source topology and Markdown links. Thirteen Python integration-unit tests pass; the three existing transcription checks remain unchanged. Independent scoped review closed the zstd, mounted-disk persistence and explicit no-format-while-mounted findings. Repository and private Notion docs now prefer Azure while retaining AWS. The release gate is green CI on the published head; unchanged application browser/recovery checks were reused locally.
+Requested outcome: add a runnable future Azure profile alongside AWS, make Azure the preferred cloud path, update repository/Notion docs, and add editable Mermaid plus rendered Azure deployment diagram. Local development remains primary. Exclusions: cloud deployment, paid resource creation, managed-service migration, application/UI changes. Implemented: AzureRM 4.81.0 profile, explicit Azure Make/CLI commands and CI validation, protected data disk/resource group, commit-pinned Ubuntu bootstrap and SSH tunnel. Verified: format/init/validate, seven mock-provider plan cases, eight new Python bootstrap tests (including nine refusal subcases), script syntax, readable SVG render, source topology and Markdown links. Thirteen Python integration-unit tests pass; the three existing transcription checks remain unchanged. Independent scoped review closed the zstd, mounted-disk persistence and explicit no-format-while-mounted findings. Repository and private Notion docs now prefer Azure while retaining AWS. The release gate is green CI on the published head; unchanged application browser/recovery checks were reused locally.
 
 ## README visual overview follow-up
 
@@ -47,3 +47,16 @@ Outcome: a repository landing page with the existing notebook identity, real can
 | Publication and verification | Verified and published | 50 relative links/assets resolve; PNG dimensions, SVG XML, GitHub GFM render and diff checks pass; independent scoped review clear; remote README/assets checked at delivery | None |
 
 This follow-up changes documentation and assets only. Existing application tests were not rerun locally; the unchanged app behavior is covered by the earlier delivery evidence and the repository CI workflow.
+
+## Architecture visualization and technical documentation
+
+User outcome: replace the dense overview with clear, attractive diagrams, use consistent icons and established documentation practices, and present the repository as an application with technical knowledge docs. Keep the project icon, authentic screenshots, local development and existing architecture. Scope includes a footer label and the documentation explorer; business behavior, infrastructure and production claims stay unchanged.
+
+| Requirement | Status | Evidence | Next action |
+|---|---|---|---|
+| Primary-source guidance | Verified | C4, arc42, Microsoft, IBM, Diátaxis and GitHub; `docs/design/diagram-notes.md` | None |
+| Separate structure from journey | Verified | One-host map and numbered flow; HTML/SVG plus Mermaid models; 1280×720, opaque artboards, source-accurate labels | None |
+| Product README and technical knowledge | Verified | Product workflow and quickstart; `docs/how-it-works.md` and six `docs/flows/` topics replace course pages | None |
+| Repeatable diagram export | Verified | Stable HTML extraction, pixel-identical to bundled export; Mermaid fallback and four invalid-source preservation cases checked | None |
+| Lifecycle explorer | Verified | Isolated browser test: stage navigation, keyboard access, six source links, no app mutation, no page overflow at 390px; course/progress controls removed | None |
+| Review and publication | Verified and published | Source/visual review; offline SVG/geometry and icon bounds checks; repeatable exports; 149 local links; product README GitHub rendering; targeted lifecycle browser case and frontend build passed | None |

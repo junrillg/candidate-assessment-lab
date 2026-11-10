@@ -1,6 +1,6 @@
 # Future Azure deployment: Singapore
 
-Azure is the preferred future cloud profile. Local Compose remains the learning default, and the [AWS Singapore profile](../aws/README.md) remains an alternative.
+Azure is the preferred future cloud profile. Local Compose remains the development default, and the [AWS Singapore profile](../aws/README.md) remains an alternative.
 
 This profile runs the same application on one Ubuntu 24.04 x64 VM in `southeastasia` (Singapore). The default `Standard_D4s_v5` has four vCPUs and 16 GiB RAM. It uses a 32 GiB OS disk and a separate 100 GiB data disk, with Azure managed-disk server-side encryption using platform-managed keys. The data disk and its separate resource group have Terraform `prevent_destroy` protection. [Azure deployment diagram](../../docs/diagrams/azure.svg) · [Editable Mermaid](../../docs/diagrams/azure.mmd).
 
@@ -55,7 +55,7 @@ sudo bash /opt/candidate-assessment-release/infra/azure/bootstrap.sh
 
 Cloud-init installs prerequisites and checks out the exact public commit at `/opt/candidate-assessment-release`. It does not wait for the separately attached data disk or start the application. The explicit bootstrap waits for Azure LUN 0, preserves an existing filesystem, mounts the data disk at `/srv/candidate-assessment`, puts Docker data on it and checks out that same commit at `/srv/candidate-assessment/app`. A new disk is initialized only after an entire-disk zero-fill check; scanning the default 100 GiB can take many minutes. Existing ext4 data is reused, and partitioned, unknown or unreadable disks are refused. Bootstrap then installs pinned Ollama `0.40.15`, stores its models on the retained disk, pulls `llama3.2:latest` and runs `make up`. Review the bootstrap and vendor installer before executing them. Container/model tags can resolve at deployment time; supply-chain reproducibility is not claimed.
 
-Run `terraform -chdir=infra/azure output -raw forward_command` locally and keep the printed SSH command running. It binds the local tunnel specifically to `127.0.0.1:5188`, forwarding to `127.0.0.1:5188` on the VM. Open `http://localhost:5188`. Read the private `.local/credentials.json` on the VM for the fictional accounts; do not put those passwords in issues, screenshots or learning notes.
+Run `terraform -chdir=infra/azure output -raw forward_command` locally and keep the printed SSH command running. It binds the local tunnel specifically to `127.0.0.1:5188`, forwarding to `127.0.0.1:5188` on the VM. Open `http://localhost:5188`. Read the private `.local/credentials.json` on the VM for the fictional accounts; do not put those passwords in issues, screenshots or documentation.
 
 ## Pause, update and recover
 

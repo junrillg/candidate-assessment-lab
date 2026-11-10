@@ -1,6 +1,6 @@
 # Future AWS deployment: Singapore
 
-This optional learning profile runs the existing Compose application on one ARM64 EC2 `t4g.xlarge` in `ap-southeast-1`. It creates a VPC/subnet, public egress, an instance profile for Systems Manager, an encrypted 24 GiB root disk and a protected encrypted 100 GiB data disk. There are **no security-group ingress rules**; use SSM port forwarding. The app, PostgreSQL and Kafka bind only to host loopback. Ollama is host-local infrastructure reachable by the app's Docker network.
+This optional single-host profile runs the existing Compose application on one ARM64 EC2 `t4g.xlarge` in `ap-southeast-1`. It creates a VPC/subnet, public egress, an instance profile for Systems Manager, an encrypted 24 GiB root disk and a protected encrypted 100 GiB data disk. There are **no security-group ingress rules**; use SSM port forwarding. The app, PostgreSQL and Kafka bind only to host loopback. Ollama is host-local infrastructure reachable by the app's Docker network.
 
 This is a runnable deployment path, with Terraform validation evidence. It has not been applied or tested on AWS. There is one failure domain and no managed database/broker, public endpoint, TLS termination, high availability or cloud recovery claim.
 
@@ -39,7 +39,7 @@ Open `http://localhost:5188`. Localhost preserves browser microphone access thro
 
 ## Pause, update and recover
 
-Stop/start the instance through EC2 or the CLI when pausing learning. Root and data EBS remain chargeable while stopped; an assigned public IPv4 can change. Docker and Ollama use systemd and the data mount. Review the exact release commit, take [a private backup](../../docs/operations.md), stop the app, check out the target commit and run `make up` from the EBS checkout. Do not assume a binary rollback can reverse a schema migration.
+Stop/start the instance through EC2 or the CLI when pausing the environment. Root and data EBS remain chargeable while stopped; an assigned public IPv4 can change. Docker and Ollama use systemd and the data mount. Review the exact release commit, take [a private backup](../../docs/operations.md), stop the app, check out the target commit and run `make up` from the EBS checkout. Do not assume a binary rollback can reverse a schema migration.
 
 `aws_ebs_volume.data` has `prevent_destroy = true`. A blanket Terraform destroy intentionally refuses while that protected volume is managed. Before intentional teardown, back it up and record its output ID; explicitly retaining the volume with `terraform state rm aws_ebs_volume.data` lets a subsequent reviewed destroy remove compute/network while leaving the disk billed and available for recovery. Deleting that retained disk is a separate deliberate data-destruction action. No cleanup script does it for you.
 

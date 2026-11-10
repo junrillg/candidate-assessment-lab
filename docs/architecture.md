@@ -2,13 +2,29 @@
 
 Candidate Assessment is one .NET host with HTTP endpoints and `BackgroundService` loops. React is built into the host. PostgreSQL, Kafka, recording storage, transcription and Ollama support that application; they are not business microservices.
 
-![Application overview: browser, three modules, persistence, Kafka and local AI providers](diagrams/overview.svg)
+## Start with the shape
 
-[Edit overview Mermaid](diagrams/overview.mmd). Arrows show runtime communication. Inside the host, Evaluation reads immutable evidence and private audio through Assessments' public in-process contract. Each module uses only its own database schema. The browser saves answers and uploads audio through Assessments; submission commits its snapshot and outbox together. Kafka delivers processing IDs to Evaluation, which persists any oral transcript before requesting an AI suggestion. The reviewer then supplies the final scores and publishes feedback for the candidate. Manual-only attempts and terminal provider failures go to human review without an automatic zero.
+![Local system map: browser, one backend and supporting infrastructure](diagrams/overview.svg)
+
+[Open the readable offline map](diagrams/overview.html) · [Edit the Mermaid model](diagrams/overview.mmd)
+
+Read left to right: people use React, React calls one .NET application, and that application owns access to the stores. Background work uses the same host. The two AI runtimes and Kafka support it. They do not split the business application into microservices.
+
+## Then follow one attempt
+
+![Seven handoffs from starting an attempt to published human feedback](diagrams/journey.svg)
+
+[Open the readable offline journey](diagrams/journey.html) · [Edit the Mermaid model](diagrams/journey.mmd) · [Lifecycle and design notes](how-it-works.md)
+
+The blue submission stage is the transaction boundary: frozen evidence and outbox intent commit together before the durable receipt returns. Kafka carries processing identifiers; Evaluation reads the actual evidence through Assessments' public contract. For oral answers, the transcript is persisted before requesting a suggestion. The reviewer supplies the final scores and publishes feedback.
+
+Written answers skip transcription. Manual-only attempts and terminal provider failures go to human review without an automatic zero. Only published feedback reaches the candidate.
+
+## Look inside the backend when you need more detail
 
 ![Module boundaries](diagrams/modules.svg)
 
-[Edit Mermaid](diagrams/modules.mmd) · [Runtime diagram](diagrams/runtime.svg) · [Runtime source](diagrams/runtime.mmd)
+[Edit module Mermaid](diagrams/modules.mmd) · [Detailed runtime diagram](diagrams/runtime.svg) · [Runtime source](diagrams/runtime.mmd)
 
 Each module has its own assembly, internal EF context, schema and migration history. Access owns Identity and sessions. Assessments owns assignments, attempts, answers, recording references, frozen submission evidence and publication intent. Evaluation owns durable jobs, transcripts, AI suggestions, human scores and audit. Evaluation reads immutable assessment evidence through `IAssessmentReader`; Assessments has no Evaluation dependency. The host composes modules.
 
@@ -30,11 +46,11 @@ Evaluation claims bounded work through persisted leases and increments a fence. 
 
 ## Explicit limits
 
-This is a local learning deployment with a single Kafka broker and PostgreSQL instance. It establishes neither production scale nor hiring-score validity. [Docker-local Terraform](../infra/local/README.md) remains the default learning path.
+The local deployment uses a single Kafka broker and PostgreSQL instance. It establishes neither production scale nor hiring-score validity. [Docker-local Terraform](../infra/local/README.md) remains the default deployment path.
 
 The preferred future cloud path is [Azure Southeast Asia (Singapore)](../infra/azure/README.md): one Ubuntu VM, the same Compose application and host Ollama, retained managed storage, and an SSH tunnel restricted to one operator address. The [AWS Singapore profile](../infra/aws/README.md) remains an alternative, using ARM64 EC2 and Session Manager. These profiles preserve the modular monolith; neither replaces PostgreSQL, Kafka or the AI adapters with a managed service. Cloud runtime reliability remains unverified because neither profile has been applied.
 
-![Azure learning deployment](diagrams/azure.svg)
+![Azure deployment profile](diagrams/azure.svg)
 
 [Edit Azure Mermaid](diagrams/azure.mmd) · [Azure deployment instructions](../infra/azure/README.md) · [All deployment profiles](../infra/cloud/README.md)
 

@@ -115,7 +115,7 @@ components:
 
 The Laboratory Notebook makes work legible through cool paper, ink-blue controls and ruled regions. White working sheets sit on a cool gray field; visible acceptance, question state and human scoring carry the visual emphasis.
 
-The system is calm, direct and deliberately flat. Compact navigation supports spacious answer and evidence regions. The learning walkthrough uses the same paper, ink, blue focus and ruled divisions, with its own reading proportions. Source evidence is the shipped frontend stylesheet and components, plus the walkthrough’s inline styles; the recorded system follows those implementations rather than the preliminary direction.
+The system is calm, direct and deliberately flat. Compact navigation supports spacious answer and evidence regions. The lifecycle explorer uses the same paper, ink, blue focus and ruled divisions, with its own reading proportions. Source evidence is the shipped frontend stylesheet and components, plus the walkthrough’s inline styles; the recorded system follows those implementations rather than the preliminary direction.
 
 **Key Characteristics:**
 
@@ -166,7 +166,7 @@ The system uses a compact utilitarian hierarchy rather than an editorial font pa
 
 The ramp is a set of functional roles, not a fixed mathematical ratio. The isolated larger login headline and small audit/navigation captions do not create additional recommended roles.
 
-**The Title First Rule.** Question and checkpoint titles precede their metadata. Keep labels in sentence case and quantities tabular.
+**The Title First Rule.** Question and stage titles precede their metadata. Keep labels in sentence case and quantities tabular.
 
 ## Layout
 
@@ -178,7 +178,7 @@ At widths up to (1100px), candidate navigation narrows to (210px); reviewer scor
 
 At widths from (1500px), candidate navigation becomes (260px), the gap becomes (40px), and response-sheet padding grows to (44px 56px). Standard sheet padding is in frontmatter; it becomes (28px) through the intermediate breakpoint and (24px 20px) on mobile.
 
-The walkthrough uses a centered (1100px) reading frame, six lesson controls, and a `1.3fr 1fr` prose/diagram pair. At (760px), navigation becomes three columns and the diagram follows the prose. Its own reading proportions are not imposed on application workspaces.
+The walkthrough uses a centered (1100px) reading frame, six stage controls, and a `1.3fr 1fr` prose/diagram pair. At (760px), navigation becomes three columns and the diagram follows the prose. Its own reading proportions are not imposed on application workspaces.
 
 ## Elevation & Depth
 
@@ -210,7 +210,7 @@ White full-width fields use the control edge, field corners and frontmatter padd
 
 ### Navigation
 
-Desktop question controls pair a numbered box with a title and state beneath it. Current selection uses pale blue fill, a blue-gray border and blue ink through `aria-current`. Answered numbers gain a green treatment while the text still says answered. Mobile keeps number and textual state; accessible names retain title and status. Candidate grouping distinguishes written from spoken responses. The walkthrough’s lesson controls use the same blue/white relationship, with solid blue for the current checkpoint.
+Desktop question controls pair a numbered box with a title and state beneath it. Current selection uses pale blue fill, a blue-gray border and blue ink through `aria-current`. Answered numbers gain a green treatment while the text still says answered. Mobile keeps number and textual state; accessible names retain title and status. Candidate grouping distinguishes written from spoken responses. The walkthrough’s stage controls use the same blue/white relationship, with solid blue for the current checkpoint.
 
 ### Persistent Acceptance Band
 

@@ -15,7 +15,7 @@ Docker binds application/DB/Kafka host ports to loopback. Recording storage and 
 
 ## Commands and configuration
 
-`make help` lists the entry points. `make migrate` and `make seed` are explicit one-shot commands; normal host startup does neither. `make sample` creates or reopens one synthetic learning trace without consuming a seeded assessment. It uploads fictional speech and submits for real AI assistance; a reviewer publishes the outcome.
+`make help` lists the entry points. `make migrate` and `make seed` are explicit one-shot commands; normal host startup does neither. `make sample` creates or reopens one synthetic assessment trace without consuming a seeded assessment. It uploads fictional speech and submits for real AI assistance; a reviewer publishes the outcome.
 
 The generated `.local/lab.env` supplies PostgreSQL's password and `OLLAMA_MODEL`. Compose wires `ConnectionStrings__Database`, `Kafka__BootstrapServers`, `Kafka__Topic`, `Storage__Root`, `DataProtection__Path`, `Providers__OllamaUrl`, `Providers__Model`, `Providers__TranscriptionUrl` and `Seed__CredentialsPath`. `make validate` checks private file permissions, credential shape and Compose configuration; the host validates required configuration and provider URL shapes.
 
@@ -23,7 +23,7 @@ Readiness `/health/ready` checks database access and required module tables. Liv
 
 ## Editable diagrams
 
-Run `cd frontend && npm ci && npx playwright install chromium` once to install the same isolated browser used by the browser checks, then run `make diagrams` from the repository root. The official pinned Mermaid CLI is fetched into npm's tool cache and reuses that Chromium. Rendering runs serially and writes SVGs beside their editable `.mmd` sources. It does not add a frontend runtime dependency.
+Run `cd frontend && npm ci && npx playwright install chromium` once to install the same isolated browser used by the browser checks, then run `make diagrams` from the repository root. The overview and journey have hand-composed, self-contained HTML sources; the command extracts their inline SVGs without changing the layout. Their `.mmd` files preserve editable semantic models. Other figures use the official pinned Mermaid CLI, fetched into npm's tool cache, and reuse that Chromium. Rendering runs serially and writes the SVGs beside their sources. It does not add a frontend runtime dependency. See [diagram design and editing](design/diagram-notes.md).
 
 ## Backup and restore
 
@@ -63,7 +63,7 @@ A previous binary can be restarted only if its schema contract is compatible. Mi
 
 ## Future cloud deployment
 
-The optional [Docker-local Terraform](../infra/local/README.md) invokes this same lifecycle and remains the learning default. [Azure Southeast Asia (Singapore)](../infra/azure/README.md) is the preferred future cloud profile; [AWS Singapore](../infra/aws/README.md) remains an alternative. Both keep the application and its supporting services on one host with separate retained storage. No cloud deployment has been performed.
+The optional [Docker-local Terraform](../infra/local/README.md) invokes this same lifecycle and remains the development default. [Azure Southeast Asia (Singapore)](../infra/azure/README.md) is the preferred future cloud profile; [AWS Singapore](../infra/aws/README.md) remains an alternative. Both keep the application and its supporting services on one host with separate retained storage. No cloud deployment has been performed.
 
 Azure access uses an existing SSH key and a local port-forward to `localhost:5188`; its network security group admits SSH only from the required operator IPv4 `/32`, with other inbound access denied. AWS uses Session Manager and no inbound security-group rules. Neither profile publishes the assessment, PostgreSQL, Kafka or Ollama to the public internet. [Azure deployment diagram](diagrams/azure.svg) · [Editable Mermaid](diagrams/azure.mmd).
 
