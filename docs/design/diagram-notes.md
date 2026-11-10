@@ -14,7 +14,7 @@ The first overview showed all connections, but its tall host box and long labels
 | [Diátaxis explanation](https://diataxis.fr/explanation/) and [how-to guides](https://diataxis.fr/how-to-guides/) | Explain relationships, constraints and design decisions in the knowledge docs; keep startup and recovery procedures in task-focused operating guidance. |
 | [GitHub README guidance](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes) | Explain what the project does, why it is useful, how to start and where to get help; use relative links for repository documentation. |
 
-These are specific sources for our choices, not a survey proving one universal industry style. No copied logos, invented user counts, performance promises or production claims are needed.
+These are specific sources for our choices, not a survey proving one universal industry style. Vendor marks identify technologies actually used by this system. Their sources and applicable terms are recorded in [Vendor icons](vendor-icons.md). The diagrams make no endorsement, performance or production-readiness claims.
 
 ## Read the figures
 
@@ -29,7 +29,7 @@ The diagrams summarize code verified in `src/Host`, `src/Assessments`, `src/Eval
 
 ## Visual direction and editable sources
 
-The already-selected **Laboratory Notebook** direction in [DESIGN.md](../../DESIGN.md) supplies the visual style. The installed Diagram Design skill guides layout and checks; Clarity guides the documentation rewrite. No new skill or frontend dependency was installed, and the shared skill installation was not modified.
+The already-selected **Laboratory Notebook** direction in [DESIGN.md](../../DESIGN.md) supplies the visual style. The reusable [Architecture Diagram skill](https://github.com/junrillg/skills/blob/main/skills/engineering/architecture-diagram/SKILL.md) supplies the icon-led architecture conventions: titled dashed execution groups, softly tinted responsibility areas, recognizable vendor marks and short directed connections. Diagram Design supplies reusable SVG layout and geometry checks; Clarity guides documentation wording. The skill is maintained separately from this application; the figures need no frontend dependency or network asset.
 
 | Role | Project value |
 |---|---|
@@ -39,7 +39,7 @@ The already-selected **Laboratory Notebook** direction in [DESIGN.md](../../DESI
 | Rules / essential connector strokes | `#c4d0dc` / `#516377` |
 | Type | Native system sans; monospace reserved for technical identifiers |
 
-The opaque paper artboard keeps the SVG readable when GitHub uses a dark page. Labels and shapes carry meaning alongside color. Short names, alignment, whitespace and orthogonal connectors establish hierarchy; the figures need no animation or network fonts.
+The opaque paper artboard keeps the SVG readable when GitHub uses a dark page. Labels and shapes carry meaning alongside color. Titled dashed frames distinguish execution and ownership scopes; they do not imply network isolation. Vendor marks retain their own approved colors. Short names, alignment, whitespace and orthogonal connectors establish hierarchy; the figures need no animation or network fonts.
 
 | File | Edit for |
 |---|---|

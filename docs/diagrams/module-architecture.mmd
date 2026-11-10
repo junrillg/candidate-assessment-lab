@@ -19,4 +19,5 @@ flowchart LR
     ASSESSMENTS -->|"outbox publishes IDs"| KAFKA["External Kafka topic · assessment.processing.v1"]
     KAFKA -. "idempotent durable intake before acknowledgement" .-> EVALUATION
     %% No cross-module table access. Assessments has no Evaluation dependency.
+    %% Visual layout folds IAssessmentReader into the Assessments boundary; it is not a deployed service.
     %% Host wires modules; Evaluation composes review responses via reader + EvaluationDb.

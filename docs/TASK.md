@@ -71,3 +71,17 @@ Outcome: show the application's structural architecture for engineering review, 
 | Internal components and ownership | Verified | `module-architecture` HTML/SVG/Mermaid; one process, three schemas, public reader, outbox/intake and shared credential boundaries verified | None |
 | Architecture explanation and discovery | Verified | README presents system design first; architecture document adds interface/storage/ownership tables and operational constraints; stale aggregation/recovery claims corrected | None |
 | Verification and publication | Verified and published | Independent engineering review clear; both 1440×960 figures pass geometry/bounds/mobile/export checks; 152 local links and GitHub rendering checked; unchanged app checks reused from green `d8d4b42` | None |
+
+
+## Reusable architecture illustration
+
+Outcome: install a global architecture-diagram skill from the shared skills repository and apply its icon-led visual grammar to the local deployment and module views. Scope: skill instructions, discovery/installation, the two structural diagrams and their design documentation. Runtime code, infrastructure and business flow remain outside this change. Stop condition: skill help/discovery and context synchronization pass; diagrams preserve verified topology, use traceable vendor marks, export repeatably and remain readable without external assets.
+
+| Requirement | Status | Evidence | Next action |
+|---|---|---|---|
+| Reusable skill and global discovery | Verified and published | `architecture-diagram` in shared skills repository at `962a8a9`; Claude/Codex links resolve; validation and context synchronization 1940/1940 passed; help and local/proposed-cloud decisions independently reviewed | None |
+| Vendor icons and visual grouping | Verified | Six genuine technology marks; titled execution/ownership groups; source/notice inventory; independent visual review clear | None |
+| Architecture fidelity and export | Verified | Source-grounded deployment/modules preserved; byte-identical canonical export; unique SVG IDs; zero geometry/text bounds findings; light/dark 830px and contained 390px scroll inspected | None |
+| Publication | Verified and published | Shared skill `962a8a9`; application figure sources/notices published together; 153 local links resolved; unchanged runtime tests reused | None |
+
+Verification scope: documentation and skill behavior only; application code/config are unchanged and their prior acceptance evidence is reused. Offline SVG checks intentionally allow the Apache Kafka project hyperlink; it is navigation, not a loaded rendering asset. The earlier `dc4b005` CI failed while downloading Ubuntu packages from its mirror, before application execution; no application change is inferred from that network failure.

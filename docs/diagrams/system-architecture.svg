@@ -1,113 +1,143 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 960" role="img" aria-labelledby="system-architecture-title system-architecture-desc"><title id="system-architecture-title">Local runtime and deployment architecture</title><desc id="system-architecture-desc">A local browser calls one .NET app container, which uses PostgreSQL, a Kafka broker, a private transcription container and host Ollama, with named volumes retaining application data.</desc>
-<!-- Generic user, laptop, server, database, file and queue glyphs adapted from Tabler Icons.
-Source: https://github.com/tabler/tabler-icons (MIT).
-Copyright (c) 2020-2026 Paweł Kuna
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE. Waveform and rubric glyphs are original diagram artwork. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1120" role="img" aria-labelledby="system-architecture-title system-architecture-desc">
+<title id="system-architecture-title">Local system architecture</title>
+<desc id="system-architecture-desc">A React browser uses one .NET application in Docker Compose, alongside PostgreSQL, Kafka and whisper.cpp; host Ollama supplies scoring, and stores retain evidence, keys and models.</desc>
+<!-- Technology marks are factual product identifiers, not application branding.
+Original vectors: React (reactjs/react.dev), .NET (dotnet/brand), PostgreSQL
+(wiki.postgresql.org), Docker (docker.com), Apache Kafka (apache/kafka-site),
+and Ollama (ollama/ollama). Shapes and vendor colors are preserved.
+Sources, terms and required notices: ../design/vendor-icons.md.
+No external image/font/script requests are needed to render this figure.
+Generic waveform, identity, document and review glyphs are original diagram artwork. -->
 <defs>
-<style>
-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #172e45; }
-.title { font-size: 28px; font-weight: 650; letter-spacing: -0.5px; }
-.name { font-size: 20px; font-weight: 650; }
-.body { font-size: 14px; fill: #516377; }
-.small { font-size: 11px; fill: #516377; }
-.tag { font-size: 10px; font-weight: 600; letter-spacing: 1.1px; fill: #516377; }
-.route { fill: none; stroke: #71879d; stroke-width: 1.6; }
-.primary-route { fill: none; stroke: #245ea7; stroke-width: 1.8; }
-.async-route { fill: none; stroke: #71879d; stroke-width: 1.6; stroke-dasharray: 5 4; }
-.mono { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; fill: #516377; }
-</style>
-<marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0 0L8 3L0 6Z" fill="#71879d"/></marker>
-<marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0 0L8 3L0 6Z" fill="#245ea7"/></marker>
-<marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0 0L8 3L0 6Z" fill="#245ea7"/></marker>
+<style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#172e45}.title{font-size:34px;font-weight:750;letter-spacing:-.6px}.name{font-size:25px;font-weight:700}.body{font-size:20px;fill:#516377}.small{font-size:17px;fill:#516377}.tag{font-size:16px;font-weight:700;letter-spacing:1.4px;fill:#516377}.group-light{font-size:23px;font-weight:700;fill:white}.route{fill:none;stroke:#172e45;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}.async{fill:none;stroke:#245ea7;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:7 5}.dependency{fill:none;stroke:#245ea7;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}.mono{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:17px;fill:#516377}</style>
+<marker id="arrow" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+<path d="M1 1L8 4L1 7" fill="none" stroke="#172e45" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+<symbol id="vendor-react" viewBox="0 0 569 512">
+<g  id="react-Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="react-React-Logo-Filled-(1)" fill="#087EA4" fill-rule="nonzero">
+            <path d="M285.5,201 C255.400481,201 231,225.400481 231,255.5 C231,285.599519 255.400481,310 285.5,310 C315.599519,310 340,285.599519 340,255.5 C340,225.400481 315.599519,201 285.5,201" id="react-Path" />
+            <path d="M568.959856,255.99437 C568.959856,213.207656 529.337802,175.68144 466.251623,150.985214 C467.094645,145.423543 467.85738,139.922107 468.399323,134.521063 C474.621631,73.0415145 459.808523,28.6686204 426.709856,9.5541429 C389.677085,-11.8291748 337.36955,3.69129898 284.479928,46.0162134 C231.590306,3.69129898 179.282771,-11.8291748 142.25,9.5541429 C109.151333,28.6686204 94.3382249,73.0415145 100.560533,134.521063 C101.102476,139.922107 101.845139,145.443621 102.708233,151.02537 C97.4493791,153.033193 92.2908847,155.161486 87.3331099,157.39017 C31.0111824,182.708821 0,217.765415 0,255.99437 C0,298.781084 39.6220545,336.307301 102.708233,361.003527 C101.845139,366.565197 101.102476,372.066633 100.560533,377.467678 C94.3382249,438.947226 109.151333,483.32012 142.25,502.434597 C153.629683,508.887578 166.52439,512.186771 179.603923,511.991836 C210.956328,511.991836 247.567589,495.487529 284.479928,465.972527 C321.372196,495.487529 358.003528,511.991836 389.396077,511.991836 C402.475265,512.183856 415.36922,508.884856 426.75,502.434597 C459.848667,483.32012 474.661775,438.947226 468.439467,377.467678 C467.897524,372.066633 467.134789,366.565197 466.291767,361.003527 C529.377946,336.347457 569,298.761006 569,255.99437 M389.155214,27.1025182 C397.565154,26.899606 405.877839,28.9368502 413.241569,33.0055186 C436.223966,46.2772304 446.540955,82.2775015 441.522965,131.770345 C441.181741,135.143488 440.780302,138.556788 440.298575,141.990165 C414.066922,134.08804 387.205771,128.452154 360.010724,125.144528 C343.525021,103.224055 325.192524,82.7564475 305.214266,63.9661533 C336.586743,39.7116483 366.032313,27.1025182 389.135142,27.1025182 M378.356498,310.205598 C368.204912,327.830733 357.150626,344.919965 345.237759,361.405091 C325.045049,363.479997 304.758818,364.51205 284.459856,364.497299 C264.167589,364.51136 243.888075,363.479308 223.702025,361.405091 C211.820914,344.919381 200.80007,327.83006 190.683646,310.205598 C180.532593,292.629285 171.306974,274.534187 163.044553,255.99437 C171.306974,237.454554 180.532593,219.359455 190.683646,201.783142 C200.784121,184.229367 211.770999,167.201087 223.601665,150.764353 C243.824636,148.63809 264.145559,147.579168 284.479928,147.591877 C304.772146,147.579725 325.051559,148.611772 345.237759,150.68404 C357.109048,167.14607 368.136094,184.201112 378.27621,201.783142 C388.419418,219.363718 397.644825,237.458403 405.915303,255.99437 C397.644825,274.530337 388.419418,292.625022 378.27621,310.205598 M419.724813,290.127366 C426.09516,307.503536 431.324985,325.277083 435.380944,343.334682 C417.779633,348.823635 399.836793,353.149774 381.668372,356.285142 C388.573127,345.871232 395.263781,335.035679 401.740334,323.778483 C408.143291,312.655143 414.144807,301.431411 419.805101,290.207679 M246.363271,390.377981 C258.848032,391.140954 271.593728,391.582675 284.5,391.582675 C297.406272,391.582675 310.232256,391.140954 322.737089,390.377981 C310.880643,404.583418 298.10766,417.997563 284.5,430.534446 C270.921643,417.999548 258.18192,404.585125 246.363271,390.377981 Z M187.311556,356.244986 C169.137286,353.123646 151.187726,348.810918 133.578912,343.334682 C137.618549,325.305649 142.828222,307.559058 149.174827,290.207679 C154.754833,301.431411 160.736278,312.655143 167.239594,323.778483 C173.74291,334.901824 180.467017,345.864539 187.311556,356.285142 M149.174827,221.760984 C142.850954,204.473938 137.654787,186.794745 133.619056,168.834762 C151.18418,163.352378 169.085653,159.013101 187.211197,155.844146 C180.346585,166.224592 173.622478,176.986525 167.139234,188.210257 C160.65599,199.433989 154.734761,210.517173 149.074467,221.760984 M322.616657,121.590681 C310.131896,120.827708 297.3862,120.385987 284.379568,120.385987 C271.479987,120.385987 258.767744,120.787552 246.242839,121.590681 C258.061488,107.383537 270.801211,93.9691137 284.379568,81.4342157 C297.99241,93.9658277 310.765727,107.380324 322.616657,121.590681 Z M401.70019,188.210257 C395.196875,176.939676 388.472767,166.09743 381.527868,155.68352 C399.744224,158.819049 417.734224,163.151949 435.380944,168.654058 C431.331963,186.680673 426.122466,204.426664 419.785029,221.781062 C414.205023,210.55733 408.203506,199.333598 401.720262,188.230335 M127.517179,131.790423 C122.438973,82.3176579 132.816178,46.2973086 155.778503,33.0255968 C163.144699,28.9632474 171.455651,26.9264282 179.864858,27.1225964 C202.967687,27.1225964 232.413257,39.7317265 263.785734,63.9862316 C243.794133,82.7898734 225.448298,103.270812 208.949132,125.204763 C181.761691,128.528025 154.90355,134.14313 128.661281,141.990165 C128.199626,138.556788 127.778115,135.163566 127.456963,131.790423 M98.4529773,182.106474 C101.54406,180.767925 104.695358,179.429376 107.906872,178.090828 C114.220532,204.735668 122.781793,230.7969 133.498624,255.99437 C122.761529,281.241316 114.193296,307.357063 107.8868,334.058539 C56.7434387,313.076786 27.0971497,284.003505 27.0971497,255.99437 C27.0971497,229.450947 53.1907013,202.526037 98.4529773,182.106474 Z M155.778503,478.963143 C132.816178,465.691432 122.438973,429.671082 127.517179,380.198317 C127.838331,376.825174 128.259842,373.431953 128.721497,369.978497 C154.953686,377.878517 181.814655,383.514365 209.009348,386.824134 C225.500295,408.752719 243.832321,429.233234 263.805806,448.042665 C220.069,481.834331 180.105722,492.97775 155.838719,478.963143 M441.502893,380.198317 C446.520883,429.691161 436.203894,465.691432 413.221497,478.963143 C388.974566,493.017906 348.991216,481.834331 305.274481,448.042665 C325.241364,429.232737 343.566681,408.752215 360.050868,386.824134 C387.245915,383.516508 414.107066,377.880622 440.338719,369.978497 C440.820446,373.431953 441.221885,376.825174 441.563109,380.198317 M461.193488,334.018382 C454.869166,307.332523 446.294494,281.231049 435.561592,255.99437 C446.289797,230.744081 454.857778,204.629101 461.173416,177.930202 C512.216417,198.911955 541.942994,227.985236 541.942994,255.99437 C541.942994,284.003505 512.296705,313.076786 461.153344,334.058539" id="react-Shape" />
+        </g>
+    </g>
+</symbol>
+<symbol id="vendor-dotnet" viewBox="0 0 456 456">
+<rect  width="456" height="456" fill="#512BD4" />
+<path  d="M81.2738 291.333C78.0496 291.333 75.309 290.259 73.052 288.11C70.795 285.906 69.6665 283.289 69.6665 280.259C69.6665 277.173 70.795 274.529 73.052 272.325C75.309 270.121 78.0496 269.019 81.2738 269.019C84.5518 269.019 87.3193 270.121 89.5763 272.325C91.887 274.529 93.0424 277.173 93.0424 280.259C93.0424 283.289 91.887 285.906 89.5763 288.11C87.3193 290.259 84.5518 291.333 81.2738 291.333Z" fill="white" />
+<path  d="M210.167 289.515H189.209L133.994 202.406C132.597 200.202 131.441 197.915 130.528 195.546H130.044C130.474 198.081 130.689 203.508 130.689 211.827V289.515H112.149V171H134.477L187.839 256.043C190.096 259.57 191.547 261.994 192.192 263.316H192.514C191.977 260.176 191.708 254.859 191.708 247.365V171H210.167V289.515Z" fill="white" />
+<path  d="M300.449 289.515H235.561V171H297.87V187.695H254.746V221.249H294.485V237.861H254.746V272.903H300.449V289.515Z" fill="white" />
+<path  d="M392.667 187.695H359.457V289.515H340.272V187.695H307.143V171H392.667V187.695Z" fill="white" />
+</symbol>
+<symbol id="vendor-docker" viewBox="0 0 340 268">
+<defs >
+    <style>
+      .st0 {
+        fill: none;
+      }
+
+      .st1 {
+        fill: #2560ff;
+      }
+
+      .st2 {
+        clip-path: url(#clippath);
+      }
+    </style>
+    <clipPath id="docker-clippath">
+      <rect class="st0" width="339.5" height="268" />
+    </clipPath>
+  </defs>
+  <g  class="st2">
+    <path class="st1" d="M334,110.1c-8.3-5.6-30.2-8-46.1-3.7-.9-15.8-9-29.2-24-40.8l-5.5-3.7-3.7,5.6c-7.2,11-10.3,25.7-9.2,39,.8,8.2,3.7,17.4,9.2,24.1-20.7,12-39.8,9.3-124.3,9.3H0c-.4,19.1,2.7,55.8,26,85.6,2.6,3.3,5.4,6.5,8.5,9.6,19,19,47.6,32.9,90.5,33,65.4,0,121.4-35.3,155.5-120.8,11.2.2,40.8,2,55.3-26,.4-.5,3.7-7.4,3.7-7.4l-5.5-3.7h0ZM85.2,92.7h-36.7v36.7h36.7v-36.7ZM132.6,92.7h-36.7v36.7h36.7v-36.7ZM179.9,92.7h-36.7v36.7h36.7v-36.7ZM227.3,92.7h-36.7v36.7h36.7v-36.7ZM37.8,92.7H1.1v36.7h36.7v-36.7ZM85.2,46.3h-36.7v36.7h36.7v-36.7ZM132.6,46.3h-36.7v36.7h36.7v-36.7ZM179.9,46.3h-36.7v36.7h36.7v-36.7ZM179.9,0h-36.7v36.7h36.7V0Z" />
+  </g>
+</symbol>
+<symbol id="vendor-postgres" viewBox="0 0 432.071 445.383">
+<g  id="postgres-orginal" style="fill-rule:nonzero;clip-rule:nonzero;stroke:#000000;stroke-miterlimit:4;">
+	</g>
+<g  id="postgres-Layer_x0020_3" style="fill-rule:nonzero;clip-rule:nonzero;fill:none;stroke:#FFFFFF;stroke-width:12.4651;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;">
+<path style="fill:#000000;stroke:#000000;stroke-width:37.3953;stroke-linecap:butt;stroke-linejoin:miter;" d="M323.205,324.227c2.833-23.601,1.984-27.062,19.563-23.239l4.463,0.392c13.517,0.615,31.199-2.174,41.587-7c22.362-10.376,35.622-27.7,13.572-23.148c-50.297,10.376-53.755-6.655-53.755-6.655c53.111-78.803,75.313-178.836,56.149-203.322    C352.514-5.534,262.036,26.049,260.522,26.869l-0.482,0.089c-9.938-2.062-21.06-3.294-33.554-3.496c-22.761-0.374-40.032,5.967-53.133,15.904c0,0-161.408-66.498-153.899,83.628c1.597,31.936,45.777,241.655,98.47,178.31    c19.259-23.163,37.871-42.748,37.871-42.748c9.242,6.14,20.307,9.272,31.912,8.147l0.897-0.765c-0.281,2.876-0.157,5.689,0.359,9.019c-13.572,15.167-9.584,17.83-36.723,23.416c-27.457,5.659-11.326,15.734-0.797,18.367c12.768,3.193,42.305,7.716,62.268-20.224    l-0.795,3.188c5.325,4.26,4.965,30.619,5.72,49.452c0.756,18.834,2.017,36.409,5.856,46.771c3.839,10.36,8.369,37.05,44.036,29.406c29.809-6.388,52.6-15.582,54.677-101.107" />
+<path style="fill:#336791;stroke:none;" d="M402.395,271.23c-50.302,10.376-53.76-6.655-53.76-6.655c53.111-78.808,75.313-178.843,56.153-203.326c-52.27-66.785-142.752-35.2-144.262-34.38l-0.486,0.087c-9.938-2.063-21.06-3.292-33.56-3.496c-22.761-0.373-40.026,5.967-53.127,15.902    c0,0-161.411-66.495-153.904,83.63c1.597,31.938,45.776,241.657,98.471,178.312c19.26-23.163,37.869-42.748,37.869-42.748c9.243,6.14,20.308,9.272,31.908,8.147l0.901-0.765c-0.28,2.876-0.152,5.689,0.361,9.019c-13.575,15.167-9.586,17.83-36.723,23.416    c-27.459,5.659-11.328,15.734-0.796,18.367c12.768,3.193,42.307,7.716,62.266-20.224l-0.796,3.188c5.319,4.26,9.054,27.711,8.428,48.969c-0.626,21.259-1.044,35.854,3.147,47.254c4.191,11.4,8.368,37.05,44.042,29.406c29.809-6.388,45.256-22.942,47.405-50.555    c1.525-19.631,4.976-16.729,5.194-34.28l2.768-8.309c3.192-26.611,0.507-35.196,18.872-31.203l4.463,0.392c13.517,0.615,31.208-2.174,41.591-7c22.358-10.376,35.618-27.7,13.573-23.148z" />
+<path d="M215.866,286.484c-1.385,49.516,0.348,99.377,5.193,111.495c4.848,12.118,15.223,35.688,50.9,28.045c29.806-6.39,40.651-18.756,45.357-46.051c3.466-20.082,10.148-75.854,11.005-87.281" />
+<path d="M173.104,38.256c0,0-161.521-66.016-154.012,84.109c1.597,31.938,45.779,241.664,98.473,178.316c19.256-23.166,36.671-41.335,36.671-41.335" />
+<path d="M260.349,26.207c-5.591,1.753,89.848-34.889,144.087,34.417c19.159,24.484-3.043,124.519-56.153,203.329" />
+<path style="stroke-linejoin:bevel;" d="M348.282,263.953c0,0,3.461,17.036,53.764,6.653c22.04-4.552,8.776,12.774-13.577,23.155c-18.345,8.514-59.474,10.696-60.146-1.069c-1.729-30.355,21.647-21.133,19.96-28.739c-1.525-6.85-11.979-13.573-18.894-30.338    c-6.037-14.633-82.796-126.849,21.287-110.183c3.813-0.789-27.146-99.002-124.553-100.599c-97.385-1.597-94.19,119.762-94.19,119.762" />
+<path d="M188.604,274.334c-13.577,15.166-9.584,17.829-36.723,23.417c-27.459,5.66-11.326,15.733-0.797,18.365c12.768,3.195,42.307,7.718,62.266-20.229c6.078-8.509-0.036-22.086-8.385-25.547c-4.034-1.671-9.428-3.765-16.361,3.994z" />
+<path d="M187.715,274.069c-1.368-8.917,2.93-19.528,7.536-31.942c6.922-18.626,22.893-37.255,10.117-96.339c-9.523-44.029-73.396-9.163-73.436-3.193c-0.039,5.968,2.889,30.26-1.067,58.548c-5.162,36.913,23.488,68.132,56.479,64.938" />
+<path style="fill:#FFFFFF;stroke-width:4.155;stroke-linecap:butt;stroke-linejoin:miter;" d="M172.517,141.7c-0.288,2.039,3.733,7.48,8.976,8.207c5.234,0.73,9.714-3.522,9.998-5.559c0.284-2.039-3.732-4.285-8.977-5.015c-5.237-0.731-9.719,0.333-9.996,2.367z" />
+<path style="fill:#FFFFFF;stroke-width:2.0775;stroke-linecap:butt;stroke-linejoin:miter;" d="M331.941,137.543c0.284,2.039-3.732,7.48-8.976,8.207c-5.238,0.73-9.718-3.522-10.005-5.559c-0.277-2.039,3.74-4.285,8.979-5.015c5.239-0.73,9.718,0.333,10.002,2.368z" />
+<path d="M350.676,123.432c0.863,15.994-3.445,26.888-3.988,43.914c-0.804,24.748,11.799,53.074-7.191,81.435" />
+<path style="stroke-width:3;" d="M0,60.232" />
+</g>
+</symbol>
+<symbol id="vendor-kafka" viewBox="0 0 256 416">
+<path  d="M201.816 230.216c-16.186 0-30.697 7.171-40.634 18.461l-25.463-18.026c2.703-7.442 4.255-15.433 4.255-23.797 0-8.219-1.498-16.076-4.112-23.408l25.406-17.835c9.936 11.233 24.409 18.365 40.548 18.365 29.875 0 54.184-24.305 54.184-54.184 0-29.879-24.309-54.184-54.184-54.184-29.875 0-54.184 24.305-54.184 54.184 0 5.348.808 10.505 2.258 15.389l-25.423 17.844c-10.62-13.175-25.911-22.374-43.333-25.182v-30.64c24.544-5.155 43.037-26.962 43.037-53.019C124.171 24.305 99.862 0 69.987 0 40.112 0 15.803 24.305 15.803 54.184c0 25.708 18.014 47.246 42.067 52.769v31.038C25.044 143.753 0 172.401 0 206.854c0 34.621 25.292 63.374 58.355 68.94v32.774c-24.299 5.341-42.552 27.011-42.552 52.894 0 29.879 24.309 54.184 54.184 54.184 29.875 0 54.184-24.305 54.184-54.184 0-25.883-18.253-47.553-42.552-52.894v-32.775a69.965 69.965 0 0 0 42.6-24.776l25.633 18.143c-1.423 4.84-2.22 9.946-2.22 15.24 0 29.879 24.309 54.184 54.184 54.184 29.875 0 54.184-24.305 54.184-54.184 0-29.879-24.309-54.184-54.184-54.184zm0-126.695c14.487 0 26.27 11.788 26.27 26.271s-11.783 26.27-26.27 26.27-26.27-11.787-26.27-26.27c0-14.483 11.783-26.271 26.27-26.271zm-158.1-49.337c0-14.483 11.784-26.27 26.271-26.27s26.27 11.787 26.27 26.27c0 14.483-11.783 26.27-26.27 26.27s-26.271-11.787-26.271-26.27zm52.541 307.278c0 14.483-11.783 26.27-26.27 26.27s-26.271-11.787-26.271-26.27c0-14.483 11.784-26.27 26.271-26.27s26.27 11.787 26.27 26.27zm-26.272-117.97c-20.205 0-36.642-16.434-36.642-36.638 0-20.205 16.437-36.642 36.642-36.642 20.204 0 36.641 16.437 36.641 36.642 0 20.204-16.437 36.638-36.641 36.638zm131.831 67.179c-14.487 0-26.27-11.788-26.27-26.271s11.783-26.27 26.27-26.27 26.27 11.787 26.27 26.27c0 14.483-11.783 26.271-26.27 26.271z" style="fill:#231f20" />
+</symbol>
+<symbol id="vendor-ollama" viewBox="0 0 17 25">
+<path  fill-rule="evenodd" clip-rule="evenodd" d="M4.40517 0.102088C4.62117 0.198678 4.81617 0.357766 4.99317 0.56799C5.28817 0.915712 5.53718 1.41342 5.72718 2.00318C5.91818 2.59635 6.04218 3.25316 6.08918 3.91224C6.71878 3.5075 7.41754 3.26103 8.13818 3.18953L8.18918 3.18498C9.05919 3.10544 9.91919 3.28384 10.6692 3.72361C10.7702 3.78384 10.8692 3.84861 10.9662 3.91679C11.0162 3.27021 11.1382 2.62817 11.3262 2.04863C11.5162 1.45773 11.7652 0.961166 12.0592 0.612308C12.2235 0.410338 12.4245 0.251368 12.6482 0.146406C12.9052 0.032771 13.1782 0.0123167 13.4442 0.098679C13.8452 0.228223 14.1892 0.516855 14.4602 0.936167C14.7082 1.3191 14.8942 1.81 15.0212 2.39863C15.2512 3.45998 15.2912 4.85655 15.1362 6.54061L15.1892 6.58607L15.2152 6.60766C15.9722 7.26219 16.4992 8.19513 16.7782 9.27807C17.2133 10.9678 16.9943 12.8632 16.2442 13.9235L16.2262 13.9473L16.2282 13.9507C16.6453 14.8166 16.8983 15.7314 16.9523 16.678L16.9543 16.7121C17.0183 17.9223 16.7542 19.1404 16.1402 20.337L16.1332 20.3484L16.1432 20.3756C16.6152 21.6904 16.7632 23.0142 16.5812 24.3369L16.5752 24.3813C16.547 24.5744 16.4525 24.7472 16.3125 24.8612C16.1725 24.9753 15.9983 25.0219 15.8282 24.9903C15.744 24.9753 15.6632 24.9417 15.5904 24.8912C15.5177 24.8408 15.4544 24.7744 15.4042 24.696C15.3541 24.6178 15.318 24.529 15.2981 24.4347C15.2782 24.3406 15.2748 24.2428 15.2882 24.1472C15.4552 22.9733 15.2982 21.7961 14.8082 20.5984C14.7625 20.4871 14.7422 20.3645 14.7492 20.242C14.7562 20.1194 14.7902 20.0009 14.8482 19.8972L14.8522 19.8904C15.4562 18.8404 15.7062 17.8109 15.6522 16.7996C15.6062 15.9143 15.3272 15.045 14.8522 14.2166C14.7598 14.0556 14.7269 13.8597 14.7606 13.6713C14.7943 13.4829 14.8918 13.3171 15.0322 13.2098L15.0412 13.203C15.2842 13.0223 15.5082 12.561 15.6212 11.9303C15.7459 11.1846 15.7133 10.4159 15.5262 9.68716C15.3212 8.89171 14.9462 8.22809 14.4212 7.77468C13.8262 7.25878 13.0382 7.00992 12.0412 7.08151C11.9108 7.09115 11.7809 7.05613 11.6682 6.98097C11.5556 6.90581 11.4653 6.79399 11.4092 6.65993C11.0952 5.90426 10.6372 5.36336 10.0662 5.02814C9.51799 4.71723 8.90425 4.58657 8.29418 4.65087C7.04918 4.76337 5.95118 5.56108 5.62418 6.56675C5.57792 6.70829 5.4947 6.8304 5.38568 6.91672C5.27666 7.00301 5.14703 7.04942 5.01417 7.0497C3.94717 7.05197 3.12117 7.33606 2.51717 7.84855C1.99517 8.29172 1.63916 8.91103 1.45116 9.65307C1.28104 10.3515 1.25774 11.0857 1.38316 11.7962C1.49516 12.4303 1.71416 12.9553 1.96517 13.2382L1.97317 13.2462C2.18517 13.4814 2.23017 13.8485 2.08217 14.1382C1.72216 14.845 1.45316 15.8984 1.40916 16.9109C1.35916 18.0677 1.59516 19.0722 2.12817 19.7927L2.14417 19.8143C2.22461 19.9208 2.27633 20.0514 2.29319 20.1905C2.31003 20.3295 2.29127 20.4711 2.23917 20.5984C1.66316 22.0029 1.48616 23.1574 1.67716 24.0665C1.71148 24.2556 1.67954 24.4524 1.58812 24.6149C1.4967 24.7776 1.35302 24.8933 1.18766 24.9374C1.0223 24.9817 0.848322 24.9506 0.702741 24.8512C0.557141 24.7517 0.451463 24.5917 0.408163 24.4051C0.165162 23.2483 0.330162 21.9233 0.881162 20.4302L0.895162 20.3904L0.887162 20.3768C0.616341 19.9222 0.414243 19.4195 0.289162 18.8893L0.284162 18.8677C0.132362 18.2062 0.0726416 17.5218 0.107162 16.8393C0.151162 15.8052 0.385163 14.7462 0.729162 13.8962L0.741162 13.8666L0.739162 13.8644C0.446163 13.3894 0.229162 12.7814 0.109162 12.1087L0.104162 12.0814C-0.0611788 11.1431 -0.0293187 10.1737 0.197162 9.25194C0.459163 8.21218 0.974162 7.31901 1.73316 6.67356C1.79316 6.62243 1.85616 6.57129 1.91916 6.52357C1.76016 4.827 1.80016 3.42134 2.03117 2.35317C2.15817 1.76455 2.34517 1.27365 2.59317 0.890713C2.86317 0.472537 3.20717 0.183905 3.60817 0.0532252C3.87417 -0.0331371 4.14817 -0.0126829 4.40517 0.102088ZM8.52118 10.4315C9.45719 10.4315 10.3212 10.7871 10.9672 11.403C11.5972 12.0019 11.9722 12.8064 11.9722 13.6076C11.9722 14.6166 11.5662 15.403 10.8392 15.9052C10.2192 16.3314 9.38819 16.5382 8.43618 16.5382C7.42718 16.5382 6.56518 16.2439 5.94318 15.7041C5.32618 15.17 4.98017 14.42 4.98017 13.6076C4.98017 12.8042 5.37818 11.9973 6.03618 11.3962C6.70418 10.786 7.58618 10.4315 8.52118 10.4315ZM8.52118 11.4496C7.82742 11.4428 7.15204 11.7031 6.60518 12.1883C6.14418 12.6087 5.88318 13.1371 5.88318 13.6087C5.88318 14.095 6.09318 14.5507 6.49318 14.8973C6.94818 15.2916 7.61718 15.52 8.43618 15.52C9.23519 15.52 9.90919 15.353 10.3682 15.0359C10.8312 14.7178 11.0682 14.2564 11.0682 13.6076C11.0682 13.1269 10.8222 12.5962 10.3852 12.1803C9.90119 11.7201 9.24519 11.4496 8.52118 11.4496ZM9.18319 12.8246L9.18719 12.8292C9.30719 13.0007 9.28219 13.2496 9.13119 13.386L8.83919 13.6473V14.1541C8.83865 14.267 8.79877 14.375 8.72829 14.4544C8.6578 14.5339 8.56246 14.5783 8.46318 14.578C8.3639 14.5783 8.26856 14.5339 8.19808 14.4544C8.12758 14.375 8.0877 14.267 8.08718 14.1541V13.6314L7.81618 13.3837C7.78042 13.3511 7.7507 13.3109 7.72872 13.2652C7.70674 13.2195 7.69294 13.1694 7.6881 13.1176C7.68326 13.0658 7.6875 13.0135 7.70056 12.9636C7.71362 12.9137 7.73524 12.8672 7.76418 12.8269C7.8232 12.7452 7.9082 12.6934 8.0007 12.6825C8.09318 12.6717 8.18572 12.7027 8.25818 12.7689L8.47318 12.9644L8.69318 12.7667C8.76538 12.7018 8.85702 12.6716 8.94854 12.6825C9.04009 12.6933 9.12427 12.7443 9.18319 12.8246ZM4.14317 10.644C4.62117 10.644 5.01017 11.0871 5.01017 11.6337C5.01043 11.8957 4.91917 12.1471 4.75641 12.3327C4.59365 12.5183 4.37273 12.6229 4.14217 12.6235C3.91195 12.6226 3.69143 12.518 3.52893 12.3327C3.36641 12.1474 3.27517 11.8965 3.27517 11.6349C3.27463 11.3729 3.36565 11.1213 3.52821 10.9355C3.69079 10.7497 3.91261 10.6449 4.14317 10.644ZM12.8492 10.644C13.3292 10.644 13.7172 11.0871 13.7172 11.6337C13.7175 11.8957 13.6262 12.1471 13.4634 12.3327C13.3007 12.5183 13.0798 12.6229 12.8492 12.6235C12.619 12.6226 12.3985 12.518 12.236 12.3327C12.0734 12.1474 11.9822 11.8965 11.9822 11.6349C11.9817 11.3729 12.0727 11.1213 12.2352 10.9355C12.3978 10.7497 12.6186 10.6449 12.8492 10.644ZM3.94017 1.47705L3.93717 1.47932C3.82131 1.53657 3.72239 1.63046 3.65217 1.74977L3.64717 1.75659C3.50917 1.97136 3.38917 2.28727 3.29917 2.70203C3.12917 3.48839 3.08317 4.55541 3.17517 5.86335C3.60517 5.7179 4.07417 5.62699 4.57917 5.59404L4.58917 5.5929L4.60817 5.55426C4.65417 5.46108 4.70317 5.37131 4.75617 5.28268C4.87917 4.40655 4.77817 3.35998 4.50317 2.50545C4.36917 2.09182 4.20617 1.76682 4.05017 1.5816C4.01797 1.5431 3.98207 1.5088 3.94317 1.47932L3.94017 1.47705ZM13.1142 1.52251L13.1122 1.52364C13.0733 1.55312 13.0374 1.58741 13.0052 1.62591C12.8492 1.81114 12.6852 2.13727 12.5522 2.5509C12.2622 3.45316 12.1652 4.56905 12.3222 5.47358L12.3802 5.58381L12.3882 5.59972H12.4182C12.9145 5.59988 13.4082 5.68101 13.8842 5.84062C13.9702 4.56337 13.9222 3.51907 13.7562 2.74749C13.6662 2.33272 13.5462 2.01682 13.4072 1.80205L13.4032 1.79523C13.3331 1.67548 13.2342 1.58121 13.1182 1.52364L13.1142 1.52251Z" fill="black" />
+</symbol>
 </defs>
-<rect width="1440" height="960" fill="#fff"/>
-<text x="48" y="40" class="tag">RUNTIME ARCHITECTURE / LOCAL DEFAULT PROFILE</text>
-<text x="48" y="80" class="title">Where the application runs and what it connects to.</text>
-<text x="48" y="108" class="body">One backend process. Separate infrastructure containers. Local browser and Ollama run outside Compose.</text>
-<rect x="40" y="132" width="1360" height="708" rx="8" fill="#fff" stroke="#c4d0dc" />
-<text x="64" y="160" class="tag">LOCAL MACHINE · EXECUTION BOUNDARY</text>
-<rect x="440" y="184" width="920" height="624" rx="8" fill="#f5f7fa" stroke="#c4d0dc" />
-<text x="464" y="212" class="tag">DOCKER COMPOSE · SHARED CONTAINER NETWORK</text>
-<path d="M336 308H488" class="primary-route" marker-end="url(#arrow-accent)"/>
-<path d="M848 296H1032" class="route" marker-end="url(#arrow)"/>
-<path d="M848 408H904Q912 408 912 416V496Q912 504 920 504H1032" class="route" marker-end="url(#arrow)"/>
-<path d="M1032 556H888Q880 556 880 548V464Q880 456 872 456H848" class="async-route" marker-end="url(#arrow)"/>
-<path d="M752 496V616Q752 624 760 624H1164Q1172 624 1172 632V648" class="route" marker-end="url(#arrow)"/>
-<path d="M488 452H400Q392 452 392 460V672Q392 680 384 680H336" class="route" marker-end="url(#arrow)"/>
-<rect x="348" y="280" width="128" height="20" rx="0" fill="#fff" stroke="none" />
-<text x="412.0" y="294" class="tag" text-anchor="middle">HTTP :5188</text>
-<rect x="876" y="268" width="128" height="20" rx="0" fill="#fff" stroke="none" />
-<text x="940.0" y="282" class="tag" text-anchor="middle">SQL / :5432</text>
-<rect x="920" y="476" width="104" height="20" rx="0" fill="#fff" stroke="none" />
-<text x="972.0" y="490" class="tag" text-anchor="middle">SEND / :9092</text>
-<rect x="888" y="528" width="136" height="20" rx="0" fill="#fff" stroke="none" />
-<text x="956.0" y="542" class="tag" text-anchor="middle">RECEIVE / :9092</text>
-<rect x="816" y="596" width="152" height="20" rx="0" fill="#fff" stroke="none" />
-<text x="892.0" y="610" class="tag" text-anchor="middle">HTTP / :8081</text>
-<rect x="400" y="548" width="152" height="20" rx="0" fill="#fff" stroke="none" />
-<text x="476.0" y="562" class="tag" text-anchor="middle">HTTP / :11434</text>
-<rect x="72" y="248" width="264" height="140" rx="6" fill="#fff" stroke="#c4d0dc" />
-<g data-icon="laptop" aria-hidden="true" transform="translate(288 264)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19l18 0" /> <path d="M5 7a1 1 0 0 1 1 -1h12a1 1 0 0 1 1 1v8a1 1 0 0 1 -1 1h-12a1 1 0 0 1 -1 -1l0 -8" /></g><text x="96" y="280" class="tag">BROWSER / HOST</text>
-<text x="96" y="312" class="name">Candidate + reviewer</text>
-<text x="96" y="340" class="body">React SPA · same-origin API</text>
-<text x="96" y="364" class="mono">IndexedDB drafts and audio</text>
-<rect x="488" y="248" width="360" height="248" rx="6" fill="#e7eef8" stroke="#245ea7" />
-<g data-icon="server" aria-hidden="true" transform="translate(800 264)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v2a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3" /> <path d="M3 15a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v2a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3l0 -2" /> <path d="M7 8l0 .01" /> <path d="M7 16l0 .01" /></g><text x="512" y="280" class="tag">CONTAINER: APP · ONE .NET PROCESS</text>
-<text x="512" y="312" class="name">HTTP + background services</text>
-<text x="512" y="340" class="body">Serves built React and authenticated API</text>
-<line x1="512" y1="356" x2="824" y2="356" stroke="#c4d0dc"/>
-<text x="512" y="380" class="tag">IN-PROCESS BACKGROUND LOOPS</text>
-<text x="512" y="404" class="body">Expiry · outbox · Kafka intake · evaluation</text>
-<text x="512" y="428" class="body">Provider retry · cleanup</text>
-<line x1="512" y1="444" x2="824" y2="444" stroke="#c4d0dc"/>
-<text x="512" y="468" class="mono">MOUNTS: recordings · session-keys</text>
-<rect x="1032" y="248" width="280" height="144" rx="6" fill="#fff" stroke="#c4d0dc" />
-<g data-icon="database" aria-hidden="true" transform="translate(1264 264)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6a8 3 0 1 0 16 0a8 3 0 1 0 -16 0" /> <path d="M4 6v6a8 3 0 0 0 16 0v-6" /> <path d="M4 12v6a8 3 0 0 0 16 0v-6" /></g><text x="1056" y="280" class="tag">CONTAINER: POSTGRES</text>
-<text x="1056" y="312" class="name">PostgreSQL database</text>
-<text x="1056" y="336" class="body">assessment · three owned schemas</text>
-<text x="1056" y="364" class="mono">MOUNT postgres-data</text>
-<rect x="1032" y="448" width="280" height="144" rx="6" fill="#fff" stroke="#c4d0dc" />
-<g data-icon="queue" aria-hidden="true" transform="translate(1264 464)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l-8 4l8 4l8 -4l-8 -4" /> <path d="M4 12l8 4l8 -4" /> <path d="M4 16l8 4l8 -4" /></g><text x="1056" y="480" class="tag">CONTAINER: KAFKA</text>
-<text x="1056" y="512" class="name">Broker + processing topic</text>
-<text x="1056" y="536" class="mono">assessment.processing.v1</text>
-<text x="1056" y="560" class="mono">MOUNT kafka-data</text>
-<text x="1056" y="580" class="small">IDs only; no answers or audio</text>
-<rect x="1032" y="648" width="280" height="144" rx="6" fill="#fff" stroke="#c4d0dc" />
-<g data-icon="waveform" aria-hidden="true" transform="translate(1264 664)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10V14M7 6V18M12 3V21M17 7V17M21 10V14"/></g><text x="1056" y="680" class="tag">CONTAINER: TRANSCRIPTION</text>
-<text x="1056" y="712" class="name">whisper.cpp runtime</text>
-<text x="1056" y="736" class="mono">transcription:8081 · internal HTTP</text>
-<text x="1056" y="764" class="mono">MOUNT whisper-models → /models</text>
-<rect x="72" y="608" width="264" height="140" rx="6" fill="#fff" stroke="#c4d0dc" />
-<g data-icon="rubric" aria-hidden="true" transform="translate(288 624)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M7 8L8 9L10 7M13 8H17M7 13L8 14L10 12M13 13H17M7 18H10M13 18H17"/></g><text x="96" y="640" class="tag">HOST RUNTIME</text>
-<text x="96" y="672" class="name">Ollama scoring</text>
-<text x="96" y="696" class="mono">host.docker.internal:11434</text>
-<text x="96" y="720" class="small">Host-managed model storage</text>
-<text x="72" y="448" class="mono">Browser → 127.0.0.1:5188</text>
-<text x="72" y="472" class="mono">Docker forwards to app:8080</text>
-<text x="72" y="504" class="small">Requests carry the session cookie</text>
-<text x="72" y="524" class="small">and a CSRF token for writes.</text>
-<text x="48" y="864" class="mono">OPERATOR LOOPBACK PORTS: PostgreSQL 127.0.0.1:55438 → 5432 · Kafka 127.0.0.1:19098 → 9094. App clients use kafka:9092.</text>
-<text x="48" y="888" class="small">Transcription has no published host port. Defaults shown; host ports and the Ollama model can be configured.</text>
-<line x1="48" y1="904" x2="1392" y2="904" stroke="#c4d0dc"/>
-<text x="48" y="932" class="tag">READING KEY</text>
-<path d="M176 928H224" class="route" marker-end="url(#arrow)"/>
-<text x="240" y="932" class="small">Caller → dependency; result returns</text>
-<path d="M552 928H600" class="async-route" marker-end="url(#arrow)"/>
-<text x="616" y="932" class="small">Message delivery</text>
-<text x="840" y="932" class="small">MOUNT = persistent Docker named volume</text>
-<text x="48" y="952" class="small">Scope frames show execution/network placement, not a firewall or identity boundary. Provider traffic is plain HTTP; no service authentication is implemented.</text>
+<rect width="1200" height="1120" fill="#fff"/>
+<text x="40" y="44" class="tag" text-anchor="start">CANDIDATE ASSESSMENT / LOCAL DEPLOYMENT</text>
+<text x="40" y="92" class="title" text-anchor="start">The system at a glance</text>
+<text x="40" y="126" class="body" text-anchor="start">One application. Supporting containers. Private, persistent evidence.</text>
+<rect x="32" y="164" width="1136" height="864" rx="16" fill="#fff" stroke="#8d9baa" stroke-width="2.2" stroke-dasharray="7 7"/>
+<text x="56" y="194" class="tag" text-anchor="start">LOCAL WORKSTATION</text>
+<rect x="64" y="416" width="816" height="580" rx="16" fill="#f4f8fc" stroke="#8d9baa" stroke-width="2.2" stroke-dasharray="7 7"/>
+<rect x="88" y="392" width="288" height="48" rx="24" fill="#172e45" stroke="#172e45" stroke-width="2.2" />
+<rect x="100" y="400" width="48" height="32" rx="6" fill="#fff" stroke="#fff" stroke-width="2.2" />
+<use href="#vendor-docker" x="108" y="406" width="32" height="20" aria-hidden="true"/>
+<text x="164" y="424" class="group-light" text-anchor="start">Docker Compose</text>
+<path d="M480 352V472" class="route" marker-end="url(#arrow)"/>
+<path d="M280 652V696Q280 704 272 704H224Q216 704 216 712V800" class="route" marker-end="url(#arrow)"/>
+<path d="M480 652V800" class="route" marker-end="url(#arrow)"/>
+<path d="M680 652V696Q680 704 688 704H736Q744 704 744 712V800" class="route" marker-end="url(#arrow)"/>
+<path d="M776 556H892Q900 556 900 564V704Q900 712 908 712H928" class="route" marker-end="url(#arrow)"/>
+<text x="500" y="384" class="small" text-anchor="start">HTTP :5188</text>
+<text x="500" y="410" class="small" text-anchor="start">Cookie + CSRF for writes</text>
+<text x="234" y="758" class="small" text-anchor="start">SQL :5432</text>
+<text x="498" y="758" class="small" text-anchor="start">Kafka :9092</text>
+<text x="762" y="758" class="small" text-anchor="start">HTTP :8081</text>
+<rect x="784" y="512" width="136" height="28" rx="0" fill="#fff" stroke="#fff" stroke-width="2.2" />
+<text x="852" y="534" class="small" text-anchor="middle">HTTP :11434</text>
+<rect x="280" y="216" width="400" height="136" rx="12" fill="#fff" stroke="#172e45" stroke-width="2.2" />
+<use href="#vendor-react" x="308" y="244" width="64" height="56" aria-hidden="true"/>
+<text x="396" y="260" class="name" text-anchor="start">React browser</text>
+<text x="396" y="292" class="body" text-anchor="start">Candidate + reviewer</text>
+<text x="396" y="322" class="small" text-anchor="start">IndexedDB drafts + audio</text>
+<rect x="184" y="472" width="592" height="180" rx="12" fill="#eaf1fb" stroke="#172e45" stroke-width="2.2" />
+<use href="#vendor-dotnet" x="212" y="500" width="56" height="56" aria-hidden="true"/>
+<text x="292" y="512" class="name" text-anchor="start">One .NET application</text>
+<text x="292" y="544" class="body" text-anchor="start">HTTP API + built React assets</text>
+<text x="292" y="576" class="body" text-anchor="start">Access · Assessments · Evaluation</text>
+<text x="212" y="616" class="small" text-anchor="start">Background loops · private audio · cookie keys</text>
+<rect x="104" y="800" width="224" height="164" rx="12" fill="#fff" stroke="#172e45" stroke-width="2.2" />
+<use href="#vendor-postgres" x="192" y="816" width="48" height="48" aria-hidden="true"/>
+<text x="216" y="896" class="name" text-anchor="middle">PostgreSQL</text>
+<text x="216" y="925" class="small" text-anchor="middle">One DB · three schemas</text>
+<text x="216" y="950" class="mono" text-anchor="middle">postgres-data</text>
+<rect x="368" y="800" width="224" height="164" rx="12" fill="#fff" stroke="#172e45" stroke-width="2.2" />
+<a href="https://kafka.apache.org/" aria-label="Apache Kafka project">
+<use href="#vendor-kafka" x="456" y="816" width="48" height="48" aria-hidden="true"/>
+</a>
+<text x="480" y="896" class="name" text-anchor="middle">Apache Kafka</text>
+<text x="480" y="925" class="small" text-anchor="middle">Processing IDs only</text>
+<text x="480" y="950" class="mono" text-anchor="middle">kafka-data</text>
+<rect x="632" y="800" width="224" height="164" rx="12" fill="#fff" stroke="#172e45" stroke-width="2.2" />
+<g aria-hidden="true" transform="translate(720 820)" stroke="#245ea7" fill="none" stroke-width="3" stroke-linecap="round">
+<path d="M0 18V30M10 8V40M24 0V48M38 10V38M48 18V30"/>
+</g>
+<text x="744" y="896" class="name" text-anchor="middle">whisper.cpp</text>
+<text x="744" y="925" class="small" text-anchor="middle">Audio → transcript</text>
+<text x="744" y="950" class="mono" text-anchor="middle">whisper-models</text>
+<rect x="928" y="620" width="208" height="184" rx="12" fill="#fff" stroke="#172e45" stroke-width="2.2" />
+<use href="#vendor-ollama" x="1010" y="640" width="42" height="62" aria-hidden="true"/>
+<text x="1032" y="738" class="name" text-anchor="middle">Ollama</text>
+<text x="1032" y="768" class="small" text-anchor="middle">Score suggestions</text>
+<text x="1032" y="792" class="small" text-anchor="middle">Host runtime</text>
+<text x="1032" y="842" class="small" text-anchor="middle">Outside Compose</text>
+<text x="1032" y="868" class="small" text-anchor="middle">Host model storage</text>
+<line x1="40" y1="1056" x2="1160" y2="1056" stroke="#c4d0dc"/>
+<path d="M40 1084H88" class="route" marker-end="url(#arrow)"/>
+<text x="104" y="1090" class="small" text-anchor="start">Caller → dependency; response returns</text>
+<text x="628" y="1090" class="small" text-anchor="start">Dashed frames = execution scopes, not security walls</text>
 </svg>

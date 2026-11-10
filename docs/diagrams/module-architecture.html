@@ -1,125 +1,143 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Internal modules and persistence ownership</title><style>
-body{margin:0;color:#172e45;background:#f5f7fa;font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:1480px;margin:auto;padding:28px 20px;min-width:0}h1{font-size:24px;margin:0 0 8px}p{max-width:92ch}a{color:#245ea7}.diagram-container{width:100%;overflow-x:auto;background:#fff;border:1px solid #c4d0dc}.diagram-container:focus-visible{outline:3px solid #245ea7;outline-offset:3px}.diagram-container>svg{display:block;width:100%;min-width:1440px}@media print{.diagram-container{overflow-x:visible;border:0}.diagram-container>svg{min-width:0}}
-</style></head><body><main><h1>Internal modules and persistence ownership</h1><p>This component view separates logical ownership from deployment. The three assemblies run inside the same host and use the same PostgreSQL connection. A blue read dependency shows the explicit public contract; the messaging topic runs outside the process.</p><div class="diagram-container" tabindex="0" role="region" aria-label="Scrollable module architecture diagram">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 960" role="img" aria-labelledby="module-architecture-title module-architecture-desc"><title id="module-architecture-title">Internal modules and persistence ownership</title><desc id="module-architecture-desc">Within one .NET process, Access, Assessments and Evaluation own separate EF Core contexts and PostgreSQL schemas; Evaluation reads assessment evidence through IAssessmentReader, while outbox publication and Kafka intake connect the owning modules.</desc>
-<!-- Generic user, laptop, server, database, file and queue glyphs adapted from Tabler Icons.
-Source: https://github.com/tabler/tabler-icons (MIT).
-Copyright (c) 2020-2026 Paweł Kuna
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE. Waveform and rubric glyphs are original diagram artwork. -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modules and data ownership</title>
+<style>body{margin:0;background:#f5f7fa;color:#172e45;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:1240px;margin:auto;padding:28px 20px;min-width:0}h1{font-size:24px;margin:0}p{max-width:90ch}a{color:#245ea7}.diagram-container{width:100%;overflow-x:auto;background:#fff;border:1px solid #c4d0dc}.diagram-container:focus-visible{outline:3px solid #245ea7;outline-offset:3px}.diagram-container>svg{display:block;width:100%;min-width:1200px}@media print{.diagram-container{overflow-x:visible;border:0}.diagram-container>svg{min-width:0}}</style>
+</head>
+<body>
+<main>
+<h1>Modules and data ownership</h1>
+<p>The structure inside the application. The blue read dependency points from Evaluation to the Assessments public interface. The database is shared physically; tables and entities remain module-owned. Scroll horizontally on narrow screens.</p>
+<div class="diagram-container" tabindex="0" role="region" aria-label="Scrollable modules and data ownership diagram">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1280" role="img" aria-labelledby="module-architecture-title module-architecture-desc">
+<title id="module-architecture-title">Modules and data ownership</title>
+<desc id="module-architecture-desc">One .NET process contains Access, Assessments and Evaluation; each uses its own EF Core context and PostgreSQL schema, Evaluation calls the Assessments read contract, and an external Kafka broker carries outbox IDs to durable jobs.</desc>
+<!-- Technology marks are factual product identifiers, not application branding.
+Original vectors: React (reactjs/react.dev), .NET (dotnet/brand), PostgreSQL
+(wiki.postgresql.org), Docker (docker.com), Apache Kafka (apache/kafka-site),
+and Ollama (ollama/ollama). Shapes and vendor colors are preserved.
+Sources, terms and required notices: ../design/vendor-icons.md.
+No external image/font/script requests are needed to render this figure.
+Generic waveform, identity, document and review glyphs are original diagram artwork. -->
 <defs>
-<style>
-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #172e45; }
-.title { font-size: 28px; font-weight: 650; letter-spacing: -0.5px; }
-.name { font-size: 20px; font-weight: 650; }
-.body { font-size: 14px; fill: #516377; }
-.small { font-size: 11px; fill: #516377; }
-.tag { font-size: 10px; font-weight: 600; letter-spacing: 1.1px; fill: #516377; }
-.route { fill: none; stroke: #71879d; stroke-width: 1.6; }
-.primary-route { fill: none; stroke: #245ea7; stroke-width: 1.8; }
-.async-route { fill: none; stroke: #71879d; stroke-width: 1.6; stroke-dasharray: 5 4; }
-.mono { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; fill: #516377; }
-</style>
-<marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0 0L8 3L0 6Z" fill="#71879d"/></marker>
-<marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0 0L8 3L0 6Z" fill="#245ea7"/></marker>
-<marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0 0L8 3L0 6Z" fill="#245ea7"/></marker>
+<style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#172e45}.title{font-size:34px;font-weight:750;letter-spacing:-.6px}.name{font-size:25px;font-weight:700}.body{font-size:20px;fill:#516377}.small{font-size:17px;fill:#516377}.tag{font-size:16px;font-weight:700;letter-spacing:1.4px;fill:#516377}.group-light{font-size:23px;font-weight:700;fill:white}.route{fill:none;stroke:#172e45;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}.async{fill:none;stroke:#245ea7;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:7 5}.dependency{fill:none;stroke:#245ea7;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}.mono{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:17px;fill:#516377}</style>
+<marker id="arrow" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+<path d="M1 1L8 4L1 7" fill="none" stroke="#172e45" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+<symbol id="vendor-dotnet" viewBox="0 0 456 456">
+<rect  width="456" height="456" fill="#512BD4" />
+<path  d="M81.2738 291.333C78.0496 291.333 75.309 290.259 73.052 288.11C70.795 285.906 69.6665 283.289 69.6665 280.259C69.6665 277.173 70.795 274.529 73.052 272.325C75.309 270.121 78.0496 269.019 81.2738 269.019C84.5518 269.019 87.3193 270.121 89.5763 272.325C91.887 274.529 93.0424 277.173 93.0424 280.259C93.0424 283.289 91.887 285.906 89.5763 288.11C87.3193 290.259 84.5518 291.333 81.2738 291.333Z" fill="white" />
+<path  d="M210.167 289.515H189.209L133.994 202.406C132.597 200.202 131.441 197.915 130.528 195.546H130.044C130.474 198.081 130.689 203.508 130.689 211.827V289.515H112.149V171H134.477L187.839 256.043C190.096 259.57 191.547 261.994 192.192 263.316H192.514C191.977 260.176 191.708 254.859 191.708 247.365V171H210.167V289.515Z" fill="white" />
+<path  d="M300.449 289.515H235.561V171H297.87V187.695H254.746V221.249H294.485V237.861H254.746V272.903H300.449V289.515Z" fill="white" />
+<path  d="M392.667 187.695H359.457V289.515H340.272V187.695H307.143V171H392.667V187.695Z" fill="white" />
+</symbol>
+<symbol id="vendor-postgres" viewBox="0 0 432.071 445.383">
+<g  id="postgres-orginal" style="fill-rule:nonzero;clip-rule:nonzero;stroke:#000000;stroke-miterlimit:4;">
+	</g>
+<g  id="postgres-Layer_x0020_3" style="fill-rule:nonzero;clip-rule:nonzero;fill:none;stroke:#FFFFFF;stroke-width:12.4651;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;">
+<path style="fill:#000000;stroke:#000000;stroke-width:37.3953;stroke-linecap:butt;stroke-linejoin:miter;" d="M323.205,324.227c2.833-23.601,1.984-27.062,19.563-23.239l4.463,0.392c13.517,0.615,31.199-2.174,41.587-7c22.362-10.376,35.622-27.7,13.572-23.148c-50.297,10.376-53.755-6.655-53.755-6.655c53.111-78.803,75.313-178.836,56.149-203.322    C352.514-5.534,262.036,26.049,260.522,26.869l-0.482,0.089c-9.938-2.062-21.06-3.294-33.554-3.496c-22.761-0.374-40.032,5.967-53.133,15.904c0,0-161.408-66.498-153.899,83.628c1.597,31.936,45.777,241.655,98.47,178.31    c19.259-23.163,37.871-42.748,37.871-42.748c9.242,6.14,20.307,9.272,31.912,8.147l0.897-0.765c-0.281,2.876-0.157,5.689,0.359,9.019c-13.572,15.167-9.584,17.83-36.723,23.416c-27.457,5.659-11.326,15.734-0.797,18.367c12.768,3.193,42.305,7.716,62.268-20.224    l-0.795,3.188c5.325,4.26,4.965,30.619,5.72,49.452c0.756,18.834,2.017,36.409,5.856,46.771c3.839,10.36,8.369,37.05,44.036,29.406c29.809-6.388,52.6-15.582,54.677-101.107" />
+<path style="fill:#336791;stroke:none;" d="M402.395,271.23c-50.302,10.376-53.76-6.655-53.76-6.655c53.111-78.808,75.313-178.843,56.153-203.326c-52.27-66.785-142.752-35.2-144.262-34.38l-0.486,0.087c-9.938-2.063-21.06-3.292-33.56-3.496c-22.761-0.373-40.026,5.967-53.127,15.902    c0,0-161.411-66.495-153.904,83.63c1.597,31.938,45.776,241.657,98.471,178.312c19.26-23.163,37.869-42.748,37.869-42.748c9.243,6.14,20.308,9.272,31.908,8.147l0.901-0.765c-0.28,2.876-0.152,5.689,0.361,9.019c-13.575,15.167-9.586,17.83-36.723,23.416    c-27.459,5.659-11.328,15.734-0.796,18.367c12.768,3.193,42.307,7.716,62.266-20.224l-0.796,3.188c5.319,4.26,9.054,27.711,8.428,48.969c-0.626,21.259-1.044,35.854,3.147,47.254c4.191,11.4,8.368,37.05,44.042,29.406c29.809-6.388,45.256-22.942,47.405-50.555    c1.525-19.631,4.976-16.729,5.194-34.28l2.768-8.309c3.192-26.611,0.507-35.196,18.872-31.203l4.463,0.392c13.517,0.615,31.208-2.174,41.591-7c22.358-10.376,35.618-27.7,13.573-23.148z" />
+<path d="M215.866,286.484c-1.385,49.516,0.348,99.377,5.193,111.495c4.848,12.118,15.223,35.688,50.9,28.045c29.806-6.39,40.651-18.756,45.357-46.051c3.466-20.082,10.148-75.854,11.005-87.281" />
+<path d="M173.104,38.256c0,0-161.521-66.016-154.012,84.109c1.597,31.938,45.779,241.664,98.473,178.316c19.256-23.166,36.671-41.335,36.671-41.335" />
+<path d="M260.349,26.207c-5.591,1.753,89.848-34.889,144.087,34.417c19.159,24.484-3.043,124.519-56.153,203.329" />
+<path style="stroke-linejoin:bevel;" d="M348.282,263.953c0,0,3.461,17.036,53.764,6.653c22.04-4.552,8.776,12.774-13.577,23.155c-18.345,8.514-59.474,10.696-60.146-1.069c-1.729-30.355,21.647-21.133,19.96-28.739c-1.525-6.85-11.979-13.573-18.894-30.338    c-6.037-14.633-82.796-126.849,21.287-110.183c3.813-0.789-27.146-99.002-124.553-100.599c-97.385-1.597-94.19,119.762-94.19,119.762" />
+<path d="M188.604,274.334c-13.577,15.166-9.584,17.829-36.723,23.417c-27.459,5.66-11.326,15.733-0.797,18.365c12.768,3.195,42.307,7.718,62.266-20.229c6.078-8.509-0.036-22.086-8.385-25.547c-4.034-1.671-9.428-3.765-16.361,3.994z" />
+<path d="M187.715,274.069c-1.368-8.917,2.93-19.528,7.536-31.942c6.922-18.626,22.893-37.255,10.117-96.339c-9.523-44.029-73.396-9.163-73.436-3.193c-0.039,5.968,2.889,30.26-1.067,58.548c-5.162,36.913,23.488,68.132,56.479,64.938" />
+<path style="fill:#FFFFFF;stroke-width:4.155;stroke-linecap:butt;stroke-linejoin:miter;" d="M172.517,141.7c-0.288,2.039,3.733,7.48,8.976,8.207c5.234,0.73,9.714-3.522,9.998-5.559c0.284-2.039-3.732-4.285-8.977-5.015c-5.237-0.731-9.719,0.333-9.996,2.367z" />
+<path style="fill:#FFFFFF;stroke-width:2.0775;stroke-linecap:butt;stroke-linejoin:miter;" d="M331.941,137.543c0.284,2.039-3.732,7.48-8.976,8.207c-5.238,0.73-9.718-3.522-10.005-5.559c-0.277-2.039,3.74-4.285,8.979-5.015c5.239-0.73,9.718,0.333,10.002,2.368z" />
+<path d="M350.676,123.432c0.863,15.994-3.445,26.888-3.988,43.914c-0.804,24.748,11.799,53.074-7.191,81.435" />
+<path style="stroke-width:3;" d="M0,60.232" />
+</g>
+</symbol>
+<symbol id="vendor-kafka" viewBox="0 0 256 416">
+<path  d="M201.816 230.216c-16.186 0-30.697 7.171-40.634 18.461l-25.463-18.026c2.703-7.442 4.255-15.433 4.255-23.797 0-8.219-1.498-16.076-4.112-23.408l25.406-17.835c9.936 11.233 24.409 18.365 40.548 18.365 29.875 0 54.184-24.305 54.184-54.184 0-29.879-24.309-54.184-54.184-54.184-29.875 0-54.184 24.305-54.184 54.184 0 5.348.808 10.505 2.258 15.389l-25.423 17.844c-10.62-13.175-25.911-22.374-43.333-25.182v-30.64c24.544-5.155 43.037-26.962 43.037-53.019C124.171 24.305 99.862 0 69.987 0 40.112 0 15.803 24.305 15.803 54.184c0 25.708 18.014 47.246 42.067 52.769v31.038C25.044 143.753 0 172.401 0 206.854c0 34.621 25.292 63.374 58.355 68.94v32.774c-24.299 5.341-42.552 27.011-42.552 52.894 0 29.879 24.309 54.184 54.184 54.184 29.875 0 54.184-24.305 54.184-54.184 0-25.883-18.253-47.553-42.552-52.894v-32.775a69.965 69.965 0 0 0 42.6-24.776l25.633 18.143c-1.423 4.84-2.22 9.946-2.22 15.24 0 29.879 24.309 54.184 54.184 54.184 29.875 0 54.184-24.305 54.184-54.184 0-29.879-24.309-54.184-54.184-54.184zm0-126.695c14.487 0 26.27 11.788 26.27 26.271s-11.783 26.27-26.27 26.27-26.27-11.787-26.27-26.27c0-14.483 11.783-26.271 26.27-26.271zm-158.1-49.337c0-14.483 11.784-26.27 26.271-26.27s26.27 11.787 26.27 26.27c0 14.483-11.783 26.27-26.27 26.27s-26.271-11.787-26.271-26.27zm52.541 307.278c0 14.483-11.783 26.27-26.27 26.27s-26.271-11.787-26.271-26.27c0-14.483 11.784-26.27 26.271-26.27s26.27 11.787 26.27 26.27zm-26.272-117.97c-20.205 0-36.642-16.434-36.642-36.638 0-20.205 16.437-36.642 36.642-36.642 20.204 0 36.641 16.437 36.641 36.642 0 20.204-16.437 36.638-36.641 36.638zm131.831 67.179c-14.487 0-26.27-11.788-26.27-26.271s11.783-26.27 26.27-26.27 26.27 11.787 26.27 26.27c0 14.483-11.783 26.271-26.27 26.271z" style="fill:#231f20" />
+</symbol>
 </defs>
-<rect width="1440" height="960" fill="#fff"/>
-<text x="48" y="40" class="tag">COMPONENT ARCHITECTURE / MODULES AND DATA OWNERSHIP</text>
-<text x="48" y="80" class="title">Three assemblies. One process. Explicit ownership.</text>
-<text x="48" y="108" class="body">Business modules share a release and database instance, while code controls persistence access and the public read contract.</text>
-<rect x="40" y="132" width="840" height="620" rx="8" fill="#fff" stroke="#245ea7" />
-<text x="64" y="160" class="tag">ONE .NET HOST · LOGICAL MODULE BOUNDARY</text>
-<rect x="1056" y="132" width="344" height="620" rx="8" fill="#f5f7fa" stroke="#c4d0dc" />
-<text x="1080" y="160" class="tag">ONE POSTGRESQL DATABASE</text>
-<text x="1080" y="188" class="mono">Database: assessment</text>
-<text x="1080" y="216" class="small">Same connection and database role.</text>
-<text x="1080" y="236" class="small">Ownership is enforced by code.</text>
-<rect x="72" y="184" width="776" height="72" rx="6" fill="#f5f7fa" stroke="#c4d0dc" />
-<g data-icon="server" aria-hidden="true" transform="translate(800 200)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v2a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3" /> <path d="M3 15a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v2a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3l0 -2" /> <path d="M7 8l0 .01" /> <path d="M7 16l0 .01" /></g><text x="96" y="212" class="tag">HOST / COMPOSITION ROOT</text>
-<text x="96" y="240" class="body">Registers modules, middleware and routes; serves the built SPA.</text>
-<path d="M632 340H1096" class="route" marker-end="url(#arrow)"/>
-<path d="M632 524H1096" class="route" marker-end="url(#arrow)"/>
-<path d="M632 664H1096" class="route" marker-end="url(#arrow)"/>
-<path d="M632 624H752Q760 624 760 616V532a8 8 0 0 0 0 -16V512" class="primary-route" marker-end="url(#arrow-accent)"/>
-<path d="M688 476H632" class="primary-route" marker-end="url(#arrow-accent)"/>
-<path d="M72 524H56Q48 524 48 532V820Q48 828 56 828H72" class="route" marker-end="url(#arrow)"/>
-<path d="M632 832H688Q696 832 696 824V704Q696 696 688 696H632" class="async-route" marker-end="url(#arrow)"/>
-<rect x="896" y="312" width="144" height="20" rx="0" fill="#fff" stroke="none" />
-<text x="968.0" y="326" class="tag" text-anchor="middle">EF CORE / SQL</text>
-<rect x="896" y="496" width="144" height="20" rx="0" fill="#fff" stroke="none" />
-<text x="968.0" y="510" class="tag" text-anchor="middle">EF CORE / SQL</text>
-<rect x="896" y="636" width="144" height="20" rx="0" fill="#fff" stroke="none" />
-<text x="968.0" y="650" class="tag" text-anchor="middle">EF CORE / SQL</text>
-<rect x="768" y="548" width="72" height="20" rx="0" fill="#fff" stroke="none" />
-<text x="804.0" y="562" class="tag" text-anchor="middle">CALL</text>
-<rect x="640" y="448" width="40" height="20" rx="0" fill="#fff" stroke="none" />
-<text x="660.0" y="462" class="tag" text-anchor="middle">READ</text>
-<rect x="56" y="756" width="128" height="20" rx="0" fill="#fff" stroke="none" />
-<text x="120.0" y="770" class="tag" text-anchor="middle">PUBLISH IDS</text>
-<rect x="704" y="756" width="128" height="20" rx="0" fill="#fff" stroke="none" />
-<text x="768.0" y="770" class="tag" text-anchor="middle">DELIVER IDS</text>
-<rect x="72" y="288" width="560" height="104" rx="6" fill="#fff" stroke="#c4d0dc" />
-<g data-icon="user" aria-hidden="true" transform="translate(584 304)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /> <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /></g><text x="96" y="320" class="tag">ACCESS ASSEMBLY</text>
-<text x="96" y="348" class="name">Identity, sessions and roles</text>
-<text x="96" y="376" class="body">ASP.NET Core Identity · cookie sessions · policies · login throttle</text>
-<rect x="72" y="424" width="560" height="128" rx="6" fill="#e7eef8" stroke="#245ea7" />
-<g data-icon="file" aria-hidden="true" transform="translate(584 440)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4" /> <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2" /></g><text x="96" y="456" class="tag">ASSESSMENTS ASSEMBLY</text>
-<text x="96" y="484" class="name">Attempt state and frozen evidence</text>
-<text x="96" y="512" class="body">Questions · rubrics · timer · answers · verified recordings</text>
-<text x="96" y="536" class="small">Background: strict expiry · outbox dispatcher · byte cleanup</text>
-<rect x="72" y="584" width="560" height="128" rx="6" fill="#fff" stroke="#c4d0dc" />
-<g data-icon="rubric" aria-hidden="true" transform="translate(584 600)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M7 8L8 9L10 7M13 8H17M7 13L8 14L10 12M13 13H17M7 18H10M13 18H17"/></g><text x="96" y="616" class="tag">EVALUATION ASSEMBLY</text>
-<text x="96" y="644" class="name">Processing and human review</text>
-<text x="96" y="672" class="body">Jobs · transcripts · AI suggestions · scores · audit · feedback</text>
-<text x="96" y="696" class="small">Background: idempotent intake · leased worker · retry / cleanup</text>
-<rect x="688" y="440" width="160" height="72" rx="6" fill="#fff" stroke="#245ea7" />
-<text x="704" y="460" class="tag">PUBLIC CONTRACT</text>
-<text x="704" y="484" class="mono">IAssessmentReader</text>
-<text x="704" y="504" class="small">Frozen DTOs + audio</text>
-<rect x="1096" y="288" width="264" height="104" rx="6" fill="#fff" stroke="#c4d0dc" />
-<g data-icon="database" aria-hidden="true" transform="translate(1312 304)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6a8 3 0 1 0 16 0a8 3 0 1 0 -16 0" /> <path d="M4 6v6a8 3 0 0 0 16 0v-6" /> <path d="M4 12v6a8 3 0 0 0 16 0v-6" /></g><text x="1120" y="320" class="tag">SCHEMA: access</text>
-<text x="1120" y="348" class="body">Identity users and roles</text>
-<text x="1120" y="376" class="mono">AccessDatabase · EF Core</text>
-<rect x="1096" y="424" width="264" height="128" rx="6" fill="#e7eef8" stroke="#245ea7" />
-<g data-icon="database" aria-hidden="true" transform="translate(1312 440)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6a8 3 0 1 0 16 0a8 3 0 1 0 -16 0" /> <path d="M4 6v6a8 3 0 0 0 16 0v-6" /> <path d="M4 12v6a8 3 0 0 0 16 0v-6" /></g><text x="1120" y="456" class="tag">SCHEMA: assessments</text>
-<text x="1120" y="484" class="small">Attempts, answers and recordings</text>
-<text x="1120" y="504" class="small">Submission snapshots + outbox</text>
-<line x1="1120" y1="512" x2="1336" y2="512" stroke="#c4d0dc"/>
-<text x="1120" y="536" class="small">ONE submission transaction</text>
-<rect x="1096" y="584" width="264" height="128" rx="6" fill="#fff" stroke="#c4d0dc" />
-<g data-icon="database" aria-hidden="true" transform="translate(1312 600)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6a8 3 0 1 0 16 0a8 3 0 1 0 -16 0" /> <path d="M4 6v6a8 3 0 0 0 16 0v-6" /> <path d="M4 12v6a8 3 0 0 0 16 0v-6" /></g><text x="1120" y="616" class="tag">SCHEMA: evaluation</text>
-<text x="1120" y="644" class="small">Jobs / transcript / suggestion</text>
-<text x="1120" y="668" class="mono">reviews · publications · audit</text>
-<text x="1120" y="696" class="mono">EvaluationDb · EF Core</text>
-<rect x="72" y="784" width="560" height="88" rx="6" fill="#f5f7fa" stroke="#c4d0dc" />
-<g data-icon="queue" aria-hidden="true" transform="translate(584 800)" fill="none" stroke="#245ea7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l-8 4l8 4l8 -4l-8 -4" /> <path d="M4 12l8 4l8 -4" /> <path d="M4 16l8 4l8 -4" /></g><text x="96" y="812" class="tag">OUTSIDE THE HOST PROCESS · KAFKA TOPIC</text>
-<text x="96" y="840" class="name">assessment.processing.v1</text>
-<text x="96" y="860" class="small">Processing-intent IDs only; intake persists the job before acknowledgement.</text>
-<text x="936" y="804" class="tag">NO CROSS-MODULE TABLE ACCESS</text>
-<text x="936" y="832" class="small">Evaluation reads submitted evidence via the contract.</text>
-<text x="936" y="852" class="small">Assessments has no Evaluation dependency.</text>
-<text x="936" y="872" class="small">No cross-module transaction or separate worker service.</text>
-<line x1="48" y1="904" x2="1392" y2="904" stroke="#c4d0dc"/>
-<text x="48" y="932" class="tag">READING KEY</text>
-<path d="M176 928H224" class="primary-route" marker-end="url(#arrow-accent)"/>
-<text x="240" y="932" class="small">Allowed in-process read</text>
-<path d="M496 928H544" class="route" marker-end="url(#arrow)"/>
-<text x="560" y="932" class="small">Owned persistence or publish</text>
-<path d="M848 928H896" class="async-route" marker-end="url(#arrow)"/>
-<text x="912" y="932" class="small">Asynchronous intake</text>
-<text x="48" y="952" class="small">The contract belongs to Assessments and exposes DTOs/streams, never its EF entities. Evaluation composes review responses from that contract plus EvaluationDb.</text>
-</svg></div><p><a href="system-architecture.html">← Runtime containers and mounts</a> · <a href="../architecture.md">System design notes</a>. The submission transaction covers Assessments snapshots and outbox only. Duplicate Kafka delivery is safe because Evaluation inserts each intent ID idempotently. The read-contract path bridges the SQL line at its only crossing; a bridge is not a junction.</p></main></body></html>
+<rect width="1200" height="1280" fill="#fff"/>
+<text x="40" y="44" class="tag" text-anchor="start">CANDIDATE ASSESSMENT / COMPONENT ARCHITECTURE</text>
+<text x="40" y="92" class="title" text-anchor="start">Inside the modular monolith</text>
+<text x="40" y="126" class="body" text-anchor="start">Three business assemblies share one release and process. Each owns its data.</text>
+<rect x="104" y="184" width="992" height="424" rx="16" fill="#f4f8fc" stroke="#8d9baa" stroke-width="2.2" stroke-dasharray="7 7"/>
+<rect x="348" y="160" width="504" height="48" rx="24" fill="#172e45" stroke="#172e45" stroke-width="2.2" />
+<text x="600.0" y="192" class="group-light" text-anchor="middle">One .NET application</text>
+<use href="#vendor-dotnet" x="368" y="168" width="32" height="32" aria-hidden="true"/>
+<text x="600" y="246" class="body" text-anchor="middle">Host wires modules, routes and middleware</text>
+<rect x="104" y="740" width="992" height="236" rx="16" fill="#f1f8f5" stroke="#8d9baa" stroke-width="2.2" stroke-dasharray="7 7"/>
+<rect x="328" y="716" width="272" height="48" rx="24" fill="#172e45" stroke="#172e45" stroke-width="2.2" />
+<text x="464.0" y="748" class="group-light" text-anchor="middle">PostgreSQL</text>
+<rect x="340" y="720" width="40" height="40" rx="6" fill="#fff" stroke="#fff" stroke-width="2.2" />
+<use href="#vendor-postgres" x="344" y="724" width="32" height="32" aria-hidden="true"/>
+<path d="M948 360V312Q948 304 940 304H628Q620 304 620 312V360" class="dependency" marker-end="url(#arrow)"/>
+<text x="784" y="282" class="mono" text-anchor="middle">IAssessmentReader</text>
+<path d="M292 580V816" class="route" marker-end="url(#arrow)"/>
+<text x="310" y="680" class="small" text-anchor="start">EF Core</text>
+<path d="M620 580V816" class="route" marker-end="url(#arrow)"/>
+<text x="638" y="680" class="small" text-anchor="start">EF Core</text>
+<path d="M948 580V816" class="route" marker-end="url(#arrow)"/>
+<text x="966" y="680" class="small" text-anchor="start">EF Core</text>
+<path d="M552 580V632Q552 640 544 640H300a8 8 0 0 0 -16 0H80Q72 640 72 648V1096Q72 1104 80 1104H480" class="route" marker-end="url(#arrow)"/>
+<path d="M760 1104H1120Q1128 1104 1128 1096V648Q1128 640 1120 640H1048Q1040 640 1040 632V580" class="async" marker-end="url(#arrow)"/>
+<rect x="152" y="360" width="280" height="220" rx="12" fill="#fff" stroke="#172e45" stroke-width="2.2" />
+<g aria-hidden="true" transform="translate(272 380)" fill="none" stroke="#245ea7" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M16 3L32 9V22C32 33 16 43 16 43S0 33 0 22V9Z"/>
+<circle cx="16" cy="18" r="5"/>
+<path d="M7 31C9 23 23 23 25 31"/>
+</g>
+<text x="292" y="466" class="name" text-anchor="middle">Access</text>
+<text x="292" y="504" class="body" text-anchor="middle">Identity + roles</text>
+<text x="292" y="536" class="body" text-anchor="middle">Cookie sessions</text>
+<rect x="480" y="360" width="280" height="220" rx="12" fill="#fff" stroke="#172e45" stroke-width="2.2" />
+<g aria-hidden="true" transform="translate(600 380)" fill="none" stroke="#245ea7" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+<rect x="2" y="0" width="32" height="44" rx="4"/>
+<path d="M10 12H26M10 22H26M10 32H21"/>
+</g>
+<text x="620" y="466" class="name" text-anchor="middle">Assessments</text>
+<text x="620" y="504" class="body" text-anchor="middle">Attempts + recordings</text>
+<text x="620" y="536" class="body" text-anchor="middle">Submission + outbox</text>
+<rect x="808" y="360" width="280" height="220" rx="12" fill="#fff" stroke="#172e45" stroke-width="2.2" />
+<g aria-hidden="true" transform="translate(928 380)" fill="none" stroke="#245ea7" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+<rect x="0" y="2" width="38" height="40" rx="4"/>
+<path d="M7 14L11 18L17 10M23 14H30M7 30L11 34L17 26M23 30H30"/>
+</g>
+<text x="948" y="466" class="name" text-anchor="middle">Evaluation</text>
+<text x="948" y="504" class="body" text-anchor="middle">Jobs + AI suggestions</text>
+<text x="948" y="536" class="body" text-anchor="middle">Human review + publish</text>
+<rect x="152" y="816" width="280" height="124" rx="12" fill="#fff" stroke="#172e45" stroke-width="2.2" />
+<text x="292" y="850" class="name" text-anchor="middle">access</text>
+<text x="292" y="884" class="small" text-anchor="middle">Users + roles</text>
+<text x="292" y="916" class="mono" text-anchor="middle">AccessDatabase</text>
+<rect x="480" y="816" width="280" height="124" rx="12" fill="#fff" stroke="#172e45" stroke-width="2.2" />
+<text x="620" y="850" class="name" text-anchor="middle">assessments</text>
+<text x="620" y="884" class="small" text-anchor="middle">Evidence + outbox</text>
+<text x="620" y="916" class="mono" text-anchor="middle">AssessmentDb</text>
+<rect x="808" y="816" width="280" height="124" rx="12" fill="#fff" stroke="#172e45" stroke-width="2.2" />
+<text x="948" y="850" class="name" text-anchor="middle">evaluation</text>
+<text x="948" y="884" class="small" text-anchor="middle">Jobs + review + audit</text>
+<text x="948" y="916" class="mono" text-anchor="middle">EvaluationDb</text>
+<text x="600" y="1008" class="small" text-anchor="middle">One connection and DB role · schema ownership is enforced by code</text>
+<rect x="480" y="1040" width="280" height="128" rx="12" fill="#fff" stroke="#172e45" stroke-width="2.2" />
+<a href="https://kafka.apache.org/" aria-label="Apache Kafka project">
+<use href="#vendor-kafka" x="504" y="1060" width="32" height="52" aria-hidden="true"/>
+</a>
+<text x="552" y="1088" class="name" text-anchor="start">Apache Kafka</text>
+<text x="552" y="1120" class="small" text-anchor="start">ID-only messages</text>
+<text x="552" y="1148" class="small" text-anchor="start">Outside .NET process</text>
+<text x="104" y="1068" class="body" text-anchor="start">Outbox publishes</text>
+<text x="104" y="1094" class="small" text-anchor="start">after submission commits</text>
+<text x="1096" y="1068" class="body" text-anchor="end">Durable job before ack</text>
+<text x="1096" y="1094" class="small" text-anchor="end">Idempotent intake</text>
+<line x1="40" y1="1200" x2="1160" y2="1200" stroke="#c4d0dc"/>
+<path d="M40 1232H88" class="route" marker-end="url(#arrow)"/>
+<text x="104" y="1238" class="small" text-anchor="start">Call / owned persistence</text>
+<path d="M432 1232H480" class="async" marker-end="url(#arrow)"/>
+<text x="496" y="1238" class="small" text-anchor="start">Async delivery</text>
+<text x="768" y="1238" class="small" text-anchor="start">Read contract: Evaluation → Assessments</text>
+</svg>
+</div>
+<p>
+<a href="system-architecture.html">Local runtime placement →</a> · <a href="../architecture.md#consistency-and-processing-boundaries">Transaction and recovery boundaries</a> · <a href="../design/vendor-icons.md">Technology icon sources</a>. Submission freezes evidence, receipt and outbox in one Assessments transaction. Evaluation creates a durable job before acknowledging delivery. No cross-module transaction or direct table access is used.</p>
+</main>
+</body>
+</html>

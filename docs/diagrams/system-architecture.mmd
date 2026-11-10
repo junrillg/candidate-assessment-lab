@@ -11,10 +11,10 @@ flowchart LR
         end
         BROWSER -->|"HTTP · 127.0.0.1:5188 → app:8080 · cookie + CSRF"| APP
         APP -->|"SQL · postgres:5432"| PG
-        APP -->|"produce IDs · kafka:9092"| KAFKA
-        KAFKA -. "deliver IDs · consumer uses kafka:9092" .-> APP
+        APP -->|"Kafka producer + consumer clients · kafka:9092 · IDs only"| KAFKA
         APP -->|"HTTP · transcription:8081 · no published port"| TRANSCRIBE
         APP -->|"HTTP · host.docker.internal:11434"| OLLAMA
     end
+    %% The arrow denotes a caller/dependency connection, not one-way message flow.
     %% Operator loopback mappings: 127.0.0.1:55438→5432 and 127.0.0.1:19098→9094.
     %% Mounts are Docker named volumes. Host Ollama storage is outside Compose.
