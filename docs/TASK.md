@@ -37,14 +37,13 @@ Requested outcome: add a runnable future Azure profile alongside AWS, make Azure
 
 ## README visual overview follow-up
 
-Outcome: a repository landing page with the existing notebook identity, real candidate/reviewer screenshots and an immediately visible high-level connection/flow diagram, using the supplied Langdeck screenshot as a presentation reference. Scope: README and documentation assets only; no application behavior, new infrastructure or borrowed branding. Stop condition: the supplied image is preserved unchanged, screenshots show real fictional lab data without secrets, the diagram agrees with source, local/image links resolve, and the reviewed assets are published to the repository.
+Outcome: a repository landing page with the existing notebook identity, real candidate/reviewer screenshots and an immediately visible high-level connection/flow diagram. Scope: README and documentation assets only; no application behavior, new infrastructure or borrowed branding. Stop condition: screenshots show real fictional lab data without secrets, the diagram agrees with source, local/image links resolve, and the reviewed assets are published to the repository.
 
 | Requirement | Status | Evidence | Next action |
 |---|---|---|---|
-| Supplied image retained | Verified | `docs/assets/langdeck-readme-reference.png`, labeled as reference; SHA-256 matches the attachment | None |
 | Notebook icon and README header | Verified | Editable notebook SVG based on shipped mark; GitHub GFM render accepts centered header and CI badge | None |
 | Real application screenshots | Verified | Four byte-identical 1440px real captures, reviewed visually; fictional data only; provenance in `docs/assets/screenshots/README.md` | None |
 | High-level architecture and flow | Verified | `overview.mmd` and readable 1241×934 SVG; source and independent checks confirm runtime/module wiring | None |
-| Publication and verification | Verified and published | 50 relative links/assets resolve; reference identity, PNG dimensions, SVG XML, GitHub GFM render and diff checks pass; independent scoped review clear; remote README/assets checked at delivery | None |
+| Publication and verification | Verified and published | 50 relative links/assets resolve; PNG dimensions, SVG XML, GitHub GFM render and diff checks pass; independent scoped review clear; remote README/assets checked at delivery | None |
 
 This follow-up changes documentation and assets only. Existing application tests were not rerun locally; the unchanged app behavior is covered by the earlier delivery evidence and the repository CI workflow.

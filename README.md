@@ -32,7 +32,7 @@ Real application screens with fictional learning data. Select an image to view i
 |---|---|
 | [![Preparation and microphone practice](docs/assets/screenshots/preparation.png)](docs/assets/screenshots/preparation.png) | [![Reviewer workspace with evidence and rubric criteria](docs/assets/screenshots/reviewer-workspace.png)](docs/assets/screenshots/reviewer-workspace.png) |
 
-[Capture details and provenance](docs/assets/screenshots/README.md). The [supplied Langdeck screenshot](docs/assets/langdeck-readme-reference.png) is preserved as a layout reference; the screens above are Candidate Assessment.
+[Capture details and provenance](docs/assets/screenshots/README.md).
 
 ## How it connects
 
